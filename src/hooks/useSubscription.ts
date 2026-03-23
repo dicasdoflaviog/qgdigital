@@ -127,9 +127,9 @@ export function useSubscription(gabineteId?: string | null) {
     },
   });
 
-  const isActive = query.data?.status === "active" || query.data?.status === "trialing";
-  const isPending = query.data?.status === "pending";
   const plan = query.data?.plan_type || "bronze";
+  const isActive = plan === "bronze" || query.data?.status === "active" || query.data?.status === "trialing";
+  const isPending = query.data?.status === "pending";
   const isPremium = plan === "silver" || plan === "gold";
 
   return {

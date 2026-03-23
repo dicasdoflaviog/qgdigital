@@ -35,6 +35,7 @@ import ObservatorioLegislativo from "./pages/ObservatorioLegislativo";
 import SystemMaster from "./pages/SystemMaster";
 import ObservatorioBi from "./pages/ObservatorioBi";
 import ConfiguracaoGabinete from "./pages/ConfiguracaoGabinete";
+import Plano from "./pages/Plano";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,7 @@ const App = () => (
                         <Route path="/admin/system-master" element={<SystemMaster />} />
                         <Route path="/master/admin" element={<SystemMaster />} />
                         <Route path="/sistema" element={<Sistema />} />
+                        <Route path="/plano" element={<Plano />} />
                         <Route path="*" element={<NotFound />} />
                       </Routes>
                     </AppLayout>

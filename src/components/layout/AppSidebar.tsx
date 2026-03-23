@@ -3,6 +3,7 @@ import {
   LayoutDashboard, Users, MapPin, Trophy, CalendarDays, CalendarRange, FileText, Settings,
   Zap, Radio, BookOpen, CloudOff, Database, MessageSquarePlus, Building2, Landmark,
   Archive, Server, Scale, ShieldCheck, DollarSign, Lock, BarChart3, LogOut, Paintbrush,
+  CreditCard,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -54,6 +55,7 @@ const operacionalNavItems: NavItem[] = [
   { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "super_admin", "secretaria"], group: "operacional" },
   { title: "Radar da Rua", url: "/", icon: Radio, roles: ["secretaria"], group: "operacional" },
   { title: "Guia de Soluções", url: "/guia", icon: BookOpen, roles: ["admin", "super_admin", "secretaria", "assessor"], group: "operacional" },
+  { title: "Plano", url: "/plano", icon: CreditCard, roles: ["admin", "super_admin"], group: "operacional" },
   { title: "Instituições", url: "/instituicoes", icon: Building2, roles: ["admin", "super_admin"], group: "operacional" },
   { title: "Emendas", url: "/emendas", icon: Landmark, roles: ["admin", "super_admin"], group: "operacional" },
   { title: "Identidade", url: "/configuracao-gabinete", icon: Paintbrush, roles: ["admin"], exactLevels: [3], group: "operacional" },

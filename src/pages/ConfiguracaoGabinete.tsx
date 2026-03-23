@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Upload, Save, Loader2, Palette, Building2, Users, Image, Camera, Brain, Handshake, Swords, Shield, Crown } from "lucide-react";
+import { Upload, Save, Loader2, Palette, Building2, Users, Image, Camera, Brain, Handshake, Swords, Shield } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,7 +12,6 @@ import { useGabineteConfig } from "@/hooks/useGabineteConfig";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import InviteMemberModal from "@/components/equipe/InviteMemberModal";
-import { PlanoFaturamentoTab } from "@/components/subscription/PlanoFaturamentoTab";
 
 const PERFIL_OPTIONS = [
   { value: "diplomata", label: "Diplomata", desc: "Polido, formal e cauteloso", icon: Handshake, color: "text-blue-400" },
@@ -157,16 +156,13 @@ export default function ConfiguracaoGabinete() {
           </div>
           Configurações do Gabinete
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">Gerencie a identidade, plano e equipe do seu mandato</p>
+        <p className="text-sm text-muted-foreground mt-1">Gerencie a identidade e equipe do seu mandato</p>
       </div>
 
       <Tabs defaultValue="identidade" className="w-full">
-        <TabsList className="w-full grid grid-cols-2 h-11">
-          <TabsTrigger value="identidade" className="gap-1.5 text-xs font-bold uppercase tracking-wider min-h-[44px]">
+        <TabsList className="w-full grid grid-cols-1 h-11">
+          <TabsTrigger value="identidade" className="gap-1.5 text-xs font-medium min-h-[44px]">
             <Building2 className="h-3.5 w-3.5" /> Identidade
-          </TabsTrigger>
-          <TabsTrigger value="plano" className="gap-1.5 text-xs font-bold uppercase tracking-wider min-h-[44px]">
-            <Crown className="h-3.5 w-3.5" /> Plano
           </TabsTrigger>
         </TabsList>
 
@@ -455,10 +451,6 @@ export default function ConfiguracaoGabinete() {
         </Button>
       </div>
 
-        </TabsContent>
-
-        <TabsContent value="plano" className="mt-4">
-          <PlanoFaturamentoTab />
         </TabsContent>
       </Tabs>
 
