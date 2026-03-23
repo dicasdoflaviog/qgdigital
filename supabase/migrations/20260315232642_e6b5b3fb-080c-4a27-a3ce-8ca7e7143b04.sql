@@ -1,0 +1,1 @@
+UPDATE public.user_roles SET role_level = 5 WHERE user_id = 'b7bdcf07-060a-49a1-88b5-0437abf64d95' AND role = 'super_admin';

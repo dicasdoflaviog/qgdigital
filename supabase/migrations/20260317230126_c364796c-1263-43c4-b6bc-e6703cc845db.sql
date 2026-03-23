@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS municipios_foco_nome_estado_idx ON public.municipios_foco (nome, estado);

@@ -1,0 +1,526 @@
+#lovable-badge {
+  display: none !important;
+}
+
+/* ─── hCaptcha: fix z-index e layout mobile (iOS Safari) ─────────────────── */
+/* O iframe do widget */
+iframe[src*="hcaptcha"] {
+  max-width: 100% !important;
+}
+
+/* O iframe do desafio (popup/challenge) — precisa ficar acima de tudo */
+iframe[data-hcaptcha-widget-id],
+div[id^="hcaptcha-challenge"],
+.hcaptcha-container {
+  z-index: 9999 !important;
+  position: relative;
+}
+
+/* Garante que o challenge modal não fique atrás de outros elementos no iOS */
+body > div[id^="hcaptcha"],
+body > div[class*="hcaptcha"] {
+  z-index: 9999 !important;
+  position: fixed !important;
+}
+/* ─────────────────────────────────────────────────────────────────────────── */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: 224 76% 40%;
+    --primary-foreground: 0 0% 100%;
+
+    --background: 220 14% 96%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --secondary: 215 16% 47%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 220 13% 91%;
+    --muted-foreground: 215 16% 47%;
+
+    --accent: 220 13% 91%;
+    --accent-foreground: 222 47% 11%;
+
+    --destructive: 350 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 87%;
+    --input: 220 13% 87%;
+    --ring: 224 76% 40%;
+    --primary-end: 270 70% 50%;
+
+    --radius: 12px;
+
+    /* ── Z-Index Scale (single source of truth) ── */
+    --z-map-base: 0;
+    --z-map-pane: 1;
+    --z-map-density: 30;
+    --z-sidebar: 40;
+    --z-intel-panel: 50;
+    --z-bottombar: 55;
+    --z-fab: 58;
+    --z-detail-sheet: 60;
+    --z-map-controls: 120;
+    --z-dialog: 150;
+    --z-popover: 200;
+    --z-select: 200;
+    --z-toast: 200;
+    --z-map-select: 300;
+    --z-modal-elevated: 400;
+    --z-chat-fab: 450;
+    --z-role-fab: 500;
+
+    --success: 160 84% 39%;
+    --success-foreground: 0 0% 100%;
+    --warning: 32 95% 52%;
+    --warning-foreground: 0 0% 8%;
+    --info: 224 76% 40%;
+    --info-foreground: 0 0% 100%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 215 16% 47%;
+    --sidebar-primary: 224 76% 40%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 220 13% 91%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 220 13% 87%;
+    --sidebar-ring: 224 76% 40%;
+  }
+
+  .dark {
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+
+    --background: 222 84% 5%;   /* slate-950 — base escuro unificado */
+    --foreground: 215 20% 85%;
+
+    --card: 222 47% 8%;          /* slate-900 — cards sobre o fundo */
+    --card-foreground: 215 20% 85%;
+
+    --popover: 223 40% 10%;
+    --popover-foreground: 215 20% 85%;
+
+    --secondary: 215 20% 55%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 223 35% 14%;
+    --muted-foreground: 215 20% 55%;
+
+    --accent: 223 35% 14%;
+    --accent-foreground: 215 20% 85%;
+
+    --destructive: 350 65% 55%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 223 25% 18%;
+    --input: 223 25% 18%;
+    --ring: 217 91% 60%;
+    --primary-end: 270 70% 60%;
+
+    --success: 160 84% 39%;
+    --success-foreground: 0 0% 100%;
+    --warning: 32 95% 52%;
+    --warning-foreground: 0 0% 8%;
+    --info: 217 91% 60%;
+    --info-foreground: 0 0% 100%;
+
+    --sidebar-background: 222 47% 11%;
+    --sidebar-foreground: 240 5% 65%;
+    --sidebar-primary: 217 91% 60%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 223 35% 14%;
+    --sidebar-accent-foreground: 215 20% 85%;
+    --sidebar-border: 223 25% 18%;
+    --sidebar-ring: 217 91% 60%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Minimum 44px touch targets on mobile */
+  @media (pointer: coarse) {
+    button, a, [role="button"], [role="tab"], [role="menuitem"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+}
+
+/* Native app shell */
+html, body, #root {
+  height: 100dvh;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100vw;
+  margin: 0;
+  padding: 0;
+}
+
+/* Popovers above everything */
+[data-radix-popper-content-wrapper] {
+  z-index: var(--z-popover) !important;
+}
+
+/* Dialogs and overlays above map */
+[data-radix-dialog-overlay],
+[data-radix-dialog-content],
+[role="dialog"] {
+  z-index: var(--z-dialog) !important;
+}
+
+/* Ensure Leaflet map stays below UI overlays */
+.leaflet-container {
+  z-index: var(--z-map-base) !important;
+}
+.leaflet-pane {
+  z-index: var(--z-map-pane) !important;
+}
+
+/* Text wrapping — prevent overflow */
+td, th, li, p, span, div {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+table {
+  max-width: 100%;
+}
+
+/* Truncate utility for long text in cards */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 2px;
+}
+
+/* Leaflet marker cluster styles — slate/dark palette */
+.marker-cluster-small {
+  background-color: hsla(220, 13%, 46%, 0.45);
+}
+.marker-cluster-small div {
+  background-color: hsla(220, 13%, 36%, 0.85);
+}
+.marker-cluster-medium {
+  background-color: hsla(220, 13%, 36%, 0.5);
+}
+.marker-cluster-medium div {
+  background-color: hsla(220, 13%, 26%, 0.85);
+}
+.marker-cluster-large {
+  background-color: hsla(220, 13%, 26%, 0.55);
+}
+.marker-cluster-large div {
+  background-color: hsla(220, 15%, 18%, 0.9);
+}
+.marker-cluster div {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
+  text-align: center;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  line-height: 30px;
+}
+
+/* ── hCaptcha: responsive + z-index + Safari WebKit fix ── */
+.hcaptcha-wrap {
+  transform: translateZ(0); /* force GPU layer — fixes Safari white-frame bug */
+  -webkit-transform: translateZ(0);
+}
+.hcaptcha-wrap > div,
+.hcaptcha-wrap iframe {
+  max-width: 100% !important;
+}
+/* hCaptcha challenge overlay must sit above everything */
+[data-hcaptcha-widget-id],
+iframe[src*="hcaptcha"] {
+  z-index: 99999 !important;
+  position: relative;
+}
+/* Scale down widget on very small screens so it doesn't overflow */
+@media (max-width: 360px) {
+  .hcaptcha-wrap > div {
+    transform: scale(0.85);
+    transform-origin: center;
+  }
+}
+
+/* ============================================
+   📱 Mobile Component Utilities — Design System
+   Integrado de globals.css (2026-03-22)
+   ============================================ */
+
+@layer components {
+  .mobile-container {
+    @apply px-4 pt-safe pb-safe;
+    max-width: 100%;
+  }
+
+  .mobile-header {
+    @apply fixed top-0 left-0 right-0;
+    @apply h-14 px-4 pt-safe;
+    @apply bg-white border-b border-slate-200;
+    @apply flex items-center justify-between;
+    z-index: var(--z-sidebar);
+  }
+
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0;
+    @apply h-16 pb-safe;
+    @apply bg-white border-t border-slate-200;
+    @apply flex items-center justify-around;
+    z-index: var(--z-bottombar);
+  }
+
+  .fab {
+    @apply fixed;
+    @apply w-14 h-14 rounded-full;
+    @apply bg-qg-blue-600 text-white;
+    @apply flex items-center justify-center;
+    @apply shadow-fab;
+    @apply active:bg-qg-blue-700 active:scale-95;
+    @apply transition-transform duration-150;
+    z-index: var(--z-fab);
+    bottom: calc(4rem + env(safe-area-inset-bottom) + 1rem);
+    right: 1rem;
+  }
+
+  .bottom-sheet {
+    @apply fixed inset-x-0 bottom-0;
+    @apply bg-white rounded-t-3xl;
+    @apply shadow-sheet pb-safe;
+    z-index: var(--z-detail-sheet);
+  }
+
+  .bottom-sheet-handle {
+    @apply w-10 h-1 bg-slate-300 rounded-full mx-auto mt-3 mb-2;
+  }
+
+  .btn-touch {
+    @apply min-h-touch;
+    @apply px-5 rounded-xl;
+    @apply font-medium text-base;
+    @apply flex items-center justify-center gap-2;
+    @apply transition-colors duration-150;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-primary {
+    @apply btn-touch bg-qg-blue-600 text-white active:bg-qg-blue-700;
+  }
+
+  .btn-secondary {
+    @apply btn-touch bg-transparent text-qg-blue-600;
+    @apply border-2 border-qg-blue-600 active:bg-qg-blue-50;
+  }
+
+  .btn-ghost {
+    @apply btn-touch bg-transparent text-slate-700 active:bg-slate-100;
+  }
+
+  .input-touch {
+    @apply w-full h-12 px-4;
+    @apply text-base text-slate-900;
+    @apply bg-white border-2 border-slate-200 rounded-xl;
+    @apply placeholder:text-slate-400;
+    @apply focus:border-qg-blue-600 focus:ring-4 focus:ring-qg-blue-100;
+    @apply transition-colors duration-150;
+    font-size: 16px;
+  }
+
+  .card-mobile {
+    @apply bg-white rounded-2xl border border-slate-200 p-4;
+    @apply active:bg-slate-50 transition-colors duration-150;
+  }
+
+  .kpi-card {
+    @apply bg-white rounded-2xl border border-slate-200 p-4;
+  }
+
+  .kpi-icon {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center mb-3;
+  }
+
+  .kpi-value {
+    @apply text-2xl font-medium text-slate-900;
+  }
+
+  .kpi-label {
+    @apply text-sm text-slate-500;
+  }
+
+  /* Badges semânticos (prefixo -ds evita colisão com shadcn .badge) */
+  .badge-ds {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .badge-success {
+    @apply badge-ds bg-qg-green-100 text-qg-green-700;
+  }
+
+  .badge-warning {
+    @apply badge-ds bg-qg-amber-100 text-qg-amber-700;
+  }
+
+  .badge-error {
+    @apply badge-ds bg-qg-red-100 text-qg-red-700;
+  }
+
+  .badge-info {
+    @apply badge-ds bg-qg-blue-100 text-qg-blue-700;
+  }
+
+  .avatar-ds {
+    @apply rounded-full flex items-center justify-center font-medium;
+  }
+
+  .avatar-sm { @apply avatar-ds w-8 h-8 text-sm; }
+  .avatar-md { @apply avatar-ds w-10 h-10 text-base; }
+  .avatar-lg { @apply avatar-ds w-12 h-12 text-lg; }
+
+  .list-item-touch {
+    @apply flex items-center gap-4 p-4 bg-white;
+    @apply active:bg-slate-50 border-b border-slate-100;
+    @apply transition-colors duration-150;
+  }
+
+  .filter-chip {
+    @apply px-4 py-2 rounded-full text-sm font-medium;
+    @apply bg-slate-100 text-slate-700 whitespace-nowrap;
+    @apply active:bg-slate-200 transition-colors duration-150;
+  }
+
+  .filter-chip-active {
+    @apply filter-chip bg-qg-blue-600 text-white active:bg-qg-blue-700;
+  }
+
+  .empty-state {
+    @apply flex flex-col items-center justify-center py-12 px-6 text-center;
+  }
+
+  .empty-state-icon  { @apply w-16 h-16 text-slate-300 mb-4; }
+  .empty-state-title { @apply text-lg font-medium text-slate-900 mb-2; }
+  .empty-state-text  { @apply text-sm text-slate-500 max-w-xs; }
+
+  .skeleton { @apply bg-slate-200 rounded animate-pulse; }
+}
+
+/* ============================================
+   🛠️ Utilities extras — Design System
+   ============================================ */
+
+@layer utilities {
+  .mb-bottom-nav {
+    margin-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+
+  .pb-bottom-nav {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .overscroll-contain { overscroll-behavior: contain; }
+
+  .gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+/* ============================================
+   📱 iOS Specific Fixes
+   ============================================ */
+
+@supports (-webkit-touch-callout: none) {
+  body { -webkit-overflow-scrolling: touch; }
+  button, a { touch-action: manipulation; }
+}
+
+/* ============================================
+   🌙 Dark Mode — Mobile Components
+   Usa .dark (class-based), não @media
+   ============================================ */
+
+.dark .card-mobile,
+.dark .kpi-card,
+.dark .list-item-touch {
+  @apply bg-slate-900 border-slate-800;
+}
+
+.dark .card-mobile:active,
+.dark .list-item-touch:active {
+  @apply bg-slate-800;
+}
+
+.dark .input-touch {
+  @apply bg-slate-900 border-slate-700 text-white placeholder:text-slate-500;
+  @apply focus:border-qg-blue-500 focus:ring-qg-blue-900;
+}
+
+.dark .mobile-header,
+.dark .bottom-nav {
+  @apply bg-slate-900 border-slate-800;
+}
+
+.dark .bottom-sheet { @apply bg-slate-900; }
+.dark .skeleton      { @apply bg-slate-800; }
+
+.dark .filter-chip {
+  @apply bg-slate-800 text-slate-300 active:bg-slate-700;
+}
+
+.dark .kpi-value,
+.dark .empty-state-title {
+  @apply text-slate-100;
+}
+
+.dark .empty-state-text { @apply text-slate-400; }

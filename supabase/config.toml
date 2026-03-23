@@ -1,0 +1,42 @@
+project_id = "mdtbwvyloaeixwxmvysj"
+
+[functions.invite-member]
+verify_jwt = false
+
+[functions.setup-first-admin]
+verify_jwt = false
+
+[functions.extract-oficio]
+verify_jwt = false
+
+[functions.process-voice]
+verify_jwt = false
+
+[functions.diagnose-error]
+verify_jwt = false
+
+[functions.audit-ai]
+verify_jwt = false
+
+[functions.sentiment-analysis]
+verify_jwt = false
+
+[functions.geocode]
+verify_jwt = false
+
+[functions.backfill-geocode]
+verify_jwt = false
+
+[functions.seed-demo]
+verify_jwt = false
+
+[functions.deactivate-account]
+
+[functions.chat-aguia]
+verify_jwt = false
+
+[functions.generate-cache-resumo]
+verify_jwt = false
+
+[functions.summarize-memories]
+verify_jwt = false

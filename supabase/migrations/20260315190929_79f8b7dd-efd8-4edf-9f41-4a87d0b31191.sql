@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX IF NOT EXISTS idx_contratos_nacional_user_id ON public.contratos_nacional(user_id);

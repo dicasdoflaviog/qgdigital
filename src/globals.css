@@ -1,0 +1,470 @@
+/* ============================================
+   ⚡ QG Digital - Global Styles
+   Mobile-first CRM Eleitoral
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   📦 CSS Variables
+   ============================================ */
+
+@layer base {
+  :root {
+    /* Cores QG Digital */
+    --qg-blue-600: 37 99 235;
+    --qg-blue-100: 219 234 254;
+    
+    /* Status */
+    --qg-green-600: 22 163 74;
+    --qg-green-100: 220 252 231;
+    --qg-amber-600: 217 119 6;
+    --qg-amber-100: 254 243 199;
+    --qg-red-600: 220 38 38;
+    --qg-red-100: 254 226 226;
+    
+    /* Neutros */
+    --slate-900: 15 23 42;
+    --slate-700: 51 65 85;
+    --slate-500: 100 116 139;
+    --slate-400: 148 163 184;
+    --slate-200: 226 232 240;
+    --slate-100: 241 245 249;
+    --slate-50: 248 250 252;
+
+    /* Shadcn/UI Variables */
+    --background: 0 0% 100%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 217 91% 60%;
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 222 47% 6%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 8%;
+    --card-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 33% 17%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 17%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 217 33% 17%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 217 33% 17%;
+    --input: 217 33% 17%;
+    --ring: 217 91% 60%;
+  }
+}
+
+/* ============================================
+   🔤 Base Styles - Mobile First
+   ============================================ */
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    /* Previne zoom em inputs no iOS */
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;
+    /* Previne overscroll em iOS */
+    overscroll-behavior-y: contain;
+  }
+
+  /* Tipografia */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+    line-height: 1.25;
+  }
+
+  h1 { @apply text-2xl; }
+  h2 { @apply text-xl; }
+  h3 { @apply text-lg; }
+  h4 { @apply text-base; }
+
+  /* Links - sem underline padrão */
+  a {
+    @apply text-qg-blue-600;
+    text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Inputs - previne zoom no iOS */
+  input, select, textarea {
+    font-size: 16px !important;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Focus states acessíveis */
+  :focus-visible {
+    @apply outline-none ring-2 ring-qg-blue-600 ring-offset-2;
+  }
+
+  /* Remove tap highlight */
+  button, a, [role="button"] {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* ============================================
+   📱 Mobile Component Utilities
+   ============================================ */
+
+@layer components {
+  /* Container mobile com safe areas */
+  .mobile-container {
+    @apply px-4 pt-safe pb-safe;
+    max-width: 100%;
+  }
+
+  /* Header mobile fixo */
+  .mobile-header {
+    @apply fixed top-0 left-0 right-0 z-header;
+    @apply h-14 px-4 pt-safe;
+    @apply bg-white border-b border-slate-200;
+    @apply flex items-center justify-between;
+  }
+
+  /* Bottom navigation */
+  .bottom-nav {
+    @apply fixed bottom-0 left-0 right-0 z-bottom-nav;
+    @apply h-16 pb-safe;
+    @apply bg-white border-t border-slate-200;
+    @apply flex items-center justify-around;
+  }
+
+  /* FAB - Floating Action Button */
+  .fab {
+    @apply fixed z-fab;
+    @apply w-14 h-14 rounded-full;
+    @apply bg-qg-blue-600 text-white;
+    @apply flex items-center justify-center;
+    @apply shadow-fab;
+    @apply active:bg-qg-blue-700 active:scale-95;
+    @apply transition-transform duration-150;
+    bottom: calc(4rem + env(safe-area-inset-bottom) + 1rem);
+    right: 1rem;
+  }
+
+  /* Bottom Sheet */
+  .bottom-sheet {
+    @apply fixed inset-x-0 bottom-0 z-sheet;
+    @apply bg-white rounded-t-3xl;
+    @apply shadow-sheet;
+    @apply pb-safe;
+  }
+
+  .bottom-sheet-handle {
+    @apply w-10 h-1 bg-slate-300 rounded-full mx-auto mt-3 mb-2;
+  }
+
+  /* Touch-friendly button */
+  .btn-touch {
+    @apply min-h-touch min-w-touch;
+    @apply px-5 rounded-xl;
+    @apply font-medium text-base;
+    @apply flex items-center justify-center gap-2;
+    @apply touch-manipulation tap-highlight-none;
+    @apply transition-colors duration-150;
+  }
+
+  .btn-primary {
+    @apply btn-touch;
+    @apply bg-qg-blue-600 text-white;
+    @apply active:bg-qg-blue-700;
+  }
+
+  .btn-secondary {
+    @apply btn-touch;
+    @apply bg-transparent text-qg-blue-600;
+    @apply border-2 border-qg-blue-600;
+    @apply active:bg-qg-blue-50;
+  }
+
+  .btn-ghost {
+    @apply btn-touch;
+    @apply bg-transparent text-slate-700;
+    @apply active:bg-slate-100;
+  }
+
+  /* Input touch-friendly */
+  .input-touch {
+    @apply w-full h-12 px-4;
+    @apply text-base text-slate-900;
+    @apply bg-white border-2 border-slate-200;
+    @apply rounded-xl;
+    @apply placeholder:text-slate-400;
+    @apply focus:border-qg-blue-600 focus:ring-4 focus:ring-qg-blue-100;
+    @apply transition-colors duration-150;
+  }
+
+  /* Card mobile */
+  .card-mobile {
+    @apply bg-white rounded-2xl;
+    @apply border border-slate-200;
+    @apply p-4;
+    @apply active:bg-slate-50;
+    @apply transition-colors duration-150;
+  }
+
+  /* KPI Card */
+  .kpi-card {
+    @apply bg-white rounded-2xl border border-slate-200 p-4;
+  }
+
+  .kpi-icon {
+    @apply w-10 h-10 rounded-xl flex items-center justify-center mb-3;
+  }
+
+  .kpi-value {
+    @apply text-2xl font-medium text-slate-900;
+  }
+
+  .kpi-label {
+    @apply text-sm text-slate-500;
+  }
+
+  /* Status badges */
+  .badge {
+    @apply px-3 py-1 rounded-full text-sm font-medium;
+  }
+
+  .badge-success {
+    @apply badge bg-qg-green-100 text-qg-green-700;
+  }
+
+  .badge-warning {
+    @apply badge bg-qg-amber-100 text-qg-amber-700;
+  }
+
+  .badge-error {
+    @apply badge bg-qg-red-100 text-qg-red-700;
+  }
+
+  .badge-info {
+    @apply badge bg-qg-blue-100 text-qg-blue-700;
+  }
+
+  /* Avatar */
+  .avatar {
+    @apply rounded-full flex items-center justify-center font-medium;
+  }
+
+  .avatar-sm {
+    @apply avatar w-8 h-8 text-sm;
+  }
+
+  .avatar-md {
+    @apply avatar w-10 h-10 text-base;
+  }
+
+  .avatar-lg {
+    @apply avatar w-12 h-12 text-lg;
+  }
+
+  /* List item touch */
+  .list-item-touch {
+    @apply flex items-center gap-4 p-4;
+    @apply bg-white;
+    @apply active:bg-slate-50;
+    @apply border-b border-slate-100;
+    @apply transition-colors duration-150;
+  }
+
+  /* Filter chips */
+  .filter-chip {
+    @apply px-4 py-2 rounded-full text-sm font-medium;
+    @apply bg-slate-100 text-slate-700;
+    @apply whitespace-nowrap;
+    @apply active:bg-slate-200;
+    @apply transition-colors duration-150;
+  }
+
+  .filter-chip-active {
+    @apply filter-chip;
+    @apply bg-qg-blue-600 text-white;
+    @apply active:bg-qg-blue-700;
+  }
+
+  /* Empty state */
+  .empty-state {
+    @apply flex flex-col items-center justify-center;
+    @apply py-12 px-6 text-center;
+  }
+
+  .empty-state-icon {
+    @apply w-16 h-16 text-slate-300 mb-4;
+  }
+
+  .empty-state-title {
+    @apply text-lg font-medium text-slate-900 mb-2;
+  }
+
+  .empty-state-text {
+    @apply text-sm text-slate-500 max-w-xs;
+  }
+
+  /* Skeleton loading */
+  .skeleton {
+    @apply bg-slate-200 rounded animate-pulse;
+  }
+
+  /* Pull to refresh indicator */
+  .pull-indicator {
+    @apply w-6 h-6 text-qg-blue-600;
+    @apply animate-spin;
+  }
+}
+
+/* ============================================
+   🛠️ Utilities
+   ============================================ */
+
+@layer utilities {
+  /* Safe area padding */
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pl-safe {
+    padding-left: env(safe-area-inset-left);
+  }
+  .pr-safe {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Margin for bottom nav */
+  .mb-bottom-nav {
+    margin-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+
+  .pb-bottom-nav {
+    padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+  }
+
+  /* Touch optimizations */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .tap-highlight-none {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Truncate text */
+  .truncate-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Overscroll behavior */
+  .overscroll-contain {
+    overscroll-behavior: contain;
+  }
+
+  /* Hardware acceleration for smooth animations */
+  .gpu {
+    transform: translateZ(0);
+    will-change: transform;
+  }
+}
+
+/* ============================================
+   📱 iOS Specific Fixes
+   ============================================ */
+
+/* Fix for iOS rubber banding */
+@supports (-webkit-touch-callout: none) {
+  body {
+    /* iOS specific */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent zoom on double tap */
+  button, a {
+    touch-action: manipulation;
+  }
+}
+
+/* Fix input zoom on iOS */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  select,
+  textarea,
+  input {
+    font-size: 16px !important;
+  }
+}
+
+/* ============================================
+   🎨 Dark Mode Support
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+  .card-mobile,
+  .kpi-card,
+  .list-item-touch {
+    @apply bg-slate-900 border-slate-800;
+  }
+
+  .input-touch {
+    @apply bg-slate-900 border-slate-700 text-white;
+  }
+
+  .mobile-header,
+  .bottom-nav {
+    @apply bg-slate-900 border-slate-800;
+  }
+
+  .bottom-sheet {
+    @apply bg-slate-900;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-100;
+  }
+}
