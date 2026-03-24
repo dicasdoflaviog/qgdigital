@@ -148,7 +148,7 @@ export default function GestaoBase() {
       <div className="animate-fade-in">
         <div className="flex items-center gap-2 mb-1">
           <Shield className="h-5 w-5 text-primary" />
-          <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider">Super Admin</Badge>
+          <Badge variant="outline" className="text-[10px] font-medium">Super Admin</Badge>
         </div>
         <h1 className="text-3xl md:text-5xl font-medium tracking-[-0.04em] text-foreground leading-[0.9]">
           Gestão de Base Eleitoral
@@ -163,7 +163,7 @@ export default function GestaoBase() {
       {/* Filters */}
       <Card className="animate-fade-up">
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm flex items-center gap-1.5 font-bold tracking-tight uppercase">
+          <CardTitle className="text-sm flex items-center gap-1.5 font-medium tracking-tight ">
             <Filter className="h-4 w-4" /> Filtros de Segmentação
           </CardTitle>
         </CardHeader>
@@ -197,7 +197,7 @@ export default function GestaoBase() {
           </div>
           <div className="flex items-center justify-between">
             <p className="text-xs text-muted-foreground">
-              <span className="font-bold text-foreground">{filtered.length}</span> eleitores encontrados
+              <span className="font-medium text-foreground">{filtered.length}</span> eleitores encontrados
             </p>
             {hasActiveFilters && (
               <Button variant="ghost" size="sm" onClick={clearFilters} className="text-xs gap-1">
@@ -213,7 +213,7 @@ export default function GestaoBase() {
         <Button
           onClick={handleExportCSV}
           disabled={filtered.length === 0 || exporting}
-          className="w-full gap-2 font-bold uppercase tracking-wider text-sm h-12"
+          className="w-full gap-2 font-medium text-sm h-12"
         >
           <Download className="h-4 w-4" /> Exportar Contatos para Lista de Transmissão
         </Button>
@@ -221,7 +221,7 @@ export default function GestaoBase() {
           variant="secondary"
           disabled={filtered.length === 0}
           onClick={() => toast({ title: `${filtered.length} contatos prontos`, description: "Use o botão WhatsApp ao lado de cada nome na tabela abaixo." })}
-          className="w-full gap-2 font-bold uppercase tracking-wider text-sm h-12"
+          className="w-full gap-2 font-medium text-sm h-12"
         >
           <MessageSquare className="h-4 w-4" /> WhatsApp em Massa
         </Button>
@@ -246,12 +246,12 @@ export default function GestaoBase() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Nome</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">WhatsApp</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Bairro</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden md:table-cell">Status</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden lg:table-cell">Assessor</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider text-right">Ação</TableHead>
+                    <TableHead className="font-medium text-xs">Nome</TableHead>
+                    <TableHead className="font-medium text-xs">WhatsApp</TableHead>
+                    <TableHead className="font-medium text-xs hidden sm:table-cell">Bairro</TableHead>
+                    <TableHead className="font-medium text-xs hidden md:table-cell">Status</TableHead>
+                    <TableHead className="font-medium text-xs hidden lg:table-cell">Assessor</TableHead>
+                    <TableHead className="font-medium text-xs text-right">Ação</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -270,7 +270,7 @@ export default function GestaoBase() {
                       </TableCell>
                       <TableCell className="text-right">
                         {e.whatsapp ? (
-                          <Button variant="ghost" size="sm" asChild className="gap-1 text-xs font-bold !text-[#21c45d]">
+                          <Button variant="ghost" size="sm" asChild className="gap-1 text-xs font-medium !text-[#21c45d]">
                             <a href={buildWhatsAppLink(e.nome, e.bairro, e.whatsapp)} target="_blank" rel="noopener noreferrer">
                               <MessageSquare className="h-3.5 w-3.5" />
                               <span className="hidden sm:inline">WhatsApp</span>

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useTheme } from "next-themes";
 import { Upload, Download, ShieldAlert, FileSpreadsheet, Sun, Moon, Monitor, Settings, Bell, Activity, Trash2 } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -13,18 +14,8 @@ import { DeleteAccountModal } from "@/components/account/DeleteAccountModal";
 
 export default function Configuracoes() {
   const { role } = useAuth();
-  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "system");
-  const applyTheme = (value: string) => {
-    setTheme(value);
-    localStorage.setItem("theme", value);
-    const root = document.documentElement;
-    if (value === "dark") root.classList.add("dark");
-    else if (value === "light") root.classList.remove("dark");
-    else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      root.classList.toggle("dark", prefersDark);
-    }
-  };
+  const { theme, setTheme } = useTheme();
+  const applyTheme = (value: string) => setTheme(value);
   const [dragOver, setDragOver] = useState(false);
 
   const handleDrop = (e: React.DragEvent) => {
@@ -53,7 +44,7 @@ export default function Configuracoes() {
                 key={opt.value}
                 variant={theme === opt.value ? "default" : "outline"}
                 size="sm"
-                className="flex-1 gap-1.5 font-bold uppercase tracking-wider text-xs"
+                className="flex-1 gap-1.5 font-medium"
                 onClick={() => applyTheme(opt.value)}
               >
                 <opt.icon className="h-4 w-4" />
@@ -76,7 +67,7 @@ export default function Configuracoes() {
             Receba alertas de novos ofícios e cadastros diretamente no seu dispositivo.
           </p>
           <Button
-            className="w-full gap-2 font-bold uppercase tracking-wider text-xs"
+            className="w-full gap-2 font-medium"
             onClick={async () => {
               if (!("Notification" in window)) {
                 toast({ title: "Não suportado", description: "Seu navegador não suporta notificações.", variant: "destructive" });
@@ -117,10 +108,10 @@ export default function Configuracoes() {
           >
             <FileSpreadsheet className="h-10 w-10 text-muted-foreground" />
             <div className="text-center">
-              <p className="text-sm font-bold">Arraste seu arquivo CSV ou Excel aqui</p>
+              <p className="text-sm font-medium">Arraste seu arquivo CSV ou Excel aqui</p>
               <p className="label-ui mt-1">Ou clique para selecionar</p>
             </div>
-            <Button variant="outline" size="sm" className="font-bold uppercase tracking-wider text-xs" onClick={() => toast({ title: "Selecionar arquivo" })}>
+            <Button variant="outline" size="sm" className="font-medium" onClick={() => toast({ title: "Selecionar arquivo" })}>
               Escolher Arquivo
             </Button>
           </div>
@@ -137,7 +128,7 @@ export default function Configuracoes() {
         <CardContent className="space-y-3">
           {role === "admin" || role === "super_admin" ? (
             <Button
-              className="w-full gap-2 font-bold uppercase tracking-wider text-xs"
+              className="w-full gap-2 font-medium"
               onClick={() => toast({ title: "Exportação iniciada", description: "Preparando arquivo..." })}
             >
               <Download className="h-4 w-4" /> Exportar Base Completa
@@ -146,7 +137,7 @@ export default function Configuracoes() {
             <div className="flex items-center gap-2 border border-destructive/30 bg-destructive/5 p-4">
               <ShieldAlert className="h-5 w-5 text-destructive shrink-0" />
               <div>
-                <p className="text-sm font-bold">Acesso Restrito</p>
+                <p className="text-sm font-medium">Acesso Restrito</p>
                 <p className="label-ui">Apenas administradores podem exportar a base completa.</p>
               </div>
             </div>
@@ -168,10 +159,10 @@ export default function Configuracoes() {
             { role: "Secretária", perms: ["Aniversariantes em destaque", "Cadastro de eleitores", "Agenda de contatos"] },
           ].map((item) => (
             <div key={item.role} className="border border-border p-3">
-              <p className="text-sm font-bold mb-2">{item.role}</p>
+              <p className="text-sm font-medium mb-2">{item.role}</p>
               <div className="flex flex-wrap gap-1.5">
                 {item.perms.map((p) => (
-                  <Badge key={p} variant="secondary" className="text-[10px] font-bold uppercase tracking-wider">{p}</Badge>
+                  <Badge key={p} variant="secondary" className="text-[10px] font-medium">{p}</Badge>
                 ))}
               </div>
             </div>
@@ -215,9 +206,9 @@ export default function Configuracoes() {
       {role === "super_admin" ? (
         <Tabs defaultValue="geral" className="space-y-4">
           <TabsList className="w-full grid grid-cols-3">
-            <TabsTrigger value="geral" className="text-xs font-bold uppercase tracking-wider">Geral</TabsTrigger>
-            <TabsTrigger value="limites" className="text-xs font-bold uppercase tracking-wider">Limites</TabsTrigger>
-            <TabsTrigger value="status" className="text-xs font-bold uppercase tracking-wider gap-1">
+            <TabsTrigger value="geral" className="text-xs font-medium">Geral</TabsTrigger>
+            <TabsTrigger value="limites" className="text-xs font-medium">Limites</TabsTrigger>
+            <TabsTrigger value="status" className="text-xs font-medium gap-1">
               <Activity className="h-3 w-3" /> Status
             </TabsTrigger>
           </TabsList>

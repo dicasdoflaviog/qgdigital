@@ -105,7 +105,7 @@ export function AppSidebar() {
 
   const isL5 = roleLevel === 5;
   const isL4 = roleLevel === 4;
-  const showConfiguracoes = roleLevel >= 3; // L3, L4, L5
+  const showConfiguracoes = roleLevel >= 1; // todos os níveis (L1–L5)
 
   const filterByRole = (items: NavItem[]) =>
     items.filter((item) => {

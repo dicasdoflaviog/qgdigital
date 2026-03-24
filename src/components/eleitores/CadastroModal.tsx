@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -367,20 +367,21 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
   const bairroError = submitted && !bairro;
 
   return (
-    <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
+    <Sheet open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
       {!hideTrigger && (
-        <DialogTrigger asChild>
+        <SheetTrigger asChild>
           <Button className={`gap-2 min-h-[48px] font-medium text-sm ${fullWidth ? "w-full h-12" : ""}`}>
             <Plus className="h-4 w-4" />
-            <span className="hidden sm:inline">Novo Cadastro</span>
+            <span className="hidden sm:inline">Novo cadastro</span>
             <span className="sm:hidden">Novo</span>
           </Button>
-        </DialogTrigger>
+        </SheetTrigger>
       )}
-      <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto z-[100]">
-        <DialogHeader>
-          <DialogTitle className="text-lg font-medium uppercase tracking-tight">Novo Cadastro</DialogTitle>
-        </DialogHeader>
+      <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe">
+        <div className="w-10 h-1 bg-muted-foreground/30 rounded-full mx-auto mb-4 mt-1" />
+        <SheetHeader>
+          <SheetTitle className="text-lg font-medium">Novo cadastro</SheetTitle>
+        </SheetHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Mode toggle */}
           <div className="flex bg-muted rounded-full p-1 gap-1">
@@ -595,7 +596,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
             )}
           </Button>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

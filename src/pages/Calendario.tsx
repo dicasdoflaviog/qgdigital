@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription, SheetFooter } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -107,7 +107,7 @@ export default function Calendario() {
           </h1>
           <p className="label-ui mt-1">Gestão completa de atividades e prazos</p>
         </div>
-        <Button className="font-bold uppercase tracking-wider text-xs" onClick={() => setShowForm(true)}>
+        <Button className="font-medium text-xs" onClick={() => setShowForm(true)}>
           <Plus className="h-4 w-4 mr-1" /> Novo Evento
         </Button>
       </div>
@@ -198,7 +198,7 @@ export default function Calendario() {
                   >
                     <span
                       className={cn(
-                        "text-[11px] font-bold leading-none",
+                        "text-[11px] font-medium leading-none",
                         isToday(day) && "text-primary",
                         !isSameMonth(day, currentMonth) && "text-muted-foreground/40"
                       )}
@@ -224,14 +224,15 @@ export default function Calendario() {
         </Card>
       </div>
 
-      {/* Form Dialog */}
-      <Dialog open={showForm} onOpenChange={setShowForm}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="font-medium">Novo evento</DialogTitle>
-            <DialogDescription className="text-xs">Adicione uma atividade ao calendário</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-3">
+      {/* Form BottomSheet */}
+      <Sheet open={showForm} onOpenChange={setShowForm}>
+        <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe">
+          <div className="w-10 h-1 bg-muted-foreground/30 rounded-full mx-auto mb-4 mt-1" />
+          <SheetHeader>
+            <SheetTitle className="font-medium">Novo evento</SheetTitle>
+            <SheetDescription className="text-xs">Adicione uma atividade ao calendário</SheetDescription>
+          </SheetHeader>
+          <div className="space-y-3 mt-4">
             <div>
               <Label className="label-ui">Título</Label>
               <Input placeholder="Ex: Visita à Escola Municipal" className="text-sm" />
@@ -273,12 +274,12 @@ export default function Calendario() {
               <Textarea rows={2} placeholder="Descreva brevemente..." className="text-sm resize-none" />
             </div>
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setShowForm(false)} className="font-bold uppercase tracking-wider text-xs">Cancelar</Button>
-            <Button onClick={() => setShowForm(false)} className="font-bold uppercase tracking-wider text-xs">Salvar Evento</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+          <SheetFooter className="mt-4 flex gap-2">
+            <Button variant="outline" onClick={() => setShowForm(false)} className="font-medium flex-1">Cancelar</Button>
+            <Button onClick={() => setShowForm(false)} className="font-medium flex-1">Salvar evento</Button>
+          </SheetFooter>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }
@@ -299,7 +300,7 @@ function EventChip({
       <PopoverTrigger asChild>
         <button
           className={cn(
-            "w-full text-left px-1 py-0.5 text-[10px] font-bold truncate flex items-center gap-0.5 transition-all duration-300",
+            "w-full text-left px-1 py-0.5 text-[10px] font-medium truncate flex items-center gap-0.5 transition-all duration-300",
             expired && "ring-1 ring-destructive"
           )}
           style={{
@@ -312,12 +313,12 @@ function EventChip({
           <span className="truncate">{evento.titulo}</span>
         </button>
       </PopoverTrigger>
-      <PopoverContent className="w-72 p-3 space-y-2" side="right" align="start">
+      <PopoverContent className="w-72 max-w-[calc(100vw-2rem)] p-3 space-y-2" side="bottom" align="start">
         <div className="flex items-start justify-between gap-2">
-          <p className="text-sm font-bold">{evento.titulo}</p>
+          <p className="text-sm font-medium">{evento.titulo}</p>
           <Badge
             variant="outline"
-            className="text-[9px] shrink-0 font-bold uppercase tracking-wider"
+            className="text-[9px] shrink-0 font-medium rounded-full px-2 py-0.5"
             style={{ borderColor: cfg.color, color: cfg.color }}
           >
             {cfg.label}
@@ -347,7 +348,7 @@ function EventChip({
         )}
 
         {expired && (
-          <div className="flex items-center gap-1.5 text-xs text-destructive font-bold bg-destructive/10 p-2">
+          <div className="flex items-center gap-1.5 text-xs text-destructive font-medium bg-destructive/10 p-2">
             <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
             <span>Ofício sem resposta há mais de 15 dias!</span>
           </div>
@@ -363,7 +364,7 @@ function EventChip({
         )}
 
         <div className="flex items-center gap-1 pt-1">
-          <Badge variant={evento.status === "confirmado" ? "default" : evento.status === "concluido" ? "secondary" : "outline"} className="text-[9px] font-bold uppercase tracking-wider">
+          <Badge variant={evento.status === "confirmado" ? "default" : evento.status === "concluido" ? "secondary" : "outline"} className="text-[9px] font-medium rounded-full px-2 py-0.5">
             {evento.status.charAt(0).toUpperCase() + evento.status.slice(1)}
           </Badge>
         </div>

@@ -108,7 +108,7 @@ export default function LogSugestoes() {
           </div>
           Log de Sugestões
         </h1>
-        <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground mt-1">
+        <p className="text-xs font-medium text-muted-foreground mt-1">
           Feedbacks da equipe para o roadmap do QG Digital
         </p>
       </div>
@@ -118,15 +118,15 @@ export default function LogSugestoes() {
       {/* Filters */}
       <Tabs value={filter} onValueChange={(v) => setFilter(v as any)}>
         <TabsList className="w-full grid grid-cols-3 h-11 p-1">
-          <TabsTrigger value="todos" className="text-xs font-bold uppercase tracking-wider gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground h-full rounded-full overflow-hidden">
+          <TabsTrigger value="todos" className="text-xs font-medium gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground h-full rounded-full overflow-hidden">
             <Filter className="h-4 w-4 shrink-0" />
             {filter === "todos" && <span className="truncate">Todos ({activeCount})</span>}
           </TabsTrigger>
-          <TabsTrigger value="interessantes" className="text-xs font-bold uppercase tracking-wider gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground h-full rounded-full overflow-hidden">
+          <TabsTrigger value="interessantes" className="text-xs font-medium gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground h-full rounded-full overflow-hidden">
             <Star className="h-4 w-4 shrink-0" />
             {filter === "interessantes" && <span className="truncate">Interessantes ({interessanteCount})</span>}
           </TabsTrigger>
-          <TabsTrigger value="em_desenvolvimento" className="text-xs font-bold uppercase tracking-wider gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground h-full rounded-full overflow-hidden">
+          <TabsTrigger value="em_desenvolvimento" className="text-xs font-medium gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground h-full rounded-full overflow-hidden">
             <Code2 className="h-4 w-4 shrink-0" />
             {filter === "em_desenvolvimento" && <span className="truncate">Dev ({devCount})</span>}
           </TabsTrigger>
@@ -158,16 +158,16 @@ export default function LogSugestoes() {
                 <CardContent className="p-4 space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-foreground truncate">
+                      <p className="text-sm font-medium text-foreground truncate">
                         {profileMap[fb.user_id] || "Usuário desconhecido"}
                       </p>
-                      <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">
+                      <p className="text-[10px] text-muted-foreground font-medium">
                         {format(new Date(fb.created_at), "dd MMM yyyy · HH:mm", { locale: ptBR })}
                       </p>
                     </div>
                     <Badge
                       variant="outline"
-                      className={`text-[10px] font-bold uppercase tracking-wider shrink-0 ${sc.color}`}
+                      className={`text-[10px] font-medium shrink-0 ${sc.color}`}
                     >
                       {sc.icon}
                       {sc.label}
@@ -181,7 +181,7 @@ export default function LogSugestoes() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="gap-1.5 text-xs font-bold uppercase tracking-wider min-h-[36px]"
+                        className="gap-1.5 text-xs font-medium min-h-[36px]"
                         onClick={() => updateStatus.mutate({ id: fb.id, status: "interessante" })}
                       >
                         <Star className="h-3.5 w-3.5" /> Interessante
@@ -191,7 +191,7 @@ export default function LogSugestoes() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="gap-1.5 text-xs font-bold uppercase tracking-wider min-h-[36px]"
+                        className="gap-1.5 text-xs font-medium min-h-[36px]"
                         onClick={() => updateStatus.mutate({ id: fb.id, status: "em_desenvolvimento" })}
                       >
                         <Code2 className="h-3.5 w-3.5" /> Em Dev
@@ -201,7 +201,7 @@ export default function LogSugestoes() {
                       <Button
                         variant="outline"
                         size="sm"
-                        className="gap-1.5 text-xs font-bold uppercase tracking-wider min-h-[36px]"
+                        className="gap-1.5 text-xs font-medium min-h-[36px]"
                         onClick={() => updateStatus.mutate({ id: fb.id, status: "implementado" })}
                       >
                         <Rocket className="h-3.5 w-3.5" /> Implementado
@@ -210,7 +210,7 @@ export default function LogSugestoes() {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="gap-1.5 text-xs font-bold uppercase tracking-wider text-muted-foreground min-h-[36px]"
+                      className="gap-1.5 text-xs font-medium text-muted-foreground min-h-[36px]"
                       onClick={() => updateStatus.mutate({ id: fb.id, status: "descartado" })}
                     >
                       <Archive className="h-3.5 w-3.5" /> Arquivar

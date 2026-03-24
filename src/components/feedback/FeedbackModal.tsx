@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Mic, MicOff, Send, Edit3, RotateCcw, CheckCircle2, Loader2 } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/contexts/AuthContext";
@@ -153,16 +153,17 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
   const displayText = transcript + (interimText ? ` ${interimText}` : "");
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md backdrop-blur-xl rounded-2xl z-[100]">
-        <DialogHeader>
-          <DialogTitle className="text-base font-medium uppercase tracking-tight">
-            Sugerir Melhoria
-          </DialogTitle>
-          <DialogDescription className="text-xs text-muted-foreground">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe">
+        <div className="w-10 h-1 bg-muted-foreground/30 rounded-full mx-auto mb-4 mt-1" />
+        <SheetHeader>
+          <SheetTitle className="text-base font-medium">
+            Sugerir melhoria
+          </SheetTitle>
+          <SheetDescription className="text-xs text-muted-foreground">
             Grave sua sugestão por voz ou digite abaixo
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
 
         <div className="space-y-4 pt-2">
           {/* Idle state */}
@@ -284,7 +285,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
             </div>
           )}
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

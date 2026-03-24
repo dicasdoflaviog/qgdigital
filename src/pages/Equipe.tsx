@@ -110,7 +110,7 @@ export default function Equipe() {
         </div>
         {!isL4 && (
           <Button
-            className="gap-2 font-bold uppercase tracking-wider text-sm h-12 shrink-0 rounded-full"
+            className="gap-2 font-medium text-sm h-12 shrink-0 rounded-full"
             onClick={() => setInviteOpen(true)}
           >
             <UserPlus className="h-4 w-4" />
@@ -129,7 +129,7 @@ export default function Equipe() {
               </div>
               <div className="min-w-0">
                 <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{totalCount}</p>
-                <p className="text-[10px] text-slate-400 font-medium">Gabinetes</p>
+                <p className="text-[10px] text-slate-400 font-medium whitespace-nowrap">Gabinetes</p>
               </div>
             </CardContent>
           </Card>
@@ -140,7 +140,7 @@ export default function Equipe() {
               </div>
               <div className="min-w-0">
                 <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{totalAlcance.toLocaleString("pt-BR")}</p>
-                <p className="text-[10px] text-slate-400 font-medium">Alcance total</p>
+                <p className="text-[10px] text-slate-400 font-medium whitespace-nowrap">Alcance total</p>
               </div>
             </CardContent>
           </Card>
@@ -151,7 +151,7 @@ export default function Equipe() {
               </div>
               <div className="min-w-0">
                 <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{mediaProducao}</p>
-                <p className="text-[10px] text-slate-400 font-medium">Média/vereador</p>
+                <p className="text-[10px] text-slate-400 font-medium whitespace-nowrap">Média/vereador</p>
               </div>
             </CardContent>
           </Card>
@@ -165,7 +165,7 @@ export default function Equipe() {
               </div>
               <div className="min-w-0">
                 <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{totalCount}</p>
-                <p className="text-[10px] text-muted-foreground font-medium">Total</p>
+                <p className="text-[10px] text-muted-foreground font-medium whitespace-nowrap">Total</p>
               </div>
             </CardContent>
           </Card>
@@ -176,7 +176,7 @@ export default function Equipe() {
               </div>
               <div className="min-w-0">
                 <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{activeCount}</p>
-                <p className="text-[10px] text-muted-foreground font-medium">Ativos</p>
+                <p className="text-[10px] text-muted-foreground font-medium whitespace-nowrap">Ativos</p>
               </div>
             </CardContent>
           </Card>
@@ -187,7 +187,7 @@ export default function Equipe() {
               </div>
               <div className="min-w-0">
                 <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{pendingCount}</p>
-                <p className="text-[10px] text-muted-foreground font-medium">Pendentes</p>
+                <p className="text-[10px] text-muted-foreground font-medium whitespace-nowrap">Pendentes</p>
               </div>
             </CardContent>
           </Card>

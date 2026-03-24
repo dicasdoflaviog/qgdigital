@@ -15,7 +15,7 @@ window.addEventListener("unhandledrejection", (event) => {
 });
 
 createRoot(document.getElementById("root")!).render(
-  <ThemeProvider attribute="class" forcedTheme="dark">
+  <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
     <App />
   </ThemeProvider>
 );
