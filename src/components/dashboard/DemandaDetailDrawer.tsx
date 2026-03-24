@@ -62,7 +62,7 @@ const statusConfig: Record<string, { variant: string; color: string }> = {
 function StatusBadge({ status }: { status: string }) {
   const cfg = statusConfig[status] || statusConfig.Pendente;
   return (
-    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold border ${cfg.color}`}>
+    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium border ${cfg.color}`}>
       {status}
     </span>
   );
@@ -311,7 +311,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
         <SheetHeader className="p-4 pb-3 border-b border-slate-700/50 space-y-2">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0 flex-1">
-              <SheetTitle className="text-base font-black text-slate-100 leading-tight">
+              <SheetTitle className="text-base font-medium text-slate-100 leading-tight">
                 {demanda.categoria || "Demanda"}
               </SheetTitle>
               <SheetDescription className="text-xs text-slate-400 mt-0.5">
@@ -326,20 +326,20 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
         <div className="flex-1 overflow-y-auto p-4 space-y-5">
           {/* Solicitante */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Solicitante</h4>
+            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Solicitante</h4>
             <div className="bg-slate-800/60 rounded-xl p-3 space-y-2">
               {demanda.eleitor_nome ? (
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2 text-sm">
                     <User className="h-4 w-4 text-slate-400 shrink-0" />
-                    <span className="font-semibold text-slate-200">{demanda.eleitor_nome}</span>
+                    <span className="font-medium text-slate-200">{demanda.eleitor_nome}</span>
                   </div>
                   {whatsappUrl && (
                     <a
                       href={whatsappUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600/20 text-emerald-400 text-xs font-bold hover:bg-emerald-600/30 transition-colors"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-600/20 text-emerald-400 text-xs font-medium hover:bg-emerald-600/30 transition-colors"
                     >
                       <MessageCircle className="h-3 w-3" /> WhatsApp
                     </a>
@@ -353,7 +353,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Localização */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Localização</h4>
+            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Localização</h4>
             <div className="bg-slate-800/60 rounded-xl p-3">
               <div className="flex items-center gap-2 text-sm text-slate-300">
                 <MapPin className="h-4 w-4 text-slate-400 shrink-0" />
@@ -372,7 +372,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Descrição */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Descrição</h4>
+            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Descrição</h4>
             <div className="bg-slate-800/60 rounded-xl p-3">
               <p className="text-sm text-slate-300 leading-relaxed">
                 {demanda.descricao || "Sem descrição registrada."}
@@ -384,7 +384,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Alterar Status */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Alterar Status</h4>
+            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Alterar Status</h4>
             <div className="flex items-center gap-2">
               <Select value={currentStatus} onValueChange={handleStatusChange} disabled={saving}>
                 <SelectTrigger className="flex-1 h-9 text-xs bg-slate-800 border-slate-700 text-slate-200">
@@ -406,7 +406,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Linha do Tempo */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-black uppercase tracking-widest text-slate-500">Linha do Tempo</h4>
+            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Linha do Tempo</h4>
             {loadingTimeline ? (
               <div className="flex items-center justify-center py-4">
                 <Loader2 className="h-5 w-5 animate-spin text-slate-500" />
@@ -421,7 +421,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
                       {evt.icon}
                     </div>
                     <div className="pt-0.5 min-w-0">
-                      <p className="text-sm font-semibold text-slate-200 leading-tight">{evt.label}</p>
+                      <p className="text-sm font-medium text-slate-200 leading-tight">{evt.label}</p>
                       {evt.detail && (
                         <p className="text-[11px] text-slate-500">{evt.detail}</p>
                       )}
@@ -452,7 +452,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
           <div className="flex gap-2">
             <Button
               size="sm"
-              className="flex-1 gap-1.5 text-white font-bold"
+              className="flex-1 gap-1.5 text-white font-medium"
               style={{ backgroundColor: gabConfig?.cor_primaria || '#4F46E5' }}
               onClick={handleGenerateOficio}
             >

@@ -52,7 +52,7 @@ function NotificationItem({
         {icon}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-bold text-foreground leading-snug">{notification.title}</p>
+        <p className="text-xs font-medium text-foreground leading-snug">{notification.title}</p>
         <p className="text-[11px] text-muted-foreground leading-relaxed mt-0.5">
           {notification.message}
         </p>
@@ -102,7 +102,7 @@ export function NotificationBell() {
           <Bell className="h-4.5 w-4.5" style={partyColor ? { color: partyColor } : undefined} />
           {unreadCount > 0 && (
             <span
-              className="absolute -top-0.5 -right-0.5 flex h-4.5 min-w-[18px] items-center justify-center rounded-full text-white text-[9px] font-bold px-1 animate-scale-in"
+              className="absolute -top-0.5 -right-0.5 flex h-4.5 min-w-[18px] items-center justify-center rounded-full text-white text-[9px] font-medium px-1 animate-scale-in"
               style={{ backgroundColor: partyColor || 'hsl(var(--destructive))' }}
             >
               {unreadCount > 9 ? "9+" : unreadCount}
@@ -117,12 +117,12 @@ export function NotificationBell() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-          <h3 className="text-sm font-black uppercase tracking-tight">Notificações</h3>
+          <h3 className="text-sm font-medium uppercase tracking-tight">Notificações</h3>
           {unreadCount > 0 && (
             <Button
               variant="ghost"
               size="sm"
-              className="gap-1.5 text-[10px] font-bold uppercase tracking-wider text-muted-foreground h-7 px-2"
+              className="gap-1.5 text-[10px] font-medium text-muted-foreground h-7 px-2"
               onClick={() => markAllAsRead()}
             >
               <CheckCheck className="h-3 w-3" /> Marcar todas
@@ -147,7 +147,7 @@ export function NotificationBell() {
         {/* Footer */}
         {notifications.length > 0 && (
           <div className="border-t border-border px-4 py-2">
-            <p className="text-[10px] text-muted-foreground text-center font-bold uppercase tracking-wider">
+            <p className="text-[10px] text-muted-foreground text-center font-medium">
               {unreadCount > 0 ? `${unreadCount} não lida${unreadCount > 1 ? "s" : ""}` : "Tudo lido ✓"}
             </p>
           </div>

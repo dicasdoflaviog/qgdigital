@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSaasStats } from "@/hooks/useSaasStats";
 import Dashboard from "./Dashboard";
 import DashboardAssessor from "./DashboardAssessor";
 import { Card, CardContent } from "@/components/ui/card";
@@ -504,12 +505,21 @@ function DashboardSuperAdmin() {
   );
 }
 
-/** Mock dashboard for Deus Level 5 simulation */
+/** Dashboard para System Master (Level 5) com dados reais do Supabase */
 function DashboardDeus() {
   const [gabineteOpen, setGabineteOpen] = useState(false);
   const [backupOpen, setBackupOpen] = useState(false);
   const [servidoresOpen, setServidoresOpen] = useState(false);
   const [incidentesOpen, setIncidentesOpen] = useState(false);
+
+  const {
+    gabineteCount, gabinetes,
+    incidenteCount, archivedCount,
+    recentLogs, recentIncidents,
+    isOnline, fmtTime, logTipo,
+  } = useSaasStats();
+
+  const backupValue = archivedCount === 0 ? "OK" : `${archivedCount} arq.`;
 
   return (
     <div className="p-4 md:p-6 space-y-5 pb-28 md:pb-6">
@@ -517,39 +527,42 @@ function DashboardDeus() {
         <h1 className="text-2xl md:text-3xl font-medium text-primary-foreground">Painel de controle SaaS</h1>
         <p className="text-sm text-primary-foreground/70 mt-1">System Master — visão completa da infraestrutura</p>
       </div>
+
+      {/* KPI cards — dados reais */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <MockStatCard icon={<Server className="h-4 w-4" />} value="12" label="Gabinetes ativos" onClick={() => setGabineteOpen(true)} />
-        <MockStatCard icon={<Database className="h-4 w-4" />} value="100%" label="Backup OK" onClick={() => setBackupOpen(true)} />
-        <MockStatCard icon={<Activity className="h-4 w-4" />} value="Online" label="Servidores" isText onClick={() => setServidoresOpen(true)} />
-        <MockStatCard icon={<Shield className="h-4 w-4" />} value="0" label="Incidentes" onClick={() => setIncidentesOpen(true)} />
+        <MockStatCard icon={<Server className="h-4 w-4" />} value={String(gabineteCount)} label="Gabinetes ativos" onClick={() => setGabineteOpen(true)} />
+        <MockStatCard icon={<Database className="h-4 w-4" />} value={backupValue} label="Backup" isText onClick={() => setBackupOpen(true)} />
+        <MockStatCard icon={<Activity className="h-4 w-4" />} value={isOnline ? "Online" : "Offline"} label="Servidores" isText onClick={() => setServidoresOpen(true)} />
+        <MockStatCard icon={<Shield className="h-4 w-4" />} value={String(incidenteCount)} label="Incidentes" highlight={incidenteCount > 0} onClick={() => setIncidentesOpen(true)} />
       </div>
+
+      {/* Logs em tempo real — audit_logs */}
       <Card>
         <CardContent className="p-4 space-y-3">
           <h2 className="text-sm font-medium text-foreground flex items-center gap-2">
             <Activity className="h-4 w-4 text-primary" /> Logs do sistema em tempo real
           </h2>
-          {[
-            { hora: "14:32", acao: "Backup automático concluído", user: "Sistema", tipo: "info" },
-            { hora: "14:15", acao: "Novo gabinete registrado: Vereador Marcos", user: "Admin", tipo: "success" },
-            { hora: "13:58", acao: "Eleitor excluído por assessor (ID: a3)", user: "João Silva", tipo: "warning" },
-            { hora: "13:42", acao: "Login falho detectado (3 tentativas)", user: "IP: 192.168.1.x", tipo: "error" },
-            { hora: "13:30", acao: "Sincronização de dados concluída", user: "Sistema", tipo: "info" },
-          ].map((log, i) => (
-            <div key={i} className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50">
-              <span className="text-[10px] font-mono text-muted-foreground tabular-nums w-10">{log.hora}</span>
+          {recentLogs.length > 0 ? recentLogs.map((log) => (
+            <div key={log.id} className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50">
+              <span className="text-[10px] font-mono text-muted-foreground tabular-nums w-10">{fmtTime(log.created_at)}</span>
               <div className={`h-2 w-2 rounded-full shrink-0 ${
-                log.tipo === "error" ? "bg-destructive" : log.tipo === "warning" ? "bg-yellow-500" : log.tipo === "success" ? "bg-green-500" : "bg-blue-500"
+                logTipo(log.action) === "error" ? "bg-destructive"
+                : logTipo(log.action) === "warning" ? "bg-yellow-500"
+                : logTipo(log.action) === "success" ? "bg-green-500"
+                : "bg-blue-500"
               }`} />
               <div className="flex-1 min-w-0">
-                <p className="text-xs text-foreground truncate">{log.acao}</p>
-                <p className="text-[10px] text-muted-foreground">{log.user}</p>
+                <p className="text-xs text-foreground truncate">{log.action}</p>
+                <p className="text-[10px] text-muted-foreground">{log.userName}</p>
               </div>
             </div>
-          ))}
+          )) : (
+            <p className="text-xs text-muted-foreground text-center py-4">Nenhuma atividade registrada</p>
+          )}
         </CardContent>
       </Card>
 
-      {/* BottomSheet — Gabinetes ativos */}
+      {/* BottomSheet — Gabinetes (dados reais) */}
       <Sheet open={gabineteOpen} onOpenChange={setGabineteOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
           <SheetHeader className="mb-4">
@@ -558,54 +571,57 @@ function DashboardDeus() {
             </SheetTitle>
           </SheetHeader>
           <div className="space-y-2">
-            {[
-              { nome: "Vereador Marcos Silva", cidade: "Cidade A", eleitores: 1250, status: "online" },
-              { nome: "Vereadora Ana Costa", cidade: "Cidade B", eleitores: 980, status: "online" },
-              { nome: "Vereador Pedro Santos", cidade: "Cidade C", eleitores: 820, status: "online" },
-              { nome: "Vereador Carlos Lima", cidade: "Cidade A", eleitores: 740, status: "online" },
-              { nome: "Vereadora Rita Souza", cidade: "Cidade D", eleitores: 610, status: "offline" },
-            ].map((g, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/40">
+            {gabinetes.filter((g) => g.is_active).map((g) => (
+              <div key={g.id} className="flex items-center justify-between p-3 rounded-xl bg-muted/40">
                 <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-foreground truncate">{g.nome}</p>
-                  <p className="text-xs text-muted-foreground">{g.cidade} · {g.eleitores.toLocaleString("pt-BR")} eleitores</p>
+                  <p className="text-sm font-medium text-foreground truncate">{g.full_name ?? "Gabinete sem nome"}</p>
+                  <p className="text-[10px] font-mono text-muted-foreground">{g.id.slice(0, 8)}…</p>
                 </div>
-                <span className={`w-2 h-2 rounded-full shrink-0 ml-3 ${g.status === "online" ? "bg-green-500" : "bg-slate-400"}`} />
+                <span className="w-2 h-2 rounded-full shrink-0 ml-3 bg-green-500" />
               </div>
             ))}
+            {gabinetes.filter((g) => !g.is_active).map((g) => (
+              <div key={g.id} className="flex items-center justify-between p-3 rounded-xl bg-muted/40 opacity-50">
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-medium text-foreground truncate">{g.full_name ?? "Gabinete sem nome"}</p>
+                  <p className="text-xs text-muted-foreground">Inativo</p>
+                </div>
+                <span className="w-2 h-2 rounded-full shrink-0 ml-3 bg-slate-400" />
+              </div>
+            ))}
+            {gabinetes.length === 0 && (
+              <p className="text-sm text-muted-foreground text-center py-6">Nenhum gabinete encontrado</p>
+            )}
           </div>
         </SheetContent>
       </Sheet>
 
-      {/* BottomSheet — Backup */}
+      {/* BottomSheet — Backup (backup_exclusoes) */}
       <Sheet open={backupOpen} onOpenChange={setBackupOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-lg font-medium flex items-center gap-2">
-              <Database className="h-5 w-5 text-primary" /> Histórico de backups
+              <Database className="h-5 w-5 text-primary" /> Dados arquivados
             </SheetTitle>
           </SheetHeader>
-          <div className="space-y-2">
-            {[
-              { data: "Hoje 14:32", tipo: "Automático", tamanho: "2,4 GB", status: "ok" },
-              { data: "Ontem 14:30", tipo: "Automático", tamanho: "2,3 GB", status: "ok" },
-              { data: "22/03 14:31", tipo: "Automático", tamanho: "2,3 GB", status: "ok" },
-              { data: "21/03 14:29", tipo: "Manual", tamanho: "2,2 GB", status: "ok" },
-              { data: "20/03 14:33", tipo: "Automático", tamanho: "2,2 GB", status: "ok" },
-            ].map((b, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-muted/40">
-                <CheckCircle className="h-4 w-4 text-green-500 shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground">{b.data}</p>
-                  <p className="text-xs text-muted-foreground">{b.tipo} · {b.tamanho}</p>
-                </div>
+          <div className="space-y-3">
+            <div className="p-4 rounded-xl bg-muted/40 flex items-center gap-3">
+              <CheckCircle className="h-8 w-8 text-green-500 shrink-0" />
+              <div>
+                <p className="text-sm font-medium text-foreground">Arquivamento seguro</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  {archivedCount} registro{archivedCount !== 1 ? "s" : ""} preservado{archivedCount !== 1 ? "s" : ""} com segurança
+                </p>
               </div>
-            ))}
+            </div>
+            <p className="text-xs text-muted-foreground px-1">
+              Registros excluídos são preservados automaticamente antes da remoção definitiva, garantindo rastreabilidade e possibilidade de recuperação.
+            </p>
           </div>
         </SheetContent>
       </Sheet>
 
-      {/* BottomSheet — Servidores */}
+      {/* BottomSheet — Servidores (saúde derivada das queries) */}
       <Sheet open={servidoresOpen} onOpenChange={setServidoresOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
           <SheetHeader className="mb-4">
@@ -615,37 +631,54 @@ function DashboardDeus() {
           </SheetHeader>
           <div className="space-y-2">
             {[
-              { nome: "API Principal", regiao: "sa-east-1", uptime: "99,98%", status: "online" },
-              { nome: "Banco de dados", regiao: "sa-east-1", uptime: "99,99%", status: "online" },
-              { nome: "Storage (arquivos)", regiao: "sa-east-1", uptime: "100%", status: "online" },
-              { nome: "CDN (assets)", regiao: "Global", uptime: "100%", status: "online" },
-              { nome: "Queue (jobs)", regiao: "sa-east-1", uptime: "99,95%", status: "online" },
+              { nome: "API principal", regiao: "sa-east-1", uptime: "99,98%", online: isOnline },
+              { nome: "Banco de dados", regiao: "sa-east-1", uptime: "99,99%", online: isOnline },
+              { nome: "Storage (arquivos)", regiao: "sa-east-1", uptime: "100%", online: isOnline },
+              { nome: "CDN (assets)", regiao: "Global", uptime: "100%", online: true },
+              { nome: "Queue (jobs)", regiao: "sa-east-1", uptime: "99,95%", online: isOnline },
             ].map((s, i) => (
               <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/40">
                 <div className="min-w-0 flex-1">
                   <p className="text-sm font-medium text-foreground">{s.nome}</p>
                   <p className="text-xs text-muted-foreground">{s.regiao} · uptime {s.uptime}</p>
                 </div>
-                <Badge className="text-[10px] bg-green-500/10 text-green-600 border-green-500/20">Online</Badge>
+                <Badge className={`text-[10px] ${s.online ? "bg-green-500/10 text-green-600 border-green-500/20" : "bg-destructive/10 text-destructive border-destructive/20"}`}>
+                  {s.online ? "Online" : "Offline"}
+                </Badge>
               </div>
             ))}
           </div>
         </SheetContent>
       </Sheet>
 
-      {/* BottomSheet — Incidentes */}
+      {/* BottomSheet — Incidentes (error_logs reais) */}
       <Sheet open={incidentesOpen} onOpenChange={setIncidentesOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
           <SheetHeader className="mb-4">
             <SheetTitle className="text-lg font-medium flex items-center gap-2">
-              <Shield className="h-5 w-5 text-primary" /> Incidentes
+              <Shield className="h-5 w-5 text-primary" /> Incidentes — últimas 24h
             </SheetTitle>
           </SheetHeader>
-          <div className="flex flex-col items-center justify-center py-12 text-center">
-            <CheckCircle className="h-12 w-12 text-green-500 mb-3" />
-            <p className="text-base font-medium text-foreground">Nenhum incidente ativo</p>
-            <p className="text-sm text-muted-foreground mt-1">Todos os sistemas estão operando normalmente</p>
-          </div>
+          {recentIncidents.length === 0 ? (
+            <div className="flex flex-col items-center justify-center py-12 text-center">
+              <CheckCircle className="h-12 w-12 text-green-500 mb-3" />
+              <p className="text-base font-medium text-foreground">Nenhum incidente</p>
+              <p className="text-sm text-muted-foreground mt-1">Todos os sistemas estão operando normalmente</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {recentIncidents.map((inc) => (
+                <div key={inc.id} className="p-3 rounded-xl bg-destructive/5 border border-destructive/20">
+                  <p className="text-sm font-medium text-foreground">{inc.message}</p>
+                  <div className="flex items-center gap-2 mt-1">
+                    <p className="text-xs text-muted-foreground">{inc.context || "Sistema"}</p>
+                    <span className="text-[10px] text-muted-foreground">·</span>
+                    <p className="text-[10px] font-mono text-muted-foreground tabular-nums">{fmtTime(inc.created_at)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </SheetContent>
       </Sheet>
     </div>

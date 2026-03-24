@@ -67,7 +67,7 @@ function CircularProgress({ value, size = 80, strokeWidth = 6, color }: { value:
         strokeDasharray={circumference} strokeDashoffset={offset}
         strokeLinecap="round" className="transition-all duration-700" />
       <text x={size / 2} y={size / 2} textAnchor="middle" dominantBaseline="central"
-        className="fill-foreground text-sm font-black" transform={`rotate(90 ${size / 2} ${size / 2})`}>
+        className="fill-foreground text-sm font-medium" transform={`rotate(90 ${size / 2} ${size / 2})`}>
         {value}%
       </text>
     </svg>
@@ -177,7 +177,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
                     />
                   )}
                   <AvatarFallback
-                    className="text-sm font-bold text-white"
+                    className="text-sm font-medium text-white"
                     style={{ backgroundColor: gabColor }}
                   >
                     {initials}
@@ -199,7 +199,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap">
                 <DialogHeader className="p-0 space-y-0">
-                  <DialogTitle className="text-base font-black text-foreground">
+                  <DialogTitle className="text-base font-medium text-foreground">
                     {gabinete.nome_vereador}
                   </DialogTitle>
                 </DialogHeader>
@@ -239,8 +239,8 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
               {/* Termômetro de Base */}
               <div className="bg-muted/50 rounded-xl p-3 text-center">
                 <Users className="h-4 w-4 mx-auto text-primary mb-1.5" />
-                <p className="text-xl font-black text-foreground">{gabinete.total_eleitores}</p>
-                <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Eleitores</p>
+                <p className="text-xl font-medium text-foreground">{gabinete.total_eleitores}</p>
+                <p className="text-[9px] text-muted-foreground">Eleitores</p>
                 <div className="mt-1.5 flex items-center justify-center gap-1">
                   {perf.growthPct > 0 ? (
                     <TrendingUp className="h-3 w-3 text-success" />
@@ -249,7 +249,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
                   ) : (
                     <Minus className="h-3 w-3 text-muted-foreground" />
                   )}
-                  <span className={`text-[10px] font-bold ${
+                  <span className={`text-[10px] font-medium ${
                     perf.growthPct > 0 ? "text-success" : perf.growthPct < 0 ? "text-destructive" : "text-muted-foreground"
                   }`}>
                     {perf.growthPct > 0 ? "+" : ""}{perf.growthPct}%
@@ -260,7 +260,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
               {/* Índice de Resolutividade (Circular) */}
               <div className="bg-muted/50 rounded-xl p-3 flex flex-col items-center justify-center">
                 <CircularProgress value={taxa} color={gabColor} size={72} strokeWidth={5} />
-                <p className="text-[9px] text-muted-foreground uppercase tracking-wider mt-1">Resolutividade</p>
+                <p className="text-[9px] text-muted-foreground mt-1">Resolutividade</p>
               </div>
 
               {/* Foco do Gabinete */}
@@ -269,10 +269,10 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
                   style={{ backgroundColor: `${gabColor}20` }}>
                   <CategoryIcon className="h-5 w-5" style={{ color: gabColor }} />
                 </div>
-                <p className="text-[10px] font-bold text-foreground truncate max-w-full">
+                <p className="text-[10px] font-medium text-foreground truncate max-w-full">
                   {perf.categoriaTop || "—"}
                 </p>
-                <p className="text-[9px] text-muted-foreground uppercase tracking-wider">Foco Principal</p>
+                <p className="text-[9px] text-muted-foreground">Foco Principal</p>
               </div>
             </div>
 
@@ -281,7 +281,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
               <section>
                 <div className="flex items-center gap-2 mb-2">
                   <MapPin className="h-3.5 w-3.5 text-primary" />
-                  <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                  <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
                     Mancha de Influência
                   </h3>
                 </div>
@@ -324,25 +324,25 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             <section>
               <div className="flex items-center gap-2 mb-2">
                 <BarChart3 className="h-3.5 w-3.5 text-primary" />
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Funil de Demandas</h3>
+                <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Funil de Demandas</h3>
               </div>
               <div className="bg-muted/50 rounded-xl p-4 space-y-3">
                 <div className="flex items-center justify-between text-xs">
-                  <span className="font-semibold text-foreground">Progresso Operacional</span>
-                  <span className="font-black" style={{ color: gabColor }}>{taxa}%</span>
+                  <span className="font-medium text-foreground">Progresso Operacional</span>
+                  <span className="font-medium" style={{ color: gabColor }}>{taxa}%</span>
                 </div>
                 <Progress value={taxa} className="h-2" />
                 <div className="grid grid-cols-3 gap-3 text-center">
                   <div>
-                    <p className="text-base font-black text-foreground">{perf.totalDemandas}</p>
+                    <p className="text-base font-medium text-foreground">{perf.totalDemandas}</p>
                     <p className="text-[8px] text-muted-foreground uppercase">Recebidas</p>
                   </div>
                   <div>
-                    <p className="text-base font-black text-success">{perf.demandasResolvidas}</p>
+                    <p className="text-base font-medium text-success">{perf.demandasResolvidas}</p>
                     <p className="text-[8px] text-muted-foreground uppercase">Resolvidas</p>
                   </div>
                   <div>
-                    <p className={`text-base font-black ${perf.demandasPendentes > 10 ? "text-destructive" : "text-foreground"}`}>
+                    <p className={`text-base font-medium ${perf.demandasPendentes > 10 ? "text-destructive" : "text-foreground"}`}>
                       {perf.demandasPendentes}
                     </p>
                     <p className="text-[8px] text-muted-foreground uppercase">Pendentes</p>
@@ -354,7 +354,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             {/* === PERFIL DA BASE (Dores + Bairros) === */}
             <div className="grid grid-cols-2 gap-3">
               <section className="bg-muted/50 rounded-xl p-3">
-                <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground mb-2">Principais Dores</p>
+                <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-2">Principais Dores</p>
                 {perf.topCategorias.length === 0 ? (
                   <p className="text-xs text-muted-foreground">Sem dados</p>
                 ) : (
@@ -363,9 +363,9 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
                       const pct = perf.totalDemandas > 0 ? Math.round((c.count / perf.totalDemandas) * 100) : 0;
                       return (
                         <div key={c.categoria} className="flex items-center gap-2">
-                          <span className="text-[10px] font-black text-muted-foreground w-4">{i + 1}.</span>
-                          <span className="text-xs font-semibold text-foreground flex-1 truncate">{c.categoria}</span>
-                          <span className="text-[10px] font-black" style={{ color: gabColor }}>{pct}%</span>
+                          <span className="text-[10px] font-medium text-muted-foreground w-4">{i + 1}.</span>
+                          <span className="text-xs font-medium text-foreground flex-1 truncate">{c.categoria}</span>
+                          <span className="text-[10px] font-medium" style={{ color: gabColor }}>{pct}%</span>
                         </div>
                       );
                     })}
@@ -375,7 +375,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
               <section className="bg-muted/50 rounded-xl p-3">
                 <div className="flex items-center gap-1 mb-2">
                   <MapPin className="h-3 w-3 text-destructive" />
-                  <p className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Top Bairros</p>
+                  <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Top Bairros</p>
                 </div>
                 {perf.topBairros.length === 0 ? (
                   <p className="text-xs text-muted-foreground">Sem dados</p>
@@ -384,10 +384,10 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
                     {perf.topBairros.map((b, i) => (
                       <div key={b.bairro} className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="text-[10px] font-black text-muted-foreground w-4">{i + 1}.</span>
-                          <span className="text-xs font-semibold text-foreground truncate max-w-[90px]">{b.bairro}</span>
+                          <span className="text-[10px] font-medium text-muted-foreground w-4">{i + 1}.</span>
+                          <span className="text-xs font-medium text-foreground truncate max-w-[90px]">{b.bairro}</span>
                         </div>
-                        <span className="text-xs font-black text-primary">{b.count}</span>
+                        <span className="text-xs font-medium text-primary">{b.count}</span>
                       </div>
                     ))}
                   </div>
@@ -399,7 +399,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             <section>
               <div className="flex items-center gap-2 mb-2">
                 <Lightbulb className="h-3.5 w-3.5 text-warning" />
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Nota de Inteligência</h3>
+                <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Nota de Inteligência</h3>
               </div>
               <div className="bg-primary/5 border border-primary/10 rounded-xl p-4 relative">
                 <div className="absolute top-2 right-2">
@@ -413,7 +413,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             <section>
               <div className="flex items-center gap-2 mb-2">
                 <MessageSquare className="h-3.5 w-3.5 text-primary" />
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Feedback para o Vereador</h3>
+                <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Feedback para o Vereador</h3>
               </div>
               <Textarea
                 placeholder="Escreva uma orientação estratégica para este gabinete..."

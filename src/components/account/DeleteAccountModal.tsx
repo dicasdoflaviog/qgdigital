@@ -53,7 +53,7 @@ export function DeleteAccountModal() {
   return (
     <AlertDialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) setConfirmation(""); }}>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" className="w-full gap-2 font-bold uppercase tracking-wider text-xs">
+        <Button variant="destructive" className="w-full gap-2 font-medium text-xs">
           <AlertTriangle className="h-4 w-4" /> Excluir Minha Conta
         </Button>
       </AlertDialogTrigger>

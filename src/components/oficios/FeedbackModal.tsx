@@ -173,7 +173,7 @@ export function FeedbackModal({
               >
                 <div className="min-w-0">
                   <p className="text-xs font-medium text-foreground truncate">{el.nome}</p>
-                  <p className="text-[11px] font-mono font-bold text-muted-foreground">
+                  <p className="text-[11px] font-mono font-medium text-muted-foreground">
                     {formatWhatsAppNumber(el.whatsapp)}
                   </p>
                 </div>

@@ -82,10 +82,10 @@ export function LimitesPanel() {
     <div className="space-y-4">
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Shield className="h-4 w-4 text-primary" />
             Painel de Limites
-            <Badge variant="secondary" className="text-[10px] font-bold uppercase tracking-wider">
+            <Badge variant="secondary" className="text-[10px] font-medium">
               Super Admin
             </Badge>
           </CardTitle>
@@ -97,11 +97,11 @@ export function LimitesPanel() {
             return (
               <div key={item.label} className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-sm font-bold">
+                  <div className="flex items-center gap-1.5 text-sm font-medium">
                     <item.icon className="h-4 w-4 text-muted-foreground" />
                     {item.label}
                   </div>
-                  <span className={`text-xs font-bold ${color}`}>
+                  <span className={`text-xs font-medium ${color}`}>
                     {item.unit ? `${item.used} ${item.unit}` : item.used} / {item.unit ? `${item.limit} ${item.unit}` : item.limit.toLocaleString()}
                   </span>
                 </div>
@@ -114,7 +114,7 @@ export function LimitesPanel() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Info className="h-4 w-4 text-primary" />
             Estratégia de Manutenção
           </CardTitle>

@@ -68,12 +68,12 @@ export function MinhasSugestoes({ firstName }: { firstName: string }) {
               <CardContent className="p-3 space-y-1.5">
                 <div className="flex items-center gap-2">
                   <span className="text-lg">{config.emoji}</span>
-                  <p className="text-xs font-bold text-foreground leading-snug">
+                  <p className="text-xs font-medium text-foreground leading-snug">
                     Parabéns, {firstName}!
                   </p>
                   <Badge
                     variant="outline"
-                    className="text-[9px] font-bold uppercase tracking-wider ml-auto shrink-0"
+                    className="text-[9px] font-medium ml-auto shrink-0"
                   >
                     {fb.status === "interessante" && <Star className="h-2.5 w-2.5 mr-0.5 fill-current" />}
                     {fb.status === "em_desenvolvimento" && <Code2 className="h-2.5 w-2.5 mr-0.5" />}

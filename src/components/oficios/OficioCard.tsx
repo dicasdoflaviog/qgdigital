@@ -119,12 +119,12 @@ export function OficioCard({ oficio, onStatusChange }: OficioCardProps) {
           </div>
 
           <div className="space-y-1.5">
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Pauta</p>
+            <p className="text-xs font-medium text-muted-foreground">Pauta</p>
             <div className="bg-muted/50 border rounded-lg p-3"><p className="text-sm text-foreground leading-relaxed">{oficio.pauta}</p></div>
           </div>
 
           <div className="space-y-1.5">
-            <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Progresso</p>
+            <p className="text-xs font-medium text-muted-foreground">Progresso</p>
             <div className="flex justify-between text-[10px] text-muted-foreground">
               {STEPS.map((s) => <span key={s} className={`text-center ${OFICIO_STATUS_CONFIG[s].step <= OFICIO_STATUS_CONFIG[oficio.status].step ? "font-medium text-foreground" : ""}`}>{OFICIO_STATUS_CONFIG[s].label}</span>)}
             </div>
@@ -133,7 +133,7 @@ export function OficioCard({ oficio, onStatusChange }: OficioCardProps) {
 
           {oficio.resposta && (
             <div className="space-y-1.5">
-              <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">Resposta</p>
+              <p className="text-xs font-medium text-muted-foreground">Resposta</p>
               <div className="bg-muted/50 border rounded-lg p-3"><p className="text-sm text-foreground leading-relaxed">{oficio.resposta}</p></div>
             </div>
           )}
@@ -148,7 +148,7 @@ function InfoItem({ icon, label, value }: { icon: React.ReactNode; label: string
     <div className="flex items-start gap-2">
       <div className="flex h-6 w-6 items-center justify-center rounded-lg bg-primary/10 text-primary shrink-0 mt-0.5">{icon}</div>
       <div className="min-w-0">
-        <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
+        <p className="text-[10px] font-medium text-muted-foreground">{label}</p>
         <p className="text-sm font-medium text-foreground truncate">{value}</p>
       </div>
     </div>

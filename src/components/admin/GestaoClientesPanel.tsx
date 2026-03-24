@@ -283,14 +283,14 @@ export function GestaoClientesPanel() {
       {/* Main content */}
       <div className="flex-1 space-y-6">
         <div className="flex items-center gap-2">
-          <Users className="h-5 w-5 text-purple-500" />
-          <h3 className="text-sm font-bold uppercase tracking-wider">Gestão de Clientes — Nível 4</h3>
+          <Users className="h-5 w-5 text-qg-blue-500" />
+          <h3 className="text-sm font-medium">Gestão de Clientes — Nível 4</h3>
         </div>
         <p className="text-xs text-muted-foreground -mt-4">
           Configure contratos, habilidades e território de cada cliente. Mudanças propagam automaticamente para os gabinetes vinculados.
         </p>
 
-        <Card className="border-purple-500/20">
+        <Card className="border-qg-blue-500/20">
           <CardContent className="p-0">
             {loadingUsers ? (
               <div className="p-8 text-center flex items-center justify-center gap-2 text-muted-foreground">
@@ -305,14 +305,14 @@ export function GestaoClientesPanel() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider">Cliente</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider text-center">Gabinetes</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Escopo</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider hidden md:table-cell">Estados</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell text-right">MRR</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider text-center">Plano</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider text-center">Status</TableHead>
-                      <TableHead className="font-bold text-xs uppercase tracking-wider w-36">Ação</TableHead>
+                      <TableHead className="font-medium text-xs">Cliente</TableHead>
+                      <TableHead className="font-medium text-xs text-center">Gabinetes</TableHead>
+                      <TableHead className="font-medium text-xs hidden sm:table-cell">Escopo</TableHead>
+                      <TableHead className="font-medium text-xs hidden md:table-cell">Estados</TableHead>
+                      <TableHead className="font-medium text-xs hidden sm:table-cell text-right">MRR</TableHead>
+                      <TableHead className="font-medium text-xs text-center">Plano</TableHead>
+                      <TableHead className="font-medium text-xs text-center">Status</TableHead>
+                      <TableHead className="font-medium text-xs w-36">Ação</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -322,10 +322,10 @@ export function GestaoClientesPanel() {
                           <p className="font-medium text-sm">{r.nome}</p>
                         </TableCell>
                         <TableCell className="text-center">
-                          <Badge variant="secondary" className="text-xs font-black">{r.qtdGab}</Badge>
+                          <Badge variant="secondary" className="text-xs font-medium">{r.qtdGab}</Badge>
                         </TableCell>
                         <TableCell className="hidden sm:table-cell">
-                          <Badge variant="outline" className="text-[10px] border-purple-500/30 text-purple-600">
+                          <Badge variant="outline" className="text-[10px] border-qg-blue-500/30 text-qg-blue-600">
                             <Globe className="h-3 w-3 mr-1" />{r.escopo}
                           </Badge>
                         </TableCell>
@@ -342,7 +342,7 @@ export function GestaoClientesPanel() {
                           ) : "—"}
                         </TableCell>
                         <TableCell className="hidden sm:table-cell text-right">
-                          <span className="text-sm font-black">
+                          <span className="text-sm font-medium">
                             R$ {r.total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                           </span>
                         </TableCell>
@@ -363,7 +363,7 @@ export function GestaoClientesPanel() {
                           )}
                         </TableCell>
                         <TableCell>
-                          <Button size="sm" variant="outline" className="h-8 gap-1.5 text-[10px] font-bold uppercase tracking-wider"
+                          <Button size="sm" variant="outline" className="h-8 gap-1.5 text-[10px] font-medium"
                             onClick={() => openModal(r.id)}>
                             <Settings2 className="h-3 w-3" /> Configurar
                           </Button>
@@ -382,32 +382,32 @@ export function GestaoClientesPanel() {
       <div className="lg:w-72 space-y-4">
         <Card className="border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent">
           <CardHeader className="pb-2">
-            <CardTitle className="text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+            <CardTitle className="text-xs font-medium flex items-center gap-2">
               <TrendingUp className="h-4 w-4 text-emerald-500" /> Resumo Financeiro
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">MRR (Receita Mensal)</p>
-              <p className="text-2xl font-black text-emerald-600">
+              <p className="text-[10px] text-muted-foreground font-medium">MRR (Receita Mensal)</p>
+              <p className="text-2xl font-medium text-emerald-600">
                 R$ {mrr.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
               </p>
             </div>
             <Separator />
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Clientes Ativos</p>
-                <p className="text-lg font-black">{clientesAtivos}</p>
+                <p className="text-[10px] text-muted-foreground font-medium">Clientes Ativos</p>
+                <p className="text-lg font-medium">{clientesAtivos}</p>
               </div>
               <div>
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Total Gabinetes</p>
-                <p className="text-lg font-black">{totalGabinetes}</p>
+                <p className="text-[10px] text-muted-foreground font-medium">Total Gabinetes</p>
+                <p className="text-lg font-medium">{totalGabinetes}</p>
               </div>
             </div>
             <Separator />
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">ARPU</p>
-              <p className="text-lg font-black">
+              <p className="text-[10px] text-muted-foreground font-medium">ARPU</p>
+              <p className="text-lg font-medium">
                 R$ {clientesAtivos > 0
                   ? (mrr / clientesAtivos).toLocaleString("pt-BR", { minimumFractionDigits: 2 })
                   : "0,00"}
@@ -415,8 +415,8 @@ export function GestaoClientesPanel() {
             </div>
             <Separator />
             <div>
-              <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Valor Total Contratos</p>
-              <p className="text-lg font-black">
+              <p className="text-[10px] text-muted-foreground font-medium">Valor Total Contratos</p>
+              <p className="text-lg font-medium">
                 R$ {rows.reduce((s, r) => s + r.total, 0).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
               </p>
             </div>
@@ -428,8 +428,8 @@ export function GestaoClientesPanel() {
       <Dialog open={!!selectedClient} onOpenChange={(v) => { if (!v) { setSelectedClient(null); setEditForm(null); } }}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-sm font-black uppercase tracking-tight flex items-center gap-2">
-              <Shield className="h-4 w-4 text-purple-500" />
+            <DialogTitle className="text-sm font-medium uppercase tracking-tight flex items-center gap-2">
+              <Shield className="h-4 w-4 text-qg-blue-500" />
               Configurar Contrato
             </DialogTitle>
           </DialogHeader>
@@ -437,24 +437,24 @@ export function GestaoClientesPanel() {
             <div className="space-y-5">
               {/* Client name */}
               <div className="p-3 rounded-lg bg-muted/50 border border-border">
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">Cliente</p>
-                <p className="text-sm font-bold">{selectedUser?.full_name || selectedClient.slice(0, 8)}</p>
+                <p className="text-xs text-muted-foreground font-medium">Cliente</p>
+                <p className="text-sm font-medium">{selectedUser?.full_name || selectedClient.slice(0, 8)}</p>
               </div>
 
               {/* === Preço === */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                <h4 className="text-xs font-medium flex items-center gap-2">
                   <DollarSign className="h-3.5 w-3.5 text-emerald-500" /> Preço
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <Label className="text-[10px] font-bold uppercase tracking-wider">Valor por Gabinete (R$)</Label>
+                    <Label className="text-[10px] font-medium">Valor por Gabinete (R$)</Label>
                     <Input type="number" min={0} step={50} value={editForm.valor_por_gabinete}
                       onChange={(e) => setEditForm({ ...editForm, valor_por_gabinete: parseFloat(e.target.value) || 0 })}
                       className="min-h-[44px]" />
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-[10px] font-bold uppercase tracking-wider">Dia Vencimento</Label>
+                    <Label className="text-[10px] font-medium">Dia Vencimento</Label>
                     <Input type="number" min={1} max={31} value={editForm.dia_vencimento}
                       onChange={(e) => setEditForm({ ...editForm, dia_vencimento: parseInt(e.target.value) || 10 })}
                       className="min-h-[44px]" />
@@ -466,8 +466,8 @@ export function GestaoClientesPanel() {
 
               {/* === Habilidades (Feature Flags) === */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                  <Settings2 className="h-3.5 w-3.5 text-purple-500" /> Habilidades
+                <h4 className="text-xs font-medium flex items-center gap-2">
+                  <Settings2 className="h-3.5 w-3.5 text-qg-blue-500" /> Habilidades
                 </h4>
                 <p className="text-[10px] text-muted-foreground">
                   Desativar um recurso remove o acesso para este cliente e todos os gabinetes vinculados.
@@ -487,7 +487,7 @@ export function GestaoClientesPanel() {
                             <XCircle className="h-3.5 w-3.5 text-destructive shrink-0" />
                           )}
                           <div>
-                            <p className="text-xs font-bold">{feature.label}</p>
+                            <p className="text-xs font-medium">{feature.label}</p>
                             <p className="text-[9px] text-muted-foreground">{feature.description}</p>
                           </div>
                         </div>
@@ -503,11 +503,11 @@ export function GestaoClientesPanel() {
 
               {/* === Território === */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2">
-                  <MapPin className="h-3.5 w-3.5 text-purple-500" /> Território
+                <h4 className="text-xs font-medium flex items-center gap-2">
+                  <MapPin className="h-3.5 w-3.5 text-qg-blue-500" /> Território
                 </h4>
                 <div className="space-y-2">
-                  <Label className="text-[10px] font-bold uppercase tracking-wider">Escopo Geográfico</Label>
+                  <Label className="text-[10px] font-medium">Escopo Geográfico</Label>
                   <Select value={editForm.escopo_geografico} onValueChange={(v) => setEditForm({ ...editForm, escopo_geografico: v })}>
                     <SelectTrigger className="min-h-[44px]"><SelectValue /></SelectTrigger>
                     <SelectContent>
@@ -516,7 +516,7 @@ export function GestaoClientesPanel() {
                   </Select>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold uppercase tracking-wider">
+                  <Label className="text-[10px] font-medium">
                     Estados Autorizados ({editForm.estados_autorizados.length})
                   </Label>
                   <div className="grid grid-cols-7 gap-1 max-h-[150px] overflow-y-auto p-1">
@@ -524,7 +524,7 @@ export function GestaoClientesPanel() {
                       const selected = editForm.estados_autorizados.includes(uf);
                       return (
                         <button key={uf} type="button" onClick={() => toggleEstado(uf)}
-                          className={`text-[10px] font-bold py-1.5 rounded-md border transition-colors ${
+                          className={`text-[10px] font-medium py-1.5 rounded-md border transition-colors ${
                             selected
                               ? "bg-primary text-primary-foreground border-primary"
                               : "bg-muted/50 text-muted-foreground border-border hover:bg-muted"
@@ -536,7 +536,7 @@ export function GestaoClientesPanel() {
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold uppercase tracking-wider">Limite de Gabinetes</Label>
+                  <Label className="text-[10px] font-medium">Limite de Gabinetes</Label>
                   <Input type="number" min={1} max={1000} value={editForm.limite_gabinetes}
                     onChange={(e) => setEditForm({ ...editForm, limite_gabinetes: parseInt(e.target.value) || 10 })}
                     className="min-h-[44px]" />
@@ -547,12 +547,12 @@ export function GestaoClientesPanel() {
 
               {/* === Plano / Assinatura === */}
               <div className="space-y-3">
-                <h4 className="text-xs font-bold uppercase tracking-wider flex items-center gap-2">
+                <h4 className="text-xs font-medium flex items-center gap-2">
                   <Crown className="h-3.5 w-3.5 text-yellow-500" /> Plano & Assinatura
                 </h4>
                 <div className="grid grid-cols-2 gap-3">
                   <div className="space-y-1.5">
-                    <Label className="text-[10px] font-bold uppercase tracking-wider">Plano</Label>
+                    <Label className="text-[10px] font-medium">Plano</Label>
                     <Select value={editForm.plan_type} onValueChange={(v) => setEditForm({ ...editForm, plan_type: v as SubscriptionPlan })}>
                       <SelectTrigger className="min-h-[44px]"><SelectValue /></SelectTrigger>
                       <SelectContent>
@@ -563,7 +563,7 @@ export function GestaoClientesPanel() {
                     </Select>
                   </div>
                   <div className="space-y-1.5">
-                    <Label className="text-[10px] font-bold uppercase tracking-wider">Status</Label>
+                    <Label className="text-[10px] font-medium">Status</Label>
                     <Select value={editForm.sub_status} onValueChange={(v) => setEditForm({ ...editForm, sub_status: v as SubscriptionStatus })}>
                       <SelectTrigger className="min-h-[44px]"><SelectValue /></SelectTrigger>
                       <SelectContent>
@@ -576,14 +576,14 @@ export function GestaoClientesPanel() {
                   </div>
                 </div>
                 <div className="space-y-1.5">
-                  <Label className="text-[10px] font-bold uppercase tracking-wider">Expiração do Período</Label>
+                  <Label className="text-[10px] font-medium">Expiração do Período</Label>
                   <Input type="date" value={editForm.current_period_end}
                     onChange={(e) => setEditForm({ ...editForm, current_period_end: e.target.value })}
                     className="min-h-[44px]" />
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-xl border border-border">
                   <div>
-                    <p className="text-sm font-bold">Trial Manual</p>
+                    <p className="text-sm font-medium">Trial Manual</p>
                     <p className="text-[10px] text-muted-foreground">Conceder período de avaliação gratuito</p>
                   </div>
                   <Switch checked={editForm.is_manual_trial} onCheckedChange={(v) => setEditForm({ ...editForm, is_manual_trial: v })} />
@@ -596,14 +596,14 @@ export function GestaoClientesPanel() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between p-3 rounded-xl border border-border">
                   <div>
-                    <p className="text-sm font-bold">Contrato Ativo</p>
+                    <p className="text-sm font-medium">Contrato Ativo</p>
                     <p className="text-[10px] text-muted-foreground">Desativar remove acesso ao mapa nacional</p>
                   </div>
                   <Switch checked={editForm.ativo} onCheckedChange={(v) => setEditForm({ ...editForm, ativo: v })} />
                 </div>
                 <div className="flex items-center justify-between p-3 rounded-xl border border-destructive/30">
                   <div>
-                    <p className="text-sm font-bold text-destructive">Bloquear Acesso</p>
+                    <p className="text-sm font-medium text-destructive">Bloquear Acesso</p>
                     <p className="text-[10px] text-muted-foreground">Bloqueia o sistema inteiro por inadimplência</p>
                   </div>
                   <Switch checked={editForm.bloqueado} onCheckedChange={(v) => setEditForm({ ...editForm, bloqueado: v })} />
@@ -611,7 +611,7 @@ export function GestaoClientesPanel() {
               </div>
 
               <Button onClick={handleSave} disabled={upsertContrato.isPending || upsertConfig.isPending}
-                className="w-full min-h-[48px] text-sm font-bold uppercase tracking-wider rounded-full">
+                className="w-full min-h-[48px] text-sm font-medium rounded-full">
                 {(upsertContrato.isPending || upsertConfig.isPending) && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                 Salvar Contrato
               </Button>

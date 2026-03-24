@@ -114,7 +114,7 @@ export function InstallBanner() {
       <Dialog open={showInstructions} onOpenChange={setShowInstructions}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-lg font-semibold">
+            <DialogTitle className="text-lg font-medium">
               Instalar QG Digital
             </DialogTitle>
           </DialogHeader>
@@ -126,7 +126,7 @@ export function InstallBanner() {
               </p>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold shrink-0">1</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shrink-0">1</div>
                   <div>
                     <p className="text-sm font-medium">Toque no botão Compartilhar</p>
                     <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
@@ -135,7 +135,7 @@ export function InstallBanner() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold shrink-0">2</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shrink-0">2</div>
                   <div>
                     <p className="text-sm font-medium">Role para baixo e toque em</p>
                     <p className="text-xs text-muted-foreground mt-0.5">
@@ -144,7 +144,7 @@ export function InstallBanner() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold shrink-0">3</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shrink-0">3</div>
                   <div>
                     <p className="text-sm font-medium">Toque em "Adicionar"</p>
                     <p className="text-xs text-muted-foreground mt-0.5">
@@ -164,7 +164,7 @@ export function InstallBanner() {
               </p>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold shrink-0">1</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shrink-0">1</div>
                   <div>
                     <p className="text-sm font-medium">Toque no menu ⋮</p>
                     <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
@@ -173,7 +173,7 @@ export function InstallBanner() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold shrink-0">2</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shrink-0">2</div>
                   <div>
                     <p className="text-sm font-medium">Toque em "Instalar app"</p>
                     <p className="text-xs text-muted-foreground mt-0.5">
@@ -182,7 +182,7 @@ export function InstallBanner() {
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-semibold shrink-0">3</div>
+                  <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-medium shrink-0">3</div>
                   <div>
                     <p className="text-sm font-medium">Confirme a instalação</p>
                     <p className="text-xs text-muted-foreground mt-0.5">

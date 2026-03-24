@@ -54,21 +54,21 @@ export function RoleSimulatorFAB() {
     <>
       <button
         onClick={() => setOpen(!open)}
-        className="fixed bottom-36 right-4 md:bottom-[4.5rem] md:right-4 z-role-fab flex h-12 w-12 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg shadow-purple-600/30 hover:bg-purple-700 active:scale-95 transition-all"
+        className="fixed bottom-36 right-4 md:bottom-[4.5rem] md:right-4 z-role-fab flex h-12 w-12 items-center justify-center rounded-full bg-qg-blue-600 text-white shadow-lg shadow-purple-600/30 hover:bg-qg-blue-700 active:scale-95 transition-all"
         title="Olho Roxo — Simulador de Papéis"
       >
         {open ? <X className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
       </button>
 
       {open && (
-        <div className="fixed bottom-[13rem] right-4 md:bottom-[7.5rem] md:right-4 z-role-fab w-80 rounded-xl border border-purple-500/30 bg-card shadow-2xl shadow-purple-900/20 animate-fade-up overflow-hidden">
-          <div className="px-4 py-3 border-b border-purple-500/20 bg-purple-500/5">
-            <p className="text-xs font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
+        <div className="fixed bottom-[13rem] right-4 md:bottom-[7.5rem] md:right-4 z-role-fab w-80 rounded-xl border border-qg-blue-500/30 bg-card shadow-2xl shadow-purple-900/20 animate-fade-up overflow-hidden">
+          <div className="px-4 py-3 border-b border-qg-blue-500/20 bg-qg-blue-500/5">
+            <p className="text-xs font-medium text-qg-blue-600 dark:text-qg-blue-400 flex items-center gap-1.5">
               <Eye className="h-3.5 w-3.5" />
               Olho Roxo — Hierarquia Suprema
             </p>
             <p className="text-[10px] text-muted-foreground mt-0.5">
-              Nível atual: <span className="font-bold text-foreground">{currentLevel}</span> — Hard Reset ao trocar.
+              Nível atual: <span className="font-medium text-foreground">{currentLevel}</span> — Hard Reset ao trocar.
             </p>
           </div>
 
@@ -81,24 +81,24 @@ export function RoleSimulatorFAB() {
                   onClick={() => handleSelect(rl)}
                   className={`w-full flex items-center gap-2.5 p-2.5 rounded-lg text-left transition-all ${
                     isActive
-                      ? "bg-purple-500/10 border border-purple-500/30"
+                      ? "bg-qg-blue-500/10 border border-qg-blue-500/30"
                       : "hover:bg-accent border border-transparent"
                   }`}
                 >
-                  <div className={`flex h-9 w-9 items-center justify-center rounded-lg shrink-0 text-xs font-black ${
-                    isActive ? "bg-purple-600 text-white" : "bg-muted text-muted-foreground"
+                  <div className={`flex h-9 w-9 items-center justify-center rounded-lg shrink-0 text-xs font-medium ${
+                    isActive ? "bg-qg-blue-600 text-white" : "bg-muted text-muted-foreground"
                   }`}>
                     {rl.level}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-bold text-foreground">{rl.label}</span>
+                      <span className="text-xs font-medium text-foreground">{rl.label}</span>
                       {isActive && (
-                        <Badge className="bg-purple-600 text-white text-[8px] px-1 py-0 font-bold">ATIVO</Badge>
+                        <Badge className="bg-qg-blue-600 text-white text-[8px] px-1 py-0 font-medium">ATIVO</Badge>
                       )}
                     </div>
                     <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">{rl.description}</p>
-                    <p className="text-[9px] text-purple-500/70 mt-0.5 truncate">{rl.menus}</p>
+                    <p className="text-[9px] text-qg-blue-500/70 mt-0.5 truncate">{rl.menus}</p>
                   </div>
                 </button>
               );
@@ -114,7 +114,7 @@ export function RoleSimulatorFAB() {
                   setOpen(false);
                   navigate("/", { replace: true });
                 }}
-                className="w-full flex items-center justify-center gap-1.5 text-[10px] text-destructive font-bold uppercase tracking-wider py-2 rounded-lg border border-destructive/20 hover:bg-destructive/5 transition-colors"
+                className="w-full flex items-center justify-center gap-1.5 text-[10px] text-destructive font-medium py-2 rounded-lg border border-destructive/20 hover:bg-destructive/5 transition-colors"
               >
                 <X className="h-3 w-3" />
                 Voltar ao System Master (Nível 5)

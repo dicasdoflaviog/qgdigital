@@ -16,7 +16,7 @@ import {
 const ACTION_LABELS: Record<string, { label: string; icon: any; color: string }> = {
   LOGIN: { label: "Login", icon: LogIn, color: "text-blue-500" },
   CADASTRO_ELEITOR: { label: "Cadastro de Eleitor", icon: PlusCircle, color: "text-emerald-500" },
-  CRIAR_DEMANDA: { label: "Nova Demanda", icon: FileText, color: "text-purple-500" },
+  CRIAR_DEMANDA: { label: "Nova Demanda", icon: FileText, color: "text-qg-blue-500" },
   EDITAR_DEMANDA: { label: "Edição de Demanda", icon: Pencil, color: "text-amber-500" },
   DELETAR_DEMANDA: { label: "Exclusão de Demanda", icon: Trash2, color: "text-destructive" },
   EXPORT_DATA: { label: "Exportação de Dados", icon: FileText, color: "text-orange-500" },
@@ -141,8 +141,8 @@ export function AuditPanel() {
       {/* Header with online badge */}
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div className="flex items-center gap-2">
-          <ScrollText className="h-5 w-5 text-purple-500" />
-          <h3 className="text-sm font-bold uppercase tracking-wider">Logs do Sistema</h3>
+          <ScrollText className="h-5 w-5 text-qg-blue-500" />
+          <h3 className="text-sm font-medium">Logs do Sistema</h3>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20">
@@ -150,7 +150,7 @@ export function AuditPanel() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
             </span>
-            <span className="text-xs font-bold text-emerald-600">{onlineCount} online</span>
+            <span className="text-xs font-medium text-emerald-600">{onlineCount} online</span>
           </div>
           <Badge variant="outline" className="text-[10px] text-muted-foreground">
             {logs.length} registros
@@ -159,7 +159,7 @@ export function AuditPanel() {
       </div>
 
       {/* Filters */}
-      <Card className="border-purple-500/20">
+      <Card className="border-qg-blue-500/20">
         <CardContent className="p-3">
           <div className="flex items-center gap-2 flex-wrap">
             <Filter className="h-4 w-4 text-muted-foreground shrink-0" />
@@ -202,7 +202,7 @@ export function AuditPanel() {
       </Card>
 
       {/* Timeline */}
-      <Card className="border-purple-500/20">
+      <Card className="border-qg-blue-500/20">
         <CardContent className="p-0">
           {isLoading ? (
             <div className="p-8 text-center flex items-center justify-center gap-2 text-muted-foreground">
@@ -228,9 +228,9 @@ export function AuditPanel() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="text-xs font-bold">{log.usuario_nome || "Usuário"}</span>
+                        <span className="text-xs font-medium">{log.usuario_nome || "Usuário"}</span>
                         {log.role_level && (
-                          <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-purple-500/30 text-purple-600">
+                          <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-qg-blue-500/30 text-qg-blue-600">
                             L{log.role_level}
                           </Badge>
                         )}
@@ -267,33 +267,33 @@ export function AuditPanel() {
       <Dialog open={!!selectedLog} onOpenChange={(v) => { if (!v) setSelectedLog(null); }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-sm font-black uppercase tracking-tight flex items-center gap-2">
-              <ScrollText className="h-4 w-4 text-purple-500" /> Detalhes do Log
+            <DialogTitle className="text-sm font-medium uppercase tracking-tight flex items-center gap-2">
+              <ScrollText className="h-4 w-4 text-qg-blue-500" /> Detalhes do Log
             </DialogTitle>
           </DialogHeader>
           {selectedLog && (
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-3">
                 <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Usuário</p>
-                  <p className="text-sm font-bold">{selectedLog.usuario_nome || "—"}</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">Usuário</p>
+                  <p className="text-sm font-medium">{selectedLog.usuario_nome || "—"}</p>
                 </div>
                 <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Nível</p>
-                  <p className="text-sm font-bold">L{selectedLog.role_level ?? "?"}</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">Nível</p>
+                  <p className="text-sm font-medium">L{selectedLog.role_level ?? "?"}</p>
                 </div>
                 <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Gabinete</p>
-                  <p className="text-sm font-bold">{selectedLog.gabinete_nome || "—"}</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">Gabinete</p>
+                  <p className="text-sm font-medium">{selectedLog.gabinete_nome || "—"}</p>
                 </div>
                 <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">Ação</p>
-                  <p className="text-sm font-bold">{getActionInfo(selectedLog).label}</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">Ação</p>
+                  <p className="text-sm font-medium">{getActionInfo(selectedLog).label}</p>
                 </div>
               </div>
 
               <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">Data / Hora</p>
+                <p className="text-[10px] text-muted-foreground font-medium mb-1">Data / Hora</p>
                 <p className="text-sm font-medium">
                   {new Date(selectedLog.created_at).toLocaleString("pt-BR", {
                     day: "2-digit", month: "2-digit", year: "numeric",
@@ -304,7 +304,7 @@ export function AuditPanel() {
 
               {selectedLog.ip_address && (
                 <div className="p-2.5 rounded-lg bg-muted/50 border border-border">
-                  <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider">IP</p>
+                  <p className="text-[10px] text-muted-foreground font-medium">IP</p>
                   <p className="text-sm font-mono">{selectedLog.ip_address}</p>
                 </div>
               )}
@@ -312,7 +312,7 @@ export function AuditPanel() {
               <Separator />
 
               <div>
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-2">Detalhes</p>
+                <p className="text-[10px] text-muted-foreground font-medium mb-2">Detalhes</p>
                 {selectedLog.details && Object.keys(selectedLog.details).length > 0 ? (
                   <div className="space-y-1.5">
                     {formatDetails(selectedLog.details).map((line, i) => (
@@ -327,7 +327,7 @@ export function AuditPanel() {
               </div>
 
               <div className="p-2.5 rounded-lg bg-muted/30 border border-border">
-                <p className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-1">ID do Registro</p>
+                <p className="text-[10px] text-muted-foreground font-medium mb-1">ID do Registro</p>
                 <p className="text-[10px] font-mono text-muted-foreground break-all">{selectedLog.id}</p>
               </div>
             </div>

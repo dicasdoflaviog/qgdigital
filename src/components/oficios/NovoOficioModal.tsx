@@ -209,7 +209,7 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-base font-black uppercase tracking-tight">
+          <DialogTitle className="flex items-center gap-2 text-base font-medium uppercase tracking-tight">
             <div className="flex h-6 w-6 items-center justify-center bg-primary text-primary-foreground">
               <FileText className="h-3.5 w-3.5" />
             </div>
@@ -238,7 +238,7 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
                     type="button"
                     variant="outline"
                     size="sm"
-                    className="text-xs font-bold uppercase tracking-wider"
+                    className="text-xs font-medium"
                     onClick={() => fileInputRef.current?.click()}
                   >
                     Selecionar Arquivo
@@ -274,7 +274,7 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
                   <Button
                     type="button"
                     size="sm"
-                    className="w-full gap-1.5 font-bold uppercase tracking-wider text-xs"
+                    className="w-full gap-1.5 font-medium text-xs"
                     onClick={handleExtractWithAI}
                     disabled={isExtracting}
                   >
@@ -372,11 +372,11 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
           </div>
 
           <div className="flex gap-2 pt-2">
-            <Button type="submit" className="flex-1 gap-2 h-12 font-bold uppercase tracking-wider text-sm">
+            <Button type="submit" className="flex-1 gap-2 h-12 font-medium text-sm">
               <Plus className="h-4 w-4" />
               Criar Ofício
             </Button>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-12 font-bold uppercase tracking-wider text-sm">
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-12 font-medium text-sm">
               Cancelar
             </Button>
           </div>

@@ -445,14 +445,14 @@ export function TransparencyReportModal() {
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!generating) setOpen(o); }}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="w-full gap-2 font-bold uppercase tracking-wider text-xs border-primary/30 hover:border-primary">
+        <Button variant="outline" className="w-full gap-2 font-medium text-xs border-primary/30 hover:border-primary">
           <Shield className="h-4 w-4" />
           Gerar PDF de Prestação de Contas
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-sm" onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="font-black uppercase tracking-tight flex items-center gap-2">
+          <DialogTitle className="font-medium uppercase tracking-tight flex items-center gap-2">
             <Shield className="h-5 w-5 text-primary" />
             Relatório de Transparência
           </DialogTitle>
@@ -465,7 +465,7 @@ export function TransparencyReportModal() {
             </div>
             <div className="space-y-2">
               <Progress value={progress.percent} className="h-3" />
-              <p className="text-xs text-muted-foreground text-center font-bold">
+              <p className="text-xs text-muted-foreground text-center font-medium">
                 {progress.label} ({progress.percent}%)
               </p>
             </div>
@@ -478,7 +478,7 @@ export function TransparencyReportModal() {
 
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs font-bold uppercase tracking-wider">Mês</Label>
+                <Label className="text-xs font-medium">Mês</Label>
                 <Select value={selectedMonth} onValueChange={setSelectedMonth}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -489,7 +489,7 @@ export function TransparencyReportModal() {
                 </Select>
               </div>
               <div>
-                <Label className="text-xs font-bold uppercase tracking-wider">Ano</Label>
+                <Label className="text-xs font-medium">Ano</Label>
                 <Select value={selectedYear} onValueChange={setSelectedYear}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -502,7 +502,7 @@ export function TransparencyReportModal() {
             </div>
 
             <Button
-              className="w-full h-12 gap-2 font-bold uppercase tracking-wider"
+              className="w-full h-12 gap-2 font-medium"
               onClick={handleGenerate}
             >
               <Download className="h-4 w-4" />

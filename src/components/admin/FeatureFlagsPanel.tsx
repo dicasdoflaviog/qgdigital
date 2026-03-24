@@ -51,26 +51,26 @@ export function FeatureFlagsPanel() {
   return (
     <div className="space-y-6">
       <div className="flex items-center gap-2 mb-2">
-        <ToggleRight className="h-5 w-5 text-purple-500" />
-        <h3 className="text-sm font-bold uppercase tracking-wider">Editor de Habilidades — Feature Flags</h3>
+        <ToggleRight className="h-5 w-5 text-qg-blue-500" />
+        <h3 className="text-sm font-medium">Editor de Habilidades — Feature Flags</h3>
       </div>
       <p className="text-xs text-muted-foreground -mt-4">
         Ative ou desative recursos por cliente. Mudanças são aplicadas em tempo real.
       </p>
 
       {l4Users.length === 0 ? (
-        <Card className="border-purple-500/20">
+        <Card className="border-qg-blue-500/20">
           <CardContent className="p-8 text-center text-sm text-muted-foreground">
             Nenhum cliente Nível 4 cadastrado.
           </CardContent>
         </Card>
       ) : (
         l4Users.map((user: any) => (
-          <Card key={user.id} className="border-purple-500/20">
+          <Card key={user.id} className="border-qg-blue-500/20">
             <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-bold flex items-center gap-2">
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
                 {user.full_name || user.id.slice(0, 8)}
-                <Badge variant="outline" className="text-[9px] border-purple-500/30 text-purple-600">Nível 4</Badge>
+                <Badge variant="outline" className="text-[9px] border-qg-blue-500/30 text-qg-blue-600">Nível 4</Badge>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -91,7 +91,7 @@ export function FeatureFlagsPanel() {
                           <XCircle className="h-4 w-4 text-destructive shrink-0" />
                         )}
                         <div>
-                          <p className="text-sm font-bold">{feature.label}</p>
+                          <p className="text-sm font-medium">{feature.label}</p>
                           <p className="text-[10px] text-muted-foreground">{feature.description}</p>
                         </div>
                       </div>

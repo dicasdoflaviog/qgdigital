@@ -119,21 +119,21 @@ export function SubscricoesPanel() {
     <div className="space-y-4">
       {/* MRR Summary */}
       <div className="grid grid-cols-3 gap-3">
-        <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+        <Card className="border-qg-blue-500/20 bg-gradient-to-br from-qg-blue-500/5 to-transparent">
           <CardContent className="p-4">
-            <p className="text-2xl font-black text-emerald-500">{totalActive}</p>
+            <p className="text-2xl font-medium text-emerald-500">{totalActive}</p>
             <p className="text-xs text-muted-foreground font-medium">Assinaturas Ativas</p>
           </CardContent>
         </Card>
-        <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+        <Card className="border-qg-blue-500/20 bg-gradient-to-br from-qg-blue-500/5 to-transparent">
           <CardContent className="p-4">
-            <p className="text-2xl font-black text-amber-500">{totalPending}</p>
+            <p className="text-2xl font-medium text-amber-500">{totalPending}</p>
             <p className="text-xs text-muted-foreground font-medium">Aguardando</p>
           </CardContent>
         </Card>
-        <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+        <Card className="border-qg-blue-500/20 bg-gradient-to-br from-qg-blue-500/5 to-transparent">
           <CardContent className="p-4">
-            <p className="text-2xl font-black text-foreground">
+            <p className="text-2xl font-medium text-foreground">
               R$ {mrr.toLocaleString("pt-BR")}
             </p>
             <p className="text-xs text-muted-foreground font-medium">MRR Estimado</p>
@@ -142,10 +142,10 @@ export function SubscricoesPanel() {
       </div>
 
       {/* Tabela */}
-      <Card className="border-purple-500/20">
+      <Card className="border-qg-blue-500/20">
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-            <Crown className="h-4 w-4 text-purple-500" /> Todas as Assinaturas
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <Crown className="h-4 w-4 text-qg-blue-500" /> Todas as Assinaturas
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
@@ -158,13 +158,13 @@ export function SubscricoesPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs uppercase">Gabinete</TableHead>
-                    <TableHead className="font-bold text-xs uppercase">Plano</TableHead>
-                    <TableHead className="font-bold text-xs uppercase">Status</TableHead>
-                    <TableHead className="font-bold text-xs uppercase hidden md:table-cell">Ativado por</TableHead>
-                    <TableHead className="font-bold text-xs uppercase hidden lg:table-cell">Próx. Renovação</TableHead>
-                    <TableHead className="font-bold text-xs uppercase hidden lg:table-cell">MP Payment ID</TableHead>
-                    <TableHead className="font-bold text-xs uppercase">Ações</TableHead>
+                    <TableHead className="font-medium text-xs uppercase">Gabinete</TableHead>
+                    <TableHead className="font-medium text-xs uppercase">Plano</TableHead>
+                    <TableHead className="font-medium text-xs uppercase">Status</TableHead>
+                    <TableHead className="font-medium text-xs uppercase hidden md:table-cell">Ativado por</TableHead>
+                    <TableHead className="font-medium text-xs uppercase hidden lg:table-cell">Próx. Renovação</TableHead>
+                    <TableHead className="font-medium text-xs uppercase hidden lg:table-cell">MP Payment ID</TableHead>
+                    <TableHead className="font-medium text-xs uppercase">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -176,12 +176,12 @@ export function SubscricoesPanel() {
                           <p className="text-xs font-mono text-muted-foreground">{sub.gabinete_id.slice(0, 8)}…</p>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className="text-[10px] font-bold">
+                          <Badge variant="outline" className="text-[10px] font-medium">
                             {PLAN_LABELS[sub.plan_type]}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          <Badge variant="outline" className={`${si.color} text-[10px] font-bold`}>
+                          <Badge variant="outline" className={`${si.color} text-[10px] font-medium`}>
                             {si.label}
                           </Badge>
                         </TableCell>
@@ -245,14 +245,14 @@ export function SubscricoesPanel() {
       <Dialog open={!!editTarget} onOpenChange={() => setEditTarget(null)}>
         <DialogContent className="max-w-sm">
           <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-sm font-bold">
-              <CreditCard className="h-4 w-4 text-purple-500" /> Editar Assinatura
+            <DialogTitle className="flex items-center gap-2 text-sm font-medium">
+              <CreditCard className="h-4 w-4 text-qg-blue-500" /> Editar Assinatura
             </DialogTitle>
           </DialogHeader>
           {editTarget && (
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">Plano</Label>
+                <Label className="text-xs font-medium">Plano</Label>
                 <Select
                   value={editTarget.plan_type}
                   onValueChange={(v) => setEditTarget({ ...editTarget, plan_type: v as SubscriptionPlan })}
@@ -269,7 +269,7 @@ export function SubscricoesPanel() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">Status</Label>
+                <Label className="text-xs font-medium">Status</Label>
                 <Select
                   value={editTarget.status}
                   onValueChange={(v) => setEditTarget({ ...editTarget, status: v as SubscriptionStatus })}
@@ -288,7 +288,7 @@ export function SubscricoesPanel() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">
+                <Label className="text-xs font-medium">
                   ID da Transação MP (opcional)
                 </Label>
                 <Input
@@ -303,7 +303,7 @@ export function SubscricoesPanel() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">Observações</Label>
+                <Label className="text-xs font-medium">Observações</Label>
                 <Input
                   className="min-h-[44px] text-sm"
                   placeholder="Ex: Contrato assinado em 21/03/2026"
@@ -313,7 +313,7 @@ export function SubscricoesPanel() {
               </div>
 
               <Button
-                className="w-full min-h-[44px] font-bold uppercase tracking-wider text-xs gap-2"
+                className="w-full min-h-[44px] font-medium text-xs gap-2"
                 onClick={handleSave}
                 disabled={saving}
               >

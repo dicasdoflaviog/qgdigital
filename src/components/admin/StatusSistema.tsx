@@ -136,10 +136,10 @@ export function StatusSistema() {
       {/* Storage */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
             <HardDrive className="h-4 w-4 text-primary" />
             Supabase Storage
-            <Badge variant="secondary" className="text-[10px] font-bold uppercase tracking-wider">
+            <Badge variant="secondary" className="text-[10px] font-medium">
               Limite: 1 GB
             </Badge>
           </CardTitle>
@@ -147,13 +147,13 @@ export function StatusSistema() {
         <CardContent className="space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-sm text-muted-foreground">Espaço ocupado</span>
-            <span className={`text-sm font-bold ${storageColor}`}>
+            <span className={`text-sm font-medium ${storageColor}`}>
               {storageUsedMB} MB / {STORAGE_LIMIT_MB} MB
             </span>
           </div>
           <Progress value={storagePct} className="h-2.5" />
           {storagePct > 70 && (
-            <p className="text-xs text-destructive font-bold flex items-center gap-1">
+            <p className="text-xs text-destructive font-medium flex items-center gap-1">
               <AlertTriangle className="h-3 w-3" />
               Atenção: considere arquivar mídias no Google Drive.
             </p>
@@ -165,7 +165,7 @@ export function StatusSistema() {
       <Card>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
               <FileWarning className="h-4 w-4 text-destructive" />
               Logs de Erros
               {errorLogs.length > 0 && (
@@ -183,7 +183,7 @@ export function StatusSistema() {
             <p className="text-sm text-muted-foreground text-center py-4">Carregando logs...</p>
           ) : errorLogs.length === 0 ? (
             <div className="text-center py-6 space-y-1">
-              <p className="text-sm font-bold text-foreground">✅ Nenhum erro registrado</p>
+              <p className="text-sm font-medium text-foreground">✅ Nenhum erro registrado</p>
               <p className="text-xs text-muted-foreground">O sistema está operando normalmente.</p>
             </div>
           ) : (
@@ -191,7 +191,7 @@ export function StatusSistema() {
               {errorLogs.map((log) => (
                 <div key={log.id} className="border border-border rounded-xl p-3 space-y-2">
                   <div className="flex items-start justify-between gap-2">
-                    <p className="text-sm font-bold text-foreground leading-tight">{log.message}</p>
+                    <p className="text-sm font-medium text-foreground leading-tight">{log.message}</p>
                     <Badge variant="outline" className="text-[9px] shrink-0">{log.context || "geral"}</Badge>
                   </div>
                   <div className="flex items-center gap-3 text-[10px] text-muted-foreground">
@@ -216,7 +216,7 @@ export function StatusSistema() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                           <Sparkles className="h-3.5 w-3.5 text-primary" />
-                          <span className="text-[10px] font-bold uppercase tracking-wider text-primary">Diagnóstico IA</span>
+                          <span className="text-[10px] font-medium text-primary">Diagnóstico IA</span>
                         </div>
                         <Button
                           variant="ghost"
@@ -239,7 +239,7 @@ export function StatusSistema() {
                     <Button
                       variant="outline"
                       size="sm"
-                      className="w-full gap-1.5 text-xs font-bold uppercase tracking-wider h-9 border-primary/20 text-primary hover:bg-primary/5 hover:text-primary"
+                      className="w-full gap-1.5 text-xs font-medium h-9 border-primary/20 text-primary hover:bg-primary/5 hover:text-primary"
                       onClick={() => handleDiagnose(log)}
                       disabled={diagnosing === log.id}
                     >

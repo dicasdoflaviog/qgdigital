@@ -94,7 +94,7 @@ export function EleitorDetailDrawer({ eleitor, open, onOpenChange }: Props) {
           <Separator />
 
           <div>
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">Situação</p>
+            <p className="text-xs font-medium text-muted-foreground mb-2">Situação</p>
             <Badge variant={situacaoVariant(eleitor.situacao || "") as any} className="text-xs">
               {eleitor.situacao || "Novo Cadastro"}
             </Badge>
@@ -103,7 +103,7 @@ export function EleitorDetailDrawer({ eleitor, open, onOpenChange }: Props) {
           <Separator />
 
           <div>
-            <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider mb-2">Linha do Tempo</p>
+            <p className="text-xs font-medium text-muted-foreground mb-2">Linha do Tempo</p>
             <div className="space-y-3">
               {createdDate && (
                 <div className="flex items-start gap-3">

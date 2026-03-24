@@ -92,7 +92,7 @@ export function LayoutConfigPanel() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-black uppercase tracking-tight">Configurações de Layout Global</h2>
+        <h2 className="text-lg font-medium uppercase tracking-tight">Configurações de Layout Global</h2>
         <p className="text-sm text-muted-foreground mt-1">
           Defina a identidade institucional que será herdada por todos os gabinetes da plataforma.
         </p>
@@ -101,8 +101,8 @@ export function LayoutConfigPanel() {
       {/* Logo Institucional */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-            <Image className="h-4 w-4 text-purple-500" /> Logo Institucional
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <Image className="h-4 w-4 text-qg-blue-500" /> Logo Institucional
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -137,7 +137,7 @@ export function LayoutConfigPanel() {
             <div>
               <Label
                 htmlFor="logo-upload"
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wider cursor-pointer hover:bg-purple-500/20 transition-colors"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-qg-blue-500/10 text-qg-blue-600 dark:text-qg-blue-400 text-xs font-medium cursor-pointer hover:bg-qg-blue-500/20 transition-colors"
               >
                 {uploading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
                 {uploading ? "Enviando..." : "Enviar Logo"}
@@ -161,8 +161,8 @@ export function LayoutConfigPanel() {
       {/* Dados do Rodapé Global */}
       <Card>
         <CardHeader className="pb-3">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-purple-500" /> Rodapé Global dos Ofícios
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-qg-blue-500" /> Rodapé Global dos Ofícios
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -173,7 +173,7 @@ export function LayoutConfigPanel() {
 
           <div className="space-y-3">
             <div>
-              <Label htmlFor="nome-inst" className="text-xs font-bold text-muted-foreground">
+              <Label htmlFor="nome-inst" className="text-xs font-medium text-muted-foreground">
                 Nome da Instituição
               </Label>
               <Input
@@ -185,7 +185,7 @@ export function LayoutConfigPanel() {
             </div>
 
             <div>
-              <Label htmlFor="endereco-global" className="text-xs font-bold text-muted-foreground">
+              <Label htmlFor="endereco-global" className="text-xs font-medium text-muted-foreground">
                 Endereço Institucional
               </Label>
               <Input
@@ -197,7 +197,7 @@ export function LayoutConfigPanel() {
             </div>
 
             <div>
-              <Label htmlFor="tel-global" className="text-xs font-bold text-muted-foreground">
+              <Label htmlFor="tel-global" className="text-xs font-medium text-muted-foreground">
                 Telefone Institucional
               </Label>
               <Input
@@ -212,7 +212,7 @@ export function LayoutConfigPanel() {
           <Button
             onClick={handleSave}
             disabled={updateConfig.isPending}
-            className="w-full gap-2 font-bold uppercase tracking-wider"
+            className="w-full gap-2 font-medium"
           >
             {updateConfig.isPending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
             Salvar Configurações de Layout

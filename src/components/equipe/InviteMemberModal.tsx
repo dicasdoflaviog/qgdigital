@@ -85,7 +85,7 @@ export default function InviteMemberModal({ open, onOpenChange, callerRoleLevel 
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-w-md rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="font-black uppercase tracking-tight flex items-center gap-2">
+          <DialogTitle className="font-medium uppercase tracking-tight flex items-center gap-2">
             <Send className="h-5 w-5 text-primary" />
             {inviteTitle}
           </DialogTitle>
@@ -99,7 +99,7 @@ export default function InviteMemberModal({ open, onOpenChange, callerRoleLevel 
             <div className="rounded-xl border border-success/20 bg-success/5 p-4 space-y-3">
               <div className="flex items-center gap-2">
                 <Check className="h-5 w-5 text-success" />
-                <p className="text-sm font-bold text-success">Credenciais criadas!</p>
+                <p className="text-sm font-medium text-success">Credenciais criadas!</p>
               </div>
               <div className="space-y-1 text-sm">
                 <p><span className="text-muted-foreground">Email:</span> <strong>{result.email}</strong></p>
@@ -117,14 +117,14 @@ export default function InviteMemberModal({ open, onOpenChange, callerRoleLevel 
             <div className="flex gap-2">
               <Button
                 variant="outline"
-                className="flex-1 gap-2 h-12 font-bold uppercase tracking-wider text-sm rounded-full"
+                className="flex-1 gap-2 h-12 font-medium text-sm rounded-full"
                 onClick={handleCopy}
               >
                 {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
                 {copied ? "Copiado!" : "Copiar Credenciais"}
               </Button>
               <Button
-                className="flex-1 h-12 font-bold uppercase tracking-wider text-sm rounded-full"
+                className="flex-1 h-12 font-medium text-sm rounded-full"
                 onClick={() => handleClose(false)}
               >
                 Fechar
@@ -187,7 +187,7 @@ export default function InviteMemberModal({ open, onOpenChange, callerRoleLevel 
               />
             </div>
             <Button
-              className="w-full h-12 font-bold uppercase tracking-wider text-sm rounded-full"
+              className="w-full h-12 font-medium text-sm rounded-full"
               onClick={handleSubmit}
               disabled={loading}
             >

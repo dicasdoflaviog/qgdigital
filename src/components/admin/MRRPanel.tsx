@@ -131,9 +131,9 @@ export function MRRPanel() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
               <DollarSign className="h-4 w-4 text-emerald-500" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">MRR</span>
+              <span className="text-[10px] font-medium text-muted-foreground">MRR</span>
             </div>
-            <p className="text-2xl font-black">R$ {mrr.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</p>
+            <p className="text-2xl font-medium">R$ {mrr.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</p>
           </CardContent>
         </Card>
 
@@ -141,19 +141,19 @@ export function MRRPanel() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
               <TrendingDown className="h-4 w-4 text-destructive" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Churn Rate</span>
+              <span className="text-[10px] font-medium text-muted-foreground">Churn Rate</span>
             </div>
-            <p className="text-2xl font-black">{churnRate}%</p>
+            <p className="text-2xl font-medium">{churnRate}%</p>
           </CardContent>
         </Card>
 
-        <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+        <Card className="border-qg-blue-500/20 bg-gradient-to-br from-qg-blue-500/5 to-transparent">
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
-              <Users className="h-4 w-4 text-purple-500" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">ARPU</span>
+              <Users className="h-4 w-4 text-qg-blue-500" />
+              <span className="text-[10px] font-medium text-muted-foreground">ARPU</span>
             </div>
-            <p className="text-2xl font-black">R$ {Number(arpu).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</p>
+            <p className="text-2xl font-medium">R$ {Number(arpu).toLocaleString("pt-BR", { minimumFractionDigits: 2 })}</p>
           </CardContent>
         </Card>
 
@@ -161,19 +161,19 @@ export function MRRPanel() {
           <CardContent className="p-4">
             <div className="flex items-center gap-2 mb-1">
               <Activity className="h-4 w-4 text-primary" />
-              <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Gabinetes Ativos</span>
+              <span className="text-[10px] font-medium text-muted-foreground">Gabinetes Ativos</span>
             </div>
-            <p className="text-2xl font-black">{activeGabinetes}</p>
+            <p className="text-2xl font-medium">{activeGabinetes}</p>
             <p className="text-[10px] text-muted-foreground">com atividade hoje</p>
           </CardContent>
         </Card>
       </div>
 
       {/* MRR Chart */}
-      <Card className="border-purple-500/20">
+      <Card className="border-qg-blue-500/20">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-            <BarChart3 className="h-4 w-4 text-purple-500" /> Faturamento Mensal (MRR)
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <BarChart3 className="h-4 w-4 text-qg-blue-500" /> Faturamento Mensal (MRR)
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -185,13 +185,13 @@ export function MRRPanel() {
             <div className="space-y-3">
               {months.map((m, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className="text-xs font-bold w-12 text-right text-muted-foreground uppercase">{m.label}</span>
+                  <span className="text-xs font-medium w-12 text-right text-muted-foreground uppercase">{m.label}</span>
                   <div className="flex-1 h-7 bg-muted/50 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full transition-all duration-700 flex items-center justify-end pr-2"
                       style={{ width: `${Math.max((m.value / chartMax) * 100, 8)}%` }}
                     >
-                      <span className="text-[10px] font-black text-white">
+                      <span className="text-[10px] font-medium text-white">
                         R$ {m.value.toLocaleString("pt-BR", { minimumFractionDigits: 0 })}
                       </span>
                     </div>
@@ -204,10 +204,10 @@ export function MRRPanel() {
       </Card>
 
       {/* Client breakdown */}
-      <Card className="border-purple-500/20">
+      <Card className="border-qg-blue-500/20">
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-            <Users className="h-4 w-4 text-purple-500" /> Receita por Cliente (Nível 4)
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <Users className="h-4 w-4 text-qg-blue-500" /> Receita por Cliente (Nível 4)
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
@@ -218,10 +218,10 @@ export function MRRPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Cliente</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider text-center">Gabinetes</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider text-right">Receita</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Status</TableHead>
+                    <TableHead className="font-medium text-xs">Cliente</TableHead>
+                    <TableHead className="font-medium text-xs text-center">Gabinetes</TableHead>
+                    <TableHead className="font-medium text-xs text-right">Receita</TableHead>
+                    <TableHead className="font-medium text-xs">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -229,9 +229,9 @@ export function MRRPanel() {
                     <TableRow key={r.id} className={r.bloqueado ? "opacity-50" : ""}>
                       <TableCell className="font-medium text-sm">{r.nome}</TableCell>
                       <TableCell className="text-center">
-                        <Badge variant="secondary" className="text-xs font-black">{r.qtdGab}</Badge>
+                        <Badge variant="secondary" className="text-xs font-medium">{r.qtdGab}</Badge>
                       </TableCell>
-                      <TableCell className="text-right text-sm font-black">
+                      <TableCell className="text-right text-sm font-medium">
                         R$ {r.total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                       </TableCell>
                       <TableCell>

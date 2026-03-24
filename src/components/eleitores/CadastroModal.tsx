@@ -370,7 +370,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
     <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
       {!hideTrigger && (
         <DialogTrigger asChild>
-          <Button className={`gap-2 min-h-[48px] font-bold uppercase tracking-wider text-sm ${fullWidth ? "w-full h-12" : ""}`}>
+          <Button className={`gap-2 min-h-[48px] font-medium text-sm ${fullWidth ? "w-full h-12" : ""}`}>
             <Plus className="h-4 w-4" />
             <span className="hidden sm:inline">Novo Cadastro</span>
             <span className="sm:hidden">Novo</span>
@@ -379,7 +379,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
       )}
       <DialogContent className="sm:max-w-md max-h-[90vh] overflow-y-auto z-[100]">
         <DialogHeader>
-          <DialogTitle className="text-lg font-black uppercase tracking-tight">Novo Cadastro</DialogTitle>
+          <DialogTitle className="text-lg font-medium uppercase tracking-tight">Novo Cadastro</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Mode toggle */}
@@ -415,7 +415,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
               className={`min-h-[44px] ${nomeError ? "border-destructive ring-1 ring-destructive" : ""}`}
               required
             />
-            {nomeError && <p className="text-[11px] text-destructive font-bold">Nome é obrigatório</p>}
+            {nomeError && <p className="text-[11px] text-destructive font-medium">Nome é obrigatório</p>}
           </div>
 
           {mode === "pf" && (
@@ -432,14 +432,14 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
                   className={`min-h-[44px] ${whatsappError ? "border-destructive ring-1 ring-destructive" : ""}`}
                   required
                 />
-                {whatsappError && <p className="text-[11px] text-destructive font-bold">Informe um número com DDD</p>}
+                {whatsappError && <p className="text-[11px] text-destructive font-medium">Informe um número com DDD</p>}
                 {checkingDup && (
                   <p className="text-xs text-muted-foreground flex items-center gap-1">
                     <Loader2 className="h-3 w-3 animate-spin" /> Verificando...
                   </p>
                 )}
                 {duplicateMsg && (
-                  <p className="text-xs text-destructive flex items-center gap-1.5 font-bold">
+                  <p className="text-xs text-destructive flex items-center gap-1.5 font-medium">
                     <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
                     {duplicateMsg}
                   </p>
@@ -485,7 +485,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
                 type="button"
                 variant="outline"
                 size="sm"
-                className="h-7 gap-1 text-[10px] font-bold uppercase tracking-wider border-primary/30 text-primary hover:bg-primary/10"
+                className="h-7 gap-1 text-[10px] font-medium border-primary/30 text-primary hover:bg-primary/10"
                 onClick={handleGpsCapture}
                 disabled={gpsLoading || isBusy}
               >
@@ -509,7 +509,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
                 ))}
               </SelectContent>
             </Select>
-            {bairroError && <p className="text-[11px] text-destructive font-bold">Bairro é obrigatório</p>}
+            {bairroError && <p className="text-[11px] text-destructive font-medium">Bairro é obrigatório</p>}
             {gpsAddress && (
               <div className="flex items-start gap-1.5 p-2 rounded-lg bg-primary/5 border border-primary/20">
                 <MapPin className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
@@ -550,7 +550,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
                 type="button"
                 variant="outline"
                 size="sm"
-                className="w-full gap-1.5 text-xs font-bold uppercase tracking-wider border-primary/30 text-primary hover:bg-primary/10"
+                className="w-full gap-1.5 text-xs font-medium border-primary/30 text-primary hover:bg-primary/10"
                 onClick={processWithAI}
                 disabled={isBusy}
               >
@@ -574,7 +574,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
                 <div className="flex items-center gap-2">
                   <Crown className="h-4 w-4 text-warning" />
                   <div>
-                    <p className="text-sm font-bold">É uma Liderança?</p>
+                    <p className="text-sm font-medium">É uma Liderança?</p>
                     <p className="text-xs text-muted-foreground">Contato influente na comunidade</p>
                   </div>
                 </div>
@@ -585,7 +585,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
 
           <Button
             type="submit"
-            className="w-full min-h-[48px] text-sm font-bold uppercase tracking-wider rounded-full"
+            className="w-full min-h-[48px] text-sm font-medium rounded-full"
             disabled={isBusy || (mode === "pf" && !!duplicateMsg)}
           >
             {isBusy ? (

@@ -127,7 +127,7 @@ export function PhotoCapture({ photos, onPhotosChange, disabled, onUploadingChan
           type="button"
           variant="outline"
           size="sm"
-          className="gap-1.5 text-xs font-bold uppercase tracking-wider min-h-[44px]"
+          className="gap-1.5 text-xs font-medium min-h-[44px]"
           onClick={() => inputRef.current?.click()}
           disabled={disabled || uploading || photos.length >= MAX_PHOTOS}
         >

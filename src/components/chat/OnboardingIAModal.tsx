@@ -150,7 +150,7 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
                 <Brain className="h-10 w-10 text-amber-400" />
               </div>
               <div className="space-y-2">
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-xl font-medium text-white">
                   Seu Gabinete agora tem um<br />
                   <span className="text-amber-400">Cérebro Digital</span>
                 </h2>
@@ -169,13 +169,13 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
           {/* Step 2: Examples */}
           {step === 1 && (
             <div className="flex-1 flex flex-col items-center justify-center text-center space-y-5 animate-fade-in">
-              <h2 className="text-lg font-bold text-white">O que a IA pode fazer por você?</h2>
+              <h2 className="text-lg font-medium text-white">O que a IA pode fazer por você?</h2>
               <p className="text-xs text-slate-500 -mt-3">Toque em um exemplo para ver</p>
               <div className="w-full space-y-3 max-w-sm">
                 {[
                   { icon: MapPin, color: "text-blue-400", bg: "bg-blue-500/15", title: "Analisar Bairros", desc: "\"Quais bairros têm mais demandas pendentes?\"" },
                   { icon: FileText, color: "text-emerald-400", bg: "bg-emerald-500/15", title: "Resumir Demandas", desc: "\"Me dê um resumo das pendências do gabinete\"" },
-                  { icon: Mic, color: "text-purple-400", bg: "bg-purple-500/15", title: "Criar Ofícios por Voz", desc: "\"Transcreva meu áudio e transforme em ofício\"" },
+                  { icon: Mic, color: "text-qg-blue-400", bg: "bg-qg-blue-500/15", title: "Criar Ofícios por Voz", desc: "\"Transcreva meu áudio e transforme em ofício\"" },
                 ].map((item) => (
                   <button key={item.title} className="w-full flex items-center gap-3 p-3.5 rounded-xl bg-slate-800/60 hover:bg-slate-800 border border-slate-700/50 hover:border-amber-500/30 transition-all text-left group">
                     <div className={`shrink-0 h-10 w-10 rounded-lg ${item.bg} flex items-center justify-center`}>
@@ -199,7 +199,7 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
                 <ShieldCheck className="h-10 w-10 text-emerald-400" />
               </div>
               <div className="space-y-2">
-                <h2 className="text-lg font-bold text-white">Privacidade e Segurança Absoluta</h2>
+                <h2 className="text-lg font-medium text-white">Privacidade e Segurança Absoluta</h2>
                 <p className="text-sm text-slate-400 max-w-sm mx-auto leading-relaxed">
                   A IA foi projetada para ser uma extensão privada do seu cérebro estratégico. 
                   Cada dado processado é <strong className="text-slate-300">criptografado</strong> e permanece dentro do ambiente restrito do seu mandato.
@@ -235,7 +235,7 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
                 <PenLine className="h-10 w-10 text-amber-400" />
               </div>
               <div className="space-y-2">
-                <h2 className="text-lg font-bold text-white">Dê um nome ao seu Assistente de Gabinete</h2>
+                <h2 className="text-lg font-medium text-white">Dê um nome ao seu Assistente de Gabinete</h2>
                 <p className="text-sm text-slate-400 max-w-sm mx-auto">
                   Esse será o nome da inteligência que trabalha exclusivamente para o seu mandato, {levelLabel}.
                 </p>
@@ -270,13 +270,13 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
           {step === 4 && (
             <div className="flex-1 flex flex-col space-y-5 animate-fade-in overflow-y-auto overscroll-contain pb-2">
               <div className="text-center space-y-1">
-                <h2 className="text-lg font-bold text-white">Personalidade do {iaName || "Assistente"}</h2>
+                <h2 className="text-lg font-medium text-white">Personalidade do {iaName || "Assistente"}</h2>
                 <p className="text-xs text-slate-500">Defina como a IA vai se comunicar com você</p>
               </div>
 
               {/* Perfil */}
               <div className="space-y-2">
-                <p className="text-[11px] text-slate-500 font-medium uppercase tracking-wider">Postura Estratégica</p>
+                <p className="text-[11px] text-slate-500 font-medium">Postura Estratégica</p>
                 <div className="space-y-2">
                   {PERFIL_OPTIONS.map(opt => {
                     const selected = personality.perfil === opt.value;
@@ -310,7 +310,7 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
 
               {/* Rigor */}
               <div className="space-y-2">
-                <p className="text-[11px] text-slate-500 font-medium uppercase tracking-wider">Nível de Rigor</p>
+                <p className="text-[11px] text-slate-500 font-medium">Nível de Rigor</p>
                 <div className="grid grid-cols-2 gap-2">
                   {RIGOR_OPTIONS.map(opt => {
                     const selected = personality.rigor === opt.value;
@@ -334,7 +334,7 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
 
               {/* Linguagem */}
               <div className="space-y-2">
-                <p className="text-[11px] text-slate-500 font-medium uppercase tracking-wider">Linguagem</p>
+                <p className="text-[11px] text-slate-500 font-medium">Linguagem</p>
                 <div className="grid grid-cols-2 gap-2">
                   {LINGUAGEM_OPTIONS.map(opt => {
                     const selected = personality.linguagem === opt.value;
@@ -358,7 +358,7 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
 
               {/* Preview dinâmico por DNA */}
               <div className="rounded-xl bg-slate-800/40 border border-slate-700/30 p-3">
-                <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2">
+                <p className="text-[10px] text-slate-500 mb-2">
                   Prévia — como {iaName || "sua IA"} vai responder
                 </p>
                 <div className="flex gap-2.5 items-start">

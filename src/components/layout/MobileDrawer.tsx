@@ -68,7 +68,7 @@ export function MobileDrawer({ open, onOpenChange }: MobileDrawerProps) {
             .toUpperCase();
           const roleBadge = (() => {
             switch (roleLevel) {
-              case 5: return { label: "System Master", cls: "bg-purple-600 text-white" };
+              case 5: return { label: "System Master", cls: "bg-qg-blue-600 text-white" };
               case 4: return { label: "Líder Regional", cls: "bg-blue-600 text-white" };
               case 3: return { label: "Vereador", cls: "bg-emerald-600 text-white" };
               case 2: return { label: "Secretária", cls: "bg-amber-500 text-black" };

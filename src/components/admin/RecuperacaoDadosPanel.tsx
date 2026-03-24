@@ -207,8 +207,8 @@ export function RecuperacaoDadosPanel() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-          <Trash2 className="h-4 w-4 text-purple-500" /> Recuperação de Dados
+        <h3 className="text-sm font-medium flex items-center gap-2">
+          <Trash2 className="h-4 w-4 text-qg-blue-500" /> Recuperação de Dados
         </h3>
         <p className="text-xs text-muted-foreground mt-1">
           Registros excluídos nos últimos 30 dias. Restaure com um clique.
@@ -223,7 +223,7 @@ export function RecuperacaoDadosPanel() {
               <Users className="h-5 w-5 text-destructive" />
             </div>
             <div>
-              <p className="text-2xl font-black">{deletedEleitores.length}</p>
+              <p className="text-2xl font-medium">{deletedEleitores.length}</p>
               <p className="text-xs text-muted-foreground">Eleitores excluídos</p>
             </div>
           </CardContent>
@@ -234,7 +234,7 @@ export function RecuperacaoDadosPanel() {
               <FileText className="h-5 w-5 text-destructive" />
             </div>
             <div>
-              <p className="text-2xl font-black">{deletedDemandas.length}</p>
+              <p className="text-2xl font-medium">{deletedDemandas.length}</p>
               <p className="text-xs text-muted-foreground">Demandas excluídas</p>
             </div>
           </CardContent>
@@ -243,10 +243,10 @@ export function RecuperacaoDadosPanel() {
 
       <Tabs defaultValue="eleitores">
         <TabsList>
-          <TabsTrigger value="eleitores" className="text-xs font-bold gap-1">
+          <TabsTrigger value="eleitores" className="text-xs font-medium gap-1">
             <Users className="h-3 w-3" /> Eleitores ({deletedEleitores.length})
           </TabsTrigger>
-          <TabsTrigger value="demandas" className="text-xs font-bold gap-1">
+          <TabsTrigger value="demandas" className="text-xs font-medium gap-1">
             <FileText className="h-3 w-3" /> Demandas ({deletedDemandas.length})
           </TabsTrigger>
         </TabsList>
@@ -261,10 +261,10 @@ export function RecuperacaoDadosPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs font-bold uppercase">Nome</TableHead>
-                    <TableHead className="text-xs font-bold uppercase hidden sm:table-cell">Bairro</TableHead>
-                    <TableHead className="text-xs font-bold uppercase hidden md:table-cell">Excluído em</TableHead>
-                    <TableHead className="text-xs font-bold uppercase text-right">Ações</TableHead>
+                    <TableHead className="text-xs font-medium uppercase">Nome</TableHead>
+                    <TableHead className="text-xs font-medium uppercase hidden sm:table-cell">Bairro</TableHead>
+                    <TableHead className="text-xs font-medium uppercase hidden md:table-cell">Excluído em</TableHead>
+                    <TableHead className="text-xs font-medium uppercase text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -282,7 +282,7 @@ export function RecuperacaoDadosPanel() {
                         </Button>
                         <Button
                           size="sm"
-                          className="h-7 px-3 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                          className="h-7 px-3 text-xs font-medium bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
                           disabled={isRestoring}
                           onClick={() => restoreEleitor.mutate(e)}
                         >
@@ -307,10 +307,10 @@ export function RecuperacaoDadosPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs font-bold uppercase">Descrição</TableHead>
-                    <TableHead className="text-xs font-bold uppercase hidden sm:table-cell">Categoria</TableHead>
-                    <TableHead className="text-xs font-bold uppercase hidden md:table-cell">Excluído em</TableHead>
-                    <TableHead className="text-xs font-bold uppercase text-right">Ações</TableHead>
+                    <TableHead className="text-xs font-medium uppercase">Descrição</TableHead>
+                    <TableHead className="text-xs font-medium uppercase hidden sm:table-cell">Categoria</TableHead>
+                    <TableHead className="text-xs font-medium uppercase hidden md:table-cell">Excluído em</TableHead>
+                    <TableHead className="text-xs font-medium uppercase text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -328,7 +328,7 @@ export function RecuperacaoDadosPanel() {
                         </Button>
                         <Button
                           size="sm"
-                          className="h-7 px-3 text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
+                          className="h-7 px-3 text-xs font-medium bg-emerald-600 hover:bg-emerald-700 text-white gap-1"
                           disabled={isRestoring}
                           onClick={() => restoreDemanda.mutate(d)}
                         >
@@ -345,20 +345,20 @@ export function RecuperacaoDadosPanel() {
       </Tabs>
 
       {/* AI Assistant Button */}
-      <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+      <Card className="border-qg-blue-500/20 bg-gradient-to-br from-qg-blue-500/5 to-transparent">
         <CardContent className="p-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
-              <Bot className="h-5 w-5 text-purple-500" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-qg-blue-500/10">
+              <Bot className="h-5 w-5 text-qg-blue-500" />
             </div>
             <div>
-              <p className="text-sm font-bold">Assistente de Auditoria IA</p>
+              <p className="text-sm font-medium">Assistente de Auditoria IA</p>
               <p className="text-xs text-muted-foreground">Pergunte sobre exclusões, padrões suspeitos e histórico</p>
             </div>
           </div>
           <Button
             onClick={() => setAiOpen(true)}
-            className="gap-1.5 text-xs font-bold uppercase tracking-wider"
+            className="gap-1.5 text-xs font-medium"
             variant="outline"
           >
             <Bot className="h-3.5 w-3.5" /> Falar com IA
@@ -370,7 +370,7 @@ export function RecuperacaoDadosPanel() {
       <Dialog open={!!detailRecord} onOpenChange={() => setDetailRecord(null)}>
         <DialogContent className="max-w-lg max-h-[80vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-sm font-bold uppercase tracking-wider">Detalhes do Registro</DialogTitle>
+            <DialogTitle className="text-sm font-medium">Detalhes do Registro</DialogTitle>
           </DialogHeader>
           {detailRecord && (
             <pre className="text-xs bg-muted/50 p-3 rounded-lg overflow-auto max-h-[50vh] whitespace-pre-wrap break-words">
@@ -384,8 +384,8 @@ export function RecuperacaoDadosPanel() {
       <Dialog open={aiOpen} onOpenChange={setAiOpen}>
         <DialogContent className="max-w-lg max-h-[85vh] flex flex-col">
           <DialogHeader>
-            <DialogTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-              <Bot className="h-4 w-4 text-purple-500" /> Assistente de Auditoria IA
+            <DialogTitle className="text-sm font-medium flex items-center gap-2">
+              <Bot className="h-4 w-4 text-qg-blue-500" /> Assistente de Auditoria IA
             </DialogTitle>
           </DialogHeader>
 

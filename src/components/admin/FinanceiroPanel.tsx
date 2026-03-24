@@ -215,10 +215,10 @@ export function FinanceiroPanel() {
                 <DollarSign className="h-6 w-6 text-emerald-500" />
               </div>
               <div>
-                <p className="text-2xl font-black">
+                <p className="text-2xl font-medium">
                   R$ {faturamentoBruto.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                 </p>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                <p className="text-xs text-muted-foreground font-medium">
                   Faturamento Bruto Mensal
                 </p>
               </div>
@@ -226,15 +226,15 @@ export function FinanceiroPanel() {
           </CardContent>
         </Card>
 
-        <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+        <Card className="border-qg-blue-500/20 bg-gradient-to-br from-qg-blue-500/5 to-transparent">
           <CardContent className="p-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-purple-500/10">
-                <Users className="h-6 w-6 text-purple-500" />
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-qg-blue-500/10">
+                <Users className="h-6 w-6 text-qg-blue-500" />
               </div>
               <div>
-                <p className="text-2xl font-black">{clientesAtivos}</p>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                <p className="text-2xl font-medium">{clientesAtivos}</p>
+                <p className="text-xs text-muted-foreground font-medium">
                   Clientes Ativos
                 </p>
               </div>
@@ -249,8 +249,8 @@ export function FinanceiroPanel() {
                 <Ban className="h-6 w-6 text-destructive" />
               </div>
               <div>
-                <p className="text-2xl font-black">{clientesBloqueados}</p>
-                <p className="text-xs text-muted-foreground font-bold uppercase tracking-wider">
+                <p className="text-2xl font-medium">{clientesBloqueados}</p>
+                <p className="text-xs text-muted-foreground font-medium">
                   Bloqueados
                 </p>
               </div>
@@ -260,10 +260,10 @@ export function FinanceiroPanel() {
       </div>
 
       {/* Billing Table */}
-      <Card className="border-purple-500/20">
+      <Card className="border-qg-blue-500/20">
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-            <TrendingUp className="h-4 w-4 text-purple-500" /> Gestão de Faturamento — Clientes Nível 4
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-qg-blue-500" /> Gestão de Faturamento — Clientes Nível 4
           </CardTitle>
         </CardHeader>
         <CardContent className="p-0">
@@ -280,12 +280,12 @@ export function FinanceiroPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Cliente L4</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider text-center">Gabinetes</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell text-right">Valor Mensal</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden md:table-cell">Status</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider text-center">Bloquear</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider w-28">Ação</TableHead>
+                    <TableHead className="font-medium text-xs">Cliente L4</TableHead>
+                    <TableHead className="font-medium text-xs text-center">Gabinetes</TableHead>
+                    <TableHead className="font-medium text-xs hidden sm:table-cell text-right">Valor Mensal</TableHead>
+                    <TableHead className="font-medium text-xs hidden md:table-cell">Status</TableHead>
+                    <TableHead className="font-medium text-xs text-center">Bloquear</TableHead>
+                    <TableHead className="font-medium text-xs w-28">Ação</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -295,10 +295,10 @@ export function FinanceiroPanel() {
                         <p className="font-medium text-sm">{r.nome}</p>
                       </TableCell>
                       <TableCell className="text-center">
-                        <Badge variant="secondary" className="text-xs font-black">{r.qtdGabinetes}</Badge>
+                        <Badge variant="secondary" className="text-xs font-medium">{r.qtdGabinetes}</Badge>
                       </TableCell>
                       <TableCell className="hidden sm:table-cell text-right">
-                        <span className="text-sm font-black">
+                        <span className="text-sm font-medium">
                           R$ {r.total.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                         </span>
                         <p className="text-[10px] text-muted-foreground">
@@ -330,7 +330,7 @@ export function FinanceiroPanel() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="h-8 gap-1.5 text-[10px] font-bold uppercase tracking-wider"
+                          className="h-8 gap-1.5 text-[10px] font-medium"
                           onClick={() => openEdit(r.id)}
                         >
                           <Settings2 className="h-3 w-3" /> Valor
@@ -349,13 +349,13 @@ export function FinanceiroPanel() {
       <Dialog open={!!editingId} onOpenChange={(v) => { if (!v) setEditingId(null); }}>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-sm font-black uppercase tracking-tight">
+            <DialogTitle className="text-sm font-medium uppercase tracking-tight">
               Configurar Valor
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
             <div className="space-y-1.5">
-              <Label className="text-xs font-bold uppercase tracking-wider">Valor por Gabinete (R$)</Label>
+              <Label className="text-xs font-medium">Valor por Gabinete (R$)</Label>
               <Input
                 type="number"
                 min={0}
@@ -366,7 +366,7 @@ export function FinanceiroPanel() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-xs font-bold uppercase tracking-wider">Dia de Vencimento</Label>
+              <Label className="text-xs font-medium">Dia de Vencimento</Label>
               <Input
                 type="number"
                 min={1}
@@ -379,7 +379,7 @@ export function FinanceiroPanel() {
             <Button
               onClick={saveEdit}
               disabled={upsertConfig.isPending}
-              className="w-full min-h-[48px] text-sm font-bold uppercase tracking-wider rounded-full"
+              className="w-full min-h-[48px] text-sm font-medium rounded-full"
             >
               {upsertConfig.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
               Salvar

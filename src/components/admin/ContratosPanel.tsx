@@ -119,15 +119,15 @@ export function ContratosPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <FileText className="h-4 w-4 text-purple-500" />
-          <h3 className="text-sm font-bold uppercase tracking-wider">Contratos Nacionais</h3>
+          <FileText className="h-4 w-4 text-qg-blue-500" />
+          <h3 className="text-sm font-medium">Contratos Nacionais</h3>
         </div>
-        <Button size="sm" onClick={openNew} className="gap-1 text-xs font-bold uppercase tracking-wider">
+        <Button size="sm" onClick={openNew} className="gap-1 text-xs font-medium">
           + Novo Contrato
         </Button>
       </div>
 
-      <Card className="border-purple-500/20">
+      <Card className="border-qg-blue-500/20">
         <CardContent className="p-0">
           {isLoading ? (
             <div className="p-8 text-center text-sm text-muted-foreground flex items-center justify-center gap-2">
@@ -142,12 +142,12 @@ export function ContratosPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Usuário L4</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Escopo</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Estados</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden md:table-cell">Limite</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Status</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider w-10"></TableHead>
+                    <TableHead className="font-medium text-xs">Usuário L4</TableHead>
+                    <TableHead className="font-medium text-xs">Escopo</TableHead>
+                    <TableHead className="font-medium text-xs hidden sm:table-cell">Estados</TableHead>
+                    <TableHead className="font-medium text-xs hidden md:table-cell">Limite</TableHead>
+                    <TableHead className="font-medium text-xs">Status</TableHead>
+                    <TableHead className="font-medium text-xs w-10"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -157,7 +157,7 @@ export function ContratosPanel() {
                         <p className="font-medium text-sm">{(profileMap as any)[c.user_id] || c.user_id.slice(0, 8) + "…"}</p>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="outline" className="text-[10px] border-purple-500/30 text-purple-600">
+                        <Badge variant="outline" className="text-[10px] border-qg-blue-500/30 text-qg-blue-600">
                           <Globe className="h-3 w-3 mr-1" />{c.escopo_geografico}
                         </Badge>
                       </TableCell>
@@ -172,7 +172,7 @@ export function ContratosPanel() {
                         </div>
                       </TableCell>
                       <TableCell className="hidden md:table-cell">
-                        <span className="text-sm font-bold">{c.limite_gabinetes}</span>
+                        <span className="text-sm font-medium">{c.limite_gabinetes}</span>
                       </TableCell>
                       <TableCell>
                         {c.ativo ? (
@@ -203,14 +203,14 @@ export function ContratosPanel() {
       <Dialog open={!!editingId} onOpenChange={(v) => { if (!v) { setEditingId(null); setEditForm(null); } }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-sm font-black uppercase tracking-tight">
+            <DialogTitle className="text-sm font-medium uppercase tracking-tight">
               {editingId === "new" ? "Novo Contrato" : "Editar Contrato"}
             </DialogTitle>
           </DialogHeader>
           {editForm && (
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">Usuário Nível 4</Label>
+                <Label className="text-xs font-medium">Usuário Nível 4</Label>
                 <Select value={editForm.user_id} onValueChange={(v) => setEditForm({ ...editForm, user_id: v })}>
                   <SelectTrigger className="min-h-[44px]"><SelectValue placeholder="Selecione o usuário" /></SelectTrigger>
                   <SelectContent>
@@ -222,7 +222,7 @@ export function ContratosPanel() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">Escopo Geográfico</Label>
+                <Label className="text-xs font-medium">Escopo Geográfico</Label>
                 <Select value={editForm.escopo_geografico} onValueChange={(v) => setEditForm({ ...editForm, escopo_geografico: v })}>
                   <SelectTrigger className="min-h-[44px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -232,13 +232,13 @@ export function ContratosPanel() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">Estados Autorizados</Label>
+                <Label className="text-xs font-medium">Estados Autorizados</Label>
                 <div className="grid grid-cols-6 gap-1.5 max-h-[200px] overflow-y-auto p-1">
                   {TODOS_ESTADOS.map(uf => {
                     const selected = editForm.estados_autorizados.includes(uf);
                     return (
                       <button key={uf} type="button" onClick={() => toggleEstado(uf)}
-                        className={`text-[10px] font-bold py-1.5 rounded-md border transition-colors ${
+                        className={`text-[10px] font-medium py-1.5 rounded-md border transition-colors ${
                           selected
                             ? "bg-primary text-primary-foreground border-primary"
                             : "bg-muted/50 text-muted-foreground border-border hover:bg-muted"
@@ -254,7 +254,7 @@ export function ContratosPanel() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold uppercase tracking-wider">Limite de Gabinetes</Label>
+                <Label className="text-xs font-medium">Limite de Gabinetes</Label>
                 <Input type="number" min={1} max={1000} value={editForm.limite_gabinetes}
                   onChange={(e) => setEditForm({ ...editForm, limite_gabinetes: parseInt(e.target.value) || 10 })}
                   className="min-h-[44px]" />
@@ -262,14 +262,14 @@ export function ContratosPanel() {
 
               <div className="flex items-center justify-between border border-border p-3 rounded-xl">
                 <div>
-                  <p className="text-sm font-bold">Contrato Ativo</p>
+                  <p className="text-sm font-medium">Contrato Ativo</p>
                   <p className="text-xs text-muted-foreground">Desativar bloqueia o acesso ao mapa nacional</p>
                 </div>
                 <Switch checked={editForm.ativo} onCheckedChange={(v) => setEditForm({ ...editForm, ativo: v })} />
               </div>
 
               <Button onClick={handleSave} disabled={upsertContrato.isPending}
-                className="w-full min-h-[48px] text-sm font-bold uppercase tracking-wider rounded-full">
+                className="w-full min-h-[48px] text-sm font-medium rounded-full">
                 {upsertContrato.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                 Salvar Contrato
               </Button>

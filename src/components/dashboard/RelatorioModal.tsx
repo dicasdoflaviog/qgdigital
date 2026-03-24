@@ -220,14 +220,14 @@ export function RelatorioModal() {
   return (
     <Dialog open={open} onOpenChange={(o) => { if (!generating) setOpen(o); }}>
       <DialogTrigger asChild>
-        <Button className="w-full gap-2 font-bold uppercase tracking-wider text-xs">
+        <Button className="w-full gap-2 font-medium text-xs">
           <FileSpreadsheet className="h-4 w-4" />
           Gerar Relatório Estratégico Mensal
         </Button>
       </DialogTrigger>
       <DialogContent className="max-w-sm" onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="font-black uppercase tracking-tight">
+          <DialogTitle className="font-medium uppercase tracking-tight">
             Relatório Estratégico
           </DialogTitle>
         </DialogHeader>
@@ -239,7 +239,7 @@ export function RelatorioModal() {
             </div>
             <div className="space-y-2">
               <Progress value={progress.percent} className="h-3" />
-              <p className="text-xs text-muted-foreground text-center font-bold">
+              <p className="text-xs text-muted-foreground text-center font-medium">
                 {progress.label} ({progress.percent}%)
               </p>
             </div>
@@ -248,7 +248,7 @@ export function RelatorioModal() {
           <div className="space-y-4 pt-2">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <Label className="text-xs font-bold uppercase tracking-wider">Mês</Label>
+                <Label className="text-xs font-medium">Mês</Label>
                 <Select value={selectedMonth} onValueChange={setSelectedMonth}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -259,7 +259,7 @@ export function RelatorioModal() {
                 </Select>
               </div>
               <div>
-                <Label className="text-xs font-bold uppercase tracking-wider">Ano</Label>
+                <Label className="text-xs font-medium">Ano</Label>
                 <Select value={selectedYear} onValueChange={setSelectedYear}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -272,7 +272,7 @@ export function RelatorioModal() {
             </div>
 
             <div>
-              <Label className="text-xs font-bold uppercase tracking-wider">Filtrar por Bairro (opcional)</Label>
+              <Label className="text-xs font-medium">Filtrar por Bairro (opcional)</Label>
               <Input
                 value={filtroBairro}
                 onChange={(e) => setFiltroBairro(e.target.value)}
@@ -281,7 +281,7 @@ export function RelatorioModal() {
             </div>
 
             <div>
-              <Label className="text-xs font-bold uppercase tracking-wider">Filtrar por Assessor (opcional)</Label>
+              <Label className="text-xs font-medium">Filtrar por Assessor (opcional)</Label>
               <Input
                 value={filtroAssessor}
                 onChange={(e) => setFiltroAssessor(e.target.value)}
@@ -290,7 +290,7 @@ export function RelatorioModal() {
             </div>
 
             <Button
-              className="w-full h-12 gap-2 font-bold uppercase tracking-wider"
+              className="w-full h-12 gap-2 font-medium"
               onClick={handleGenerate}
             >
               <Download className="h-4 w-4" />

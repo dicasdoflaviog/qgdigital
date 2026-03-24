@@ -49,30 +49,30 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
       <Table>
         <TableHeader>
           <TableRow className="bg-muted/50">
-            <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">
+            <TableHead className="font-medium text-[11px] text-muted-foreground">
               {viewMode === "l4" ? "Vereador" : "Membro"}
             </TableHead>
             {viewMode === "l4" ? (
               <>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground hidden md:table-cell">Cidade</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">Equipe</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">Alcance</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground text-right">Ações</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground hidden md:table-cell">Cidade</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground">Equipe</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground">Alcance</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground text-right">Ações</TableHead>
               </>
             ) : viewMode === "l3" ? (
               <>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">Cargo</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">Eleitores</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground hidden md:table-cell">Demandas</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">Status</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground text-right">Ações</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground">Cargo</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground">Eleitores</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground hidden md:table-cell">Demandas</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground">Status</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground text-right">Ações</TableHead>
               </>
             ) : (
               <>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground hidden md:table-cell">E-mail</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">Cargo</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground">Status</TableHead>
-                <TableHead className="font-bold uppercase tracking-wider text-[11px] text-muted-foreground text-right">Ações</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground hidden md:table-cell">E-mail</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground">Cargo</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground">Status</TableHead>
+                <TableHead className="font-medium text-[11px] text-muted-foreground text-right">Ações</TableHead>
               </>
             )}
           </TableRow>
@@ -96,13 +96,13 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10 rounded-xl">
                         <AvatarImage src={m.avatar_url ?? undefined} className="rounded-xl" />
-                        <AvatarFallback className="rounded-xl text-xs font-bold bg-blue-500/10 text-blue-600">
+                        <AvatarFallback className="rounded-xl text-xs font-medium bg-blue-500/10 text-blue-600">
                           {initials}
                         </AvatarFallback>
                       </Avatar>
                       <div className="min-w-0">
-                        <p className="text-sm font-bold truncate">{m.full_name}</p>
-                        <Badge variant="outline" className="text-[10px] font-bold uppercase tracking-wider rounded-full px-2 bg-blue-500/10 text-blue-600 border-blue-500/20">
+                        <p className="text-sm font-medium truncate">{m.full_name}</p>
+                        <Badge variant="outline" className="text-[10px] font-medium rounded-full px-2 bg-blue-500/10 text-blue-600 border-blue-500/20">
                           Vereador
                         </Badge>
                       </div>
@@ -114,12 +114,12 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                   <TableCell>
                     <div className="flex items-center gap-1 text-sm">
                       <Users className="h-3.5 w-3.5 text-muted-foreground" />
-                      <span className="font-semibold">{m.tamanho_equipe || 0}</span>
+                      <span className="font-medium">{m.tamanho_equipe || 0}</span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-1 text-sm">
-                      <span className="font-bold text-foreground">{(m.alcance_eleitoral || 0).toLocaleString("pt-BR")}</span>
+                      <span className="font-medium text-foreground">{(m.alcance_eleitoral || 0).toLocaleString("pt-BR")}</span>
                       <span className="text-xs text-muted-foreground">eleitores</span>
                     </div>
                   </TableCell>
@@ -127,7 +127,7 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                     <Button
                       variant="outline"
                       size="sm"
-                      className="h-8 gap-1.5 text-xs font-bold uppercase tracking-wider rounded-full"
+                      className="h-8 gap-1.5 text-xs font-medium rounded-full"
                       onClick={() => navigate(`/gestao-base?gabinete=${m.id}`)}
                     >
                       <Eye className="h-3.5 w-3.5" />
@@ -146,12 +146,12 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                     <div className="flex items-center gap-3">
                       <Avatar className="h-10 w-10 rounded-xl">
                         <AvatarImage src={m.avatar_url ?? undefined} className="rounded-xl" />
-                        <AvatarFallback className="rounded-xl text-xs font-bold bg-cyan-500/10 text-cyan-600">
+                        <AvatarFallback className="rounded-xl text-xs font-medium bg-cyan-500/10 text-cyan-600">
                           {initials}
                         </AvatarFallback>
                       </Avatar>
                       <div className="min-w-0">
-                        <p className="text-sm font-bold truncate">{m.full_name}</p>
+                        <p className="text-sm font-medium truncate">{m.full_name}</p>
                         <p className="text-[11px] text-muted-foreground truncate">
                           Desde {new Date(m.created_at).toLocaleDateString("pt-BR")}
                         </p>
@@ -160,12 +160,12 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                   </TableCell>
                   <TableCell>
                     {isSelf ? (
-                      <Badge variant="outline" className={`text-[10px] font-bold uppercase tracking-wider rounded-full px-3 ${ROLE_COLORS[m.role] ?? ""}`}>
+                      <Badge variant="outline" className={`text-[10px] font-medium rounded-full px-3 ${ROLE_COLORS[m.role] ?? ""}`}>
                         {ROLE_LABELS[m.role] ?? m.role}
                       </Badge>
                     ) : (
                       <Select value={m.role} onValueChange={(v) => onChangeRole(m.id, v as AppRole)}>
-                        <SelectTrigger className="h-7 w-auto min-w-[140px] text-[11px] font-bold uppercase tracking-wider rounded-full border-border">
+                        <SelectTrigger className="h-7 w-auto min-w-[140px] text-[11px] font-medium rounded-full border-border">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -179,23 +179,23 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                   <TableCell>
                     <div className="flex items-center gap-1 text-sm">
                       <Users className="h-3.5 w-3.5 text-cyan-500" />
-                      <span className="font-semibold">{m.total_eleitores ?? 0}</span>
+                      <span className="font-medium">{m.total_eleitores ?? 0}</span>
                     </div>
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
                     <div className="flex items-center gap-1 text-sm">
                       <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
-                      <span className="font-semibold">{m.demandas_atendidas ?? 0}</span>
+                      <span className="font-medium">{m.demandas_atendidas ?? 0}</span>
                     </div>
                   </TableCell>
                   <TableCell>
                     {m.is_active ? (
-                      <Badge className="rounded-full px-3 text-[10px] font-bold uppercase tracking-wider bg-success/10 text-success border border-success/20 hover:bg-success/10">
+                      <Badge className="rounded-full px-3 text-[10px] font-medium bg-success/10 text-success border border-success/20 hover:bg-success/10">
                         <ShieldCheck className="h-3 w-3 mr-1" />
                         Ativo
                       </Badge>
                     ) : (
-                      <Badge className="rounded-full px-3 text-[10px] font-bold uppercase tracking-wider bg-warning/10 text-warning border border-warning/20 hover:bg-warning/10">
+                      <Badge className="rounded-full px-3 text-[10px] font-medium bg-warning/10 text-warning border border-warning/20 hover:bg-warning/10">
                         Pendente
                       </Badge>
                     )}
@@ -208,7 +208,7 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                     ) : !m.is_active ? (
                       <Button
                         size="sm"
-                        className="h-8 gap-1.5 text-xs font-bold uppercase tracking-wider rounded-full bg-success hover:bg-success/90 text-success-foreground"
+                        className="h-8 gap-1.5 text-xs font-medium rounded-full bg-success hover:bg-success/90 text-success-foreground"
                         onClick={() => onToggleActive(m.id, true)}
                       >
                         <Check className="h-3 w-3" /> Aprovar
@@ -231,12 +231,12 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                   <div className="flex items-center gap-3">
                     <Avatar className="h-10 w-10 rounded-xl">
                       <AvatarImage src={m.avatar_url ?? undefined} className="rounded-xl" />
-                      <AvatarFallback className="rounded-xl text-xs font-bold bg-primary/10 text-primary">
+                      <AvatarFallback className="rounded-xl text-xs font-medium bg-primary/10 text-primary">
                         {initials}
                       </AvatarFallback>
                     </Avatar>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold truncate">{m.full_name}</p>
+                      <p className="text-sm font-medium truncate">{m.full_name}</p>
                       <p className="text-[11px] text-muted-foreground truncate">
                         Desde {new Date(m.created_at).toLocaleDateString("pt-BR")}
                       </p>
@@ -250,13 +250,13 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                   {isAdmin || isSelf ? (
                     <Badge
                       variant="outline"
-                      className={`text-[10px] font-bold uppercase tracking-wider rounded-full px-3 ${ROLE_COLORS[m.role] ?? ""}`}
+                      className={`text-[10px] font-medium rounded-full px-3 ${ROLE_COLORS[m.role] ?? ""}`}
                     >
                       {ROLE_LABELS[m.role] ?? m.role}
                     </Badge>
                   ) : (
                     <Select value={m.role} onValueChange={(v) => onChangeRole(m.id, v as AppRole)}>
-                      <SelectTrigger className="h-7 w-auto min-w-[140px] text-[11px] font-bold uppercase tracking-wider rounded-full border-border">
+                      <SelectTrigger className="h-7 w-auto min-w-[140px] text-[11px] font-medium rounded-full border-border">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -269,12 +269,12 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                 </TableCell>
                 <TableCell>
                   {m.is_active ? (
-                    <Badge className="rounded-full px-3 text-[10px] font-bold uppercase tracking-wider bg-success/10 text-success border border-success/20 hover:bg-success/10">
+                    <Badge className="rounded-full px-3 text-[10px] font-medium bg-success/10 text-success border border-success/20 hover:bg-success/10">
                       <ShieldCheck className="h-3 w-3 mr-1" />
                       Ativo
                     </Badge>
                   ) : (
-                    <Badge className="rounded-full px-3 text-[10px] font-bold uppercase tracking-wider bg-warning/10 text-warning border border-warning/20 hover:bg-warning/10">
+                    <Badge className="rounded-full px-3 text-[10px] font-medium bg-warning/10 text-warning border border-warning/20 hover:bg-warning/10">
                       Pendente
                     </Badge>
                   )}
@@ -287,7 +287,7 @@ export default function TeamTable({ members, onToggleActive, onChangeRole, toggl
                   ) : !m.is_active ? (
                     <Button
                       size="sm"
-                      className="h-8 gap-1.5 text-xs font-bold uppercase tracking-wider rounded-full bg-success hover:bg-success/90 text-success-foreground"
+                      className="h-8 gap-1.5 text-xs font-medium rounded-full bg-success hover:bg-success/90 text-success-foreground"
                       onClick={() => onToggleActive(m.id, true)}
                     >
                       <Check className="h-3 w-3" /> Aprovar

@@ -17,7 +17,7 @@ export function PlanBadge({ plan, className = "" }: PlanBadgeProps) {
   const Icon = PLAN_ICON[plan];
   return (
     <Badge
-      className={`${PLAN_BG[plan]} text-foreground text-[10px] font-bold gap-1 ${className}`}
+      className={`${PLAN_BG[plan]} text-foreground text-[10px] font-medium gap-1 ${className}`}
       variant="outline"
     >
       <Icon className="h-3 w-3" />

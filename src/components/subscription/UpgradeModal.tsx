@@ -49,7 +49,7 @@ export function UpgradeModal({ open, onOpenChange, featureName }: UpgradeModalPr
             <Crown className="h-8 w-8 text-yellow-500" />
           </div>
 
-          <h2 className="text-lg font-black tracking-tight text-foreground">
+          <h2 className="text-lg font-medium tracking-tight text-foreground">
             Recurso Premium
           </h2>
           <p className="text-sm text-muted-foreground mt-1">
@@ -82,11 +82,11 @@ export function UpgradeModal({ open, onOpenChange, featureName }: UpgradeModalPr
                 }`}
               >
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-bold text-foreground">
+                  <h3 className="text-sm font-medium text-foreground">
                     Plano {PLAN_LABELS[planKey]}
                   </h3>
                   {planKey === "gold" && (
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-600 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-500/20">
+                    <span className="text-[10px] font-medium text-yellow-600 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-500/20">
                       Recomendado
                     </span>
                   )}
@@ -100,7 +100,7 @@ export function UpgradeModal({ open, onOpenChange, featureName }: UpgradeModalPr
                   ))}
                 </ul>
                 <Button
-                  className="w-full mt-4 min-h-[44px] font-bold uppercase tracking-wider text-xs"
+                  className="w-full mt-4 min-h-[44px] font-medium text-xs"
                   variant={planKey === "gold" ? "default" : "outline"}
                 >
                   Falar com o Administrador

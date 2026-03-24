@@ -42,7 +42,7 @@ export function GabinetesRedePanel() {
     <div className="p-4 md:p-6 space-y-6 pb-28 md:pb-6">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-semibold md:text-3xl">Gabinetes da Rede</h1>
+        <h1 className="text-2xl font-medium md:text-3xl">Gabinetes da Rede</h1>
         <p className="text-xs font-medium text-muted-foreground mt-1">
           Visão estratégica dos vereadores sob sua jurisdição
         </p>
@@ -60,9 +60,9 @@ export function GabinetesRedePanel() {
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10">
                 <Building2 className="h-4 w-4 text-white" />
               </div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Total de Gabinetes</span>
+              <span className="text-[10px] font-medium text-slate-400">Total de Gabinetes</span>
             </div>
-            <p className="text-3xl font-bold mt-2 tabular-nums">
+            <p className="text-3xl font-medium mt-2 tabular-nums">
               {isLoading ? <Skeleton className="h-9 w-16 bg-slate-700" /> : totalGabinetes}
             </p>
             <div className="absolute top-3 right-3 opacity-5">
@@ -77,9 +77,9 @@ export function GabinetesRedePanel() {
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-500/20">
                 <Users className="h-4 w-4 text-blue-400" />
               </div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Eleitores na Rede</span>
+              <span className="text-[10px] font-medium text-slate-400">Eleitores na Rede</span>
             </div>
-            <p className="text-3xl font-bold mt-2 tabular-nums">
+            <p className="text-3xl font-medium mt-2 tabular-nums">
               {isLoading ? <Skeleton className="h-9 w-20 bg-slate-700" /> : totalEleitoresRede.toLocaleString("pt-BR")}
             </p>
             <div className="absolute top-3 right-3 opacity-5">
@@ -94,9 +94,9 @@ export function GabinetesRedePanel() {
               <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-500/20">
                 <TrendingUp className="h-4 w-4 text-emerald-400" />
               </div>
-              <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">Média por Gabinete</span>
+              <span className="text-[10px] font-medium text-slate-400">Média por Gabinete</span>
             </div>
-            <p className="text-3xl font-bold mt-2 tabular-nums">
+            <p className="text-3xl font-medium mt-2 tabular-nums">
               {isLoading ? <Skeleton className="h-9 w-14 bg-slate-700" /> : mediaProducao}
             </p>
             <p className="text-xs text-slate-400 mt-1">eleitores/gabinete</p>
@@ -159,7 +159,7 @@ export function GabinetesRedePanel() {
                 {/* Info */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap mb-0.5">
-                    <p className="text-sm font-semibold text-foreground truncate">
+                    <p className="text-sm font-medium text-foreground truncate">
                       {g.nome_vereador || "Sem nome"}
                     </p>
                     <Badge
@@ -175,17 +175,17 @@ export function GabinetesRedePanel() {
                   <div className="flex items-center gap-4 mt-2">
                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                       <Users className="h-3 w-3" />
-                      <span className="font-semibold text-foreground">{g.total_eleitores || 0}</span>
+                      <span className="font-medium text-foreground">{g.total_eleitores || 0}</span>
                       <span>eleitores</span>
                     </div>
                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                       <CheckCircle2 className="h-3 w-3 text-emerald-500" />
-                      <span className="font-semibold text-foreground">{g.demandas_resolvidas || 0}</span>
+                      <span className="font-medium text-foreground">{g.demandas_resolvidas || 0}</span>
                       <span>resolvidas</span>
                     </div>
                     <div className="flex items-center gap-1 text-xs text-muted-foreground">
                       <AlertTriangle className="h-3 w-3 text-amber-500" />
-                      <span className="font-semibold text-foreground">{g.demandas_pendentes || 0}</span>
+                      <span className="font-medium text-foreground">{g.demandas_pendentes || 0}</span>
                       <span>pendentes</span>
                     </div>
                   </div>

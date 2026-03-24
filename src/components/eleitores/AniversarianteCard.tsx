@@ -67,7 +67,7 @@ export function AniversarianteCard({ eleitor, nomeVereador = "João" }: Props) {
             <Cake className="h-5 w-5" />
           </div>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold truncate">{eleitor.nome}</p>
+            <p className="text-sm font-medium truncate">{eleitor.nome}</p>
             <div className="flex items-center gap-2 mt-0.5 flex-wrap">
               <span className="text-xs text-muted-foreground">{eleitor.bairro}</span>
               <span className="text-[10px] rounded-full bg-warning/15 px-2 py-0.5 font-medium text-warning">

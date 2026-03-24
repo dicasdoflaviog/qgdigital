@@ -52,7 +52,7 @@ export function RankingProdutividade() {
     <div className="space-y-4">
       {/* Section Header + Period Filter */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xs font-black uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+        <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
           <Trophy className="h-3.5 w-3.5" /> Ranking de Produtividade
         </h2>
         <div className="flex gap-1">
@@ -61,7 +61,7 @@ export function RankingProdutividade() {
               key={p.value}
               size="sm"
               variant={period === p.value ? "default" : "ghost"}
-              className={`h-7 text-[10px] px-2.5 rounded-full font-bold ${
+              className={`h-7 text-[10px] px-2.5 rounded-full font-medium ${
                 period === p.value
                   ? "bg-indigo-600 hover:bg-indigo-700 text-white"
                   : "text-muted-foreground"
@@ -89,18 +89,18 @@ export function RankingProdutividade() {
               </div>
               {top && top.cadastros_periodo > 0 ? (
                 <>
-                  <Badge className="bg-white/20 text-white border-white/30 text-[10px] font-bold mb-3">
+                  <Badge className="bg-white/20 text-white border-white/30 text-[10px] font-medium mb-3">
                     ⭐ Top Recrutador
                   </Badge>
                   <Avatar className="h-14 w-14 mb-2 ring-2 ring-white/30">
                     {top.avatar && (
                       <AvatarImage src={top.avatar} alt={top.nome} className="object-cover" />
                     )}
-                    <AvatarFallback className="bg-white/20 text-white font-bold text-lg">
+                    <AvatarFallback className="bg-white/20 text-white font-medium text-lg">
                       {getInitials(top.nome)}
                     </AvatarFallback>
                   </Avatar>
-                  <p className="font-black text-base leading-tight">{top.nome}</p>
+                  <p className="font-medium text-base leading-tight">{top.nome}</p>
                   <p className="text-white/80 text-xs mt-1">
                     {top.cadastros_periodo} cadastro{top.cadastros_periodo !== 1 ? "s" : ""}
                   </p>
@@ -194,7 +194,7 @@ export function RankingProdutividade() {
                   className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-accent/50 transition-colors"
                 >
                   <div
-                    className={`flex h-7 w-7 items-center justify-center rounded-lg text-xs font-bold shrink-0 ${
+                    className={`flex h-7 w-7 items-center justify-center rounded-lg text-xs font-medium shrink-0 ${
                       i === 0
                         ? "bg-indigo-600 text-white"
                         : "bg-muted text-muted-foreground"
@@ -206,12 +206,12 @@ export function RankingProdutividade() {
                     {a.avatar && (
                       <AvatarImage src={a.avatar} alt={a.nome} className="object-cover" />
                     )}
-                    <AvatarFallback className="text-[10px] font-bold bg-slate-700 text-white">
+                    <AvatarFallback className="text-[10px] font-medium bg-slate-700 text-white">
                       {getInitials(a.nome)}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-semibold text-foreground truncate">{a.nome}</p>
+                    <p className="text-sm font-medium text-foreground truncate">{a.nome}</p>
                     <p className="text-[10px] text-muted-foreground">
                       {a.cadastros_periodo} cadastros • {a.demandas_abertas} demandas
                     </p>

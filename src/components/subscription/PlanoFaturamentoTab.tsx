@@ -91,7 +91,7 @@ export function PlanoFaturamentoTab() {
       {/* Current Plan Card */}
       <Card className="border-border">
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Crown className="h-4 w-4 text-yellow-500" /> Seu Plano Atual
           </CardTitle>
         </CardHeader>
@@ -102,8 +102,8 @@ export function PlanoFaturamentoTab() {
                 <Crown className={`h-7 w-7 ${PLAN_ICON_COLOR[plan]}`} />
               </div>
               <div>
-                <h3 className="text-lg font-black">{PLAN_LABELS[plan]}</h3>
-                <Badge variant="outline" className={`${statusInfo.color} text-[10px] font-bold`}>
+                <h3 className="text-lg font-medium">{PLAN_LABELS[plan]}</h3>
+                <Badge variant="outline" className={`${statusInfo.color} text-[10px] font-medium`}>
                   {statusInfo.label}
                 </Badge>
               </div>
@@ -160,7 +160,7 @@ export function PlanoFaturamentoTab() {
       {/* Funcionalidades do plano atual */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-primary" /> Funcionalidades incluídas
           </CardTitle>
         </CardHeader>
@@ -179,7 +179,7 @@ export function PlanoFaturamentoTab() {
       {/* Cards de Planos disponíveis para upgrade */}
       {plan !== "gold" && (
         <div className="space-y-3">
-          <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground px-1">
+          <p className="text-xs font-medium text-muted-foreground px-1">
             Fazer Upgrade
           </p>
 
@@ -203,16 +203,16 @@ export function PlanoFaturamentoTab() {
                       <Crown className={`h-5 w-5 ${PLAN_ICON_COLOR[targetPlan]}`} />
                     </div>
                     <div>
-                      <h4 className="text-sm font-black">Plano {PLAN_LABELS[targetPlan]}</h4>
+                      <h4 className="text-sm font-medium">Plano {PLAN_LABELS[targetPlan]}</h4>
                       {targetPlan === "gold" && (
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-yellow-600 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-500/20">
+                        <span className="text-[10px] font-medium text-yellow-600 bg-yellow-500/10 px-2 py-0.5 rounded-full border border-yellow-500/20">
                           Recomendado
                         </span>
                       )}
                     </div>
                   </div>
                   <div className="text-right shrink-0">
-                    <p className="text-xl font-black text-foreground">
+                    <p className="text-xl font-medium text-foreground">
                       R$ {PLAN_PRICES[targetPlan].toLocaleString("pt-BR")}
                     </p>
                     <p className="text-[10px] text-muted-foreground">/mês</p>
@@ -229,7 +229,7 @@ export function PlanoFaturamentoTab() {
                 </ul>
 
                 <Button
-                  className="w-full min-h-[44px] font-bold uppercase tracking-wider text-xs gap-2"
+                  className="w-full min-h-[44px] font-medium text-xs gap-2"
                   variant={targetPlan === "gold" ? "default" : "outline"}
                   disabled={!!loadingPlan || createMpPreference.isPending}
                   onClick={() => handleUpgrade(targetPlan)}

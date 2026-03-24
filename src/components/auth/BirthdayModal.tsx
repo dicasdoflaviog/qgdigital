@@ -88,7 +88,7 @@ export function BirthdayModal({ open, onClose, userName }: BirthdayModalProps) {
           </div>
 
           <DialogHeader className="text-center space-y-2">
-            <DialogTitle className="text-xl font-black tracking-tight text-foreground">
+            <DialogTitle className="text-xl font-medium tracking-tight text-foreground">
               Parabéns, {userName}! 🎈
             </DialogTitle>
             <DialogDescription className="text-sm text-muted-foreground leading-relaxed">
@@ -99,7 +99,7 @@ export function BirthdayModal({ open, onClose, userName }: BirthdayModalProps) {
 
           <Button
             onClick={handleClose}
-            className="w-full mt-4 font-bold uppercase tracking-wider min-h-[48px] text-sm"
+            className="w-full mt-4 font-medium min-h-[48px] text-sm"
           >
             Obrigado! 🎉
           </Button>

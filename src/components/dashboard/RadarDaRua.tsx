@@ -77,7 +77,7 @@ function highlightKeywords(text: string): React.ReactNode[] {
   return parts.map((part, i) => {
     if (KEYWORDS.some((kw) => kw.toLowerCase() === part.toLowerCase())) {
       return (
-        <span key={i} className="font-black text-primary bg-primary/10 px-0.5">
+        <span key={i} className="font-medium text-primary bg-primary/10 px-0.5">
           {part}
         </span>
       );
@@ -129,19 +129,19 @@ function DemandCard({ demand }: { demand: VoiceDemand }) {
 
       {/* Header: Assessor | Bairro + territory tag */}
       <div className="flex items-center gap-2 mb-2 flex-wrap">
-        <div className="flex items-center gap-1 text-[11px] font-black uppercase tracking-wider text-foreground">
+        <div className="flex items-center gap-1 text-[11px] font-medium text-foreground">
           <User className="h-3 w-3 text-primary" />
           {demand.assessor}
         </div>
         <span className="text-muted-foreground text-[10px]">|</span>
-        <div className="flex items-center gap-1 text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
+        <div className="flex items-center gap-1 text-[11px] font-medium text-muted-foreground">
           <MapPin className="h-3 w-3" />
           {demand.bairro}
         </div>
 
         {/* New territory tag */}
         {(demand.isNewTerritory || !isKnownBairro) && (
-          <Badge className="text-[9px] px-1.5 py-0 bg-gradient-to-r from-violet-500 to-primary text-white border-0 font-black uppercase tracking-wider gap-0.5">
+          <Badge className="text-[9px] px-1.5 py-0 bg-gradient-to-r from-violet-500 to-primary text-white border-0 font-medium gap-0.5">
             <Sparkles className="h-2.5 w-2.5" />
             Novo Território
           </Badge>
@@ -167,7 +167,7 @@ function DemandCard({ demand }: { demand: VoiceDemand }) {
             />
             <Button
               size="sm"
-              className="h-6 text-[10px] font-bold uppercase tracking-wider gap-1"
+              className="h-6 text-[10px] font-medium gap-1"
               onClick={() => setEditing(false)}
             >
               <Check className="h-3 w-3" />
@@ -194,7 +194,7 @@ function DemandCard({ demand }: { demand: VoiceDemand }) {
       <div className="flex items-center gap-2 flex-wrap">
         <Button
           size="sm"
-          className="h-7 text-[10px] font-bold uppercase tracking-wider gap-1"
+          className="h-7 text-[10px] font-medium gap-1"
           onClick={() => setDismissed(true)}
         >
           <FileText className="h-3 w-3" />
@@ -204,7 +204,7 @@ function DemandCard({ demand }: { demand: VoiceDemand }) {
           <Button
             size="sm"
             variant="outline"
-            className="h-7 text-[10px] font-bold uppercase tracking-wider gap-1 border-emerald-500/50 text-emerald-600 hover:bg-emerald-500/10"
+            className="h-7 text-[10px] font-medium gap-1 border-emerald-500/50 text-emerald-600 hover:bg-emerald-500/10"
             onClick={() => window.open(whatsLink, "_blank")}
           >
             <Send className="h-3 w-3" />
@@ -221,14 +221,14 @@ export function RadarDaRua() {
     <Card className="hover-glow animate-fade-up delay-300 overflow-hidden">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm flex items-center justify-between">
-          <div className="flex items-center gap-1.5 font-bold tracking-tight uppercase">
+          <div className="flex items-center gap-1.5 font-medium tracking-tight uppercase">
             <div className="flex h-6 w-6 items-center justify-center bg-emerald-600 text-white rounded-full">
               <Radio className="h-3.5 w-3.5" />
             </div>
             Radar da Rua
             <Badge
               variant="outline"
-              className="ml-1 text-[10px] font-black border-emerald-500/50 text-emerald-600 uppercase tracking-wider animate-pulse"
+              className="ml-1 text-[10px] font-medium border-emerald-500/50 text-emerald-600 animate-pulse"
             >
               <MessageSquare className="h-2.5 w-2.5 mr-0.5" />
               {mockDemands.filter((d) => d.isNew).length} novas

@@ -465,7 +465,7 @@ export function ChatAguia() {
                 <Sparkles className="h-4 w-4 text-amber-400" />
               </div>
               <div>
-                <h3 className="text-sm font-semibold text-white">{iaName}</h3>
+                <h3 className="text-sm font-medium text-white">{iaName}</h3>
                 <p className="text-[10px] text-slate-400">Inteligência de Gabinete · L{effectiveLevel}</p>
               </div>
             </div>
@@ -494,7 +494,7 @@ export function ChatAguia() {
                   </div>
                 </div>
                 <div className="space-y-2 pl-11">
-                  <p className="text-[10px] text-slate-500 font-medium uppercase tracking-wider mb-1">Gatilhos de Inteligência</p>
+                  <p className="text-[10px] text-slate-500 font-medium mb-1">Gatilhos de Inteligência</p>
                   {suggestions.map((s, i) => (
                     <button
                       key={i}

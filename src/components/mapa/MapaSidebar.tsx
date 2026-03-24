@@ -132,7 +132,7 @@ export function MapaSidebar({
     <div className={`w-72 shrink-0 bg-card border-r border-border flex-col h-full z-intel-panel ${isMobile ? "flex w-full border-r-0" : "flex"}`}>
       {/* Sticky header with close button */}
       <div className="p-4 border-b border-border shrink-0 flex items-center justify-between gap-2">
-        <h2 className="text-xs font-black uppercase tracking-widest text-muted-foreground truncate">
+        <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground truncate">
           {selectedCidade ? selectedCidade : "Inteligência Regional"}
         </h2>
         {onClose && (
@@ -164,12 +164,12 @@ export function MapaSidebar({
       {/* Summary cards */}
       <div className="p-4 grid grid-cols-2 gap-3">
         <div className="bg-muted/50 rounded-xl p-4 text-center">
-          <p className="text-lg font-black text-foreground">{eleitoresCount}</p>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Eleitores</p>
+          <p className="text-lg font-medium text-foreground">{eleitoresCount}</p>
+          <p className="text-[10px] font-medium text-muted-foreground">Eleitores</p>
         </div>
         <div className="bg-muted/50 rounded-xl p-4 text-center">
-          <p className="text-lg font-black text-destructive">{stats.pendentes}</p>
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Pendentes</p>
+          <p className="text-lg font-medium text-destructive">{stats.pendentes}</p>
+          <p className="text-[10px] font-medium text-muted-foreground">Pendentes</p>
         </div>
       </div>
 
@@ -178,7 +178,7 @@ export function MapaSidebar({
         <div className="p-4 border-t border-border">
           <div className="flex items-center gap-2 mb-3">
             <Target className="h-4 w-4 text-primary shrink-0" />
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+            <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
               Top 5 Cidades — Eleitores
             </h3>
           </div>
@@ -191,10 +191,10 @@ export function MapaSidebar({
               >
                 <div className="flex items-center gap-2.5">
                   <MapPin className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                  <span className="text-xs font-semibold text-foreground truncate max-w-[120px]">{cidade}</span>
+                  <span className="text-xs font-medium text-foreground truncate max-w-[120px]">{cidade}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-black text-primary">{data.eleitores}</span>
+                  <span className="text-xs font-medium text-primary">{data.eleitores}</span>
                   {data.pendentes > 0 && (
                     <span className="text-[9px] text-destructive ml-1">({data.pendentes}⚠)</span>
                   )}
@@ -210,7 +210,7 @@ export function MapaSidebar({
         <div className="p-4 border-t border-border">
           <div className="flex items-center gap-2 mb-3">
             <Building2 className="h-4 w-4 text-primary shrink-0" />
-            <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground truncate">
+            <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground truncate">
               Gabinetes em {selectedCidade}
             </h3>
           </div>
@@ -252,7 +252,7 @@ export function MapaSidebar({
                           />
                         )}
                         <AvatarFallback
-                          className="text-xs font-bold text-white"
+                          className="text-xs font-medium text-white"
                           style={{ backgroundColor: gabColor }}
                         >
                           {(g.nome_vereador ?? "")
@@ -264,7 +264,7 @@ export function MapaSidebar({
                         </AvatarFallback>
                       </Avatar>
                       <div className="min-w-0 flex-1">
-                        <span className="text-xs font-bold text-foreground truncate block">
+                        <span className="text-xs font-medium text-foreground truncate block">
                           {g.nome_vereador}
                         </span>
                         {isSelected && (
@@ -278,19 +278,19 @@ export function MapaSidebar({
                     <div className="flex items-center gap-3">
                       <div className="text-center">
                         <Users className="h-3 w-3 mx-auto text-primary mb-0.5" />
-                        <p className="text-sm font-black text-foreground">{g.total_eleitores}</p>
+                        <p className="text-sm font-medium text-foreground">{g.total_eleitores}</p>
                         <p className="text-[8px] text-muted-foreground">eleitores</p>
                       </div>
                       <div className="h-8 w-px bg-border" />
                       <div className="text-center">
                         <TrendingUp className="h-3 w-3 mx-auto text-success mb-0.5" />
-                        <p className="text-sm font-black text-success">{taxa}%</p>
+                        <p className="text-sm font-medium text-success">{taxa}%</p>
                         <p className="text-[8px] text-muted-foreground">resolvidas</p>
                       </div>
                       <div className="h-8 w-px bg-border" />
                       <div className="text-center">
                         <BarChart3 className="h-3 w-3 mx-auto text-muted-foreground mb-0.5" />
-                        <p className={`text-sm font-black ${g.demandas_pendentes > 10 ? "text-destructive" : "text-foreground"}`}>
+                        <p className={`text-sm font-medium ${g.demandas_pendentes > 10 ? "text-destructive" : "text-foreground"}`}>
                           {g.demandas_pendentes}
                         </p>
                         <p className="text-[8px] text-muted-foreground">pendentes</p>
@@ -301,7 +301,7 @@ export function MapaSidebar({
                     {isL4Plus && onOpenRaioX && (
                       <button
                         onClick={(e) => { e.stopPropagation(); onOpenRaioX(g, i); }}
-                        className="mt-2 w-full flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider py-1.5 transition-colors"
+                        className="mt-2 w-full flex items-center justify-center gap-1.5 rounded-lg bg-primary/10 hover:bg-primary/20 text-primary text-[10px] font-medium py-1.5 transition-colors"
                       >
                         <Eye className="h-3 w-3" /> Raio-X do Gabinete
                       </button>
@@ -317,7 +317,7 @@ export function MapaSidebar({
             <Button
               size="sm"
               variant="outline"
-              className="w-full mt-3 h-8 text-[10px] font-bold uppercase tracking-wider gap-1.5"
+              className="w-full mt-3 h-8 text-[10px] font-medium gap-1.5"
               onClick={() => gerarRelatorioCidade(selectedCidade, gabinetesCidade, demandas, eleitoresCount)}
             >
               <FileText className="h-3 w-3" /> Gerar Relatório da Cidade
@@ -330,7 +330,7 @@ export function MapaSidebar({
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-2 mb-3">
           <MapPin className="h-4 w-4 text-destructive shrink-0" />
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+          <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
             Bairros com mais demandas
           </h3>
         </div>
@@ -342,9 +342,9 @@ export function MapaSidebar({
               <div key={bairro} className="flex items-center justify-between gap-2">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <AlertTriangle className="h-3.5 w-3.5 text-destructive/60 shrink-0" />
-                  <span className="text-xs font-semibold text-foreground truncate">{bairro}</span>
+                  <span className="text-xs font-medium text-foreground truncate">{bairro}</span>
                 </div>
-                <span className="text-xs font-black text-destructive shrink-0">{count}</span>
+                <span className="text-xs font-medium text-destructive shrink-0">{count}</span>
               </div>
             ))}
           </div>
@@ -355,7 +355,7 @@ export function MapaSidebar({
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-2 mb-3">
           <BarChart3 className="h-4 w-4 text-primary shrink-0" />
-          <h3 className="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Top Categorias</h3>
+          <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Top Categorias</h3>
         </div>
         {stats.topCategorias.length === 0 ? (
           <p className="text-xs text-muted-foreground">Sem dados</p>
@@ -367,8 +367,8 @@ export function MapaSidebar({
               return (
                 <div key={cat} className="space-y-1">
                   <div className="flex justify-between items-center text-xs gap-2">
-                    <span className="font-semibold text-foreground truncate">{cat}</span>
-                    <span className="font-black text-muted-foreground shrink-0">{count}</span>
+                    <span className="font-medium text-foreground truncate">{cat}</span>
+                    <span className="font-medium text-muted-foreground shrink-0">{count}</span>
                   </div>
                   <div className="h-1.5 bg-muted rounded-full overflow-hidden">
                     <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${pct}%` }} />

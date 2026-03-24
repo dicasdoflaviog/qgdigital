@@ -156,7 +156,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-md backdrop-blur-xl rounded-2xl z-[100]">
         <DialogHeader>
-          <DialogTitle className="text-base font-black uppercase tracking-tight">
+          <DialogTitle className="text-base font-medium uppercase tracking-tight">
             Sugerir Melhoria
           </DialogTitle>
           <DialogDescription className="text-xs text-muted-foreground">
@@ -188,7 +188,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="w-full gap-2 text-xs font-bold uppercase tracking-wider text-muted-foreground"
+                  className="w-full gap-2 text-xs font-medium text-muted-foreground"
                   onClick={() => setStage("review")}
                 >
                   <Edit3 className="h-3.5 w-3.5" /> Prefiro digitar
@@ -212,7 +212,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                   <MicOff className="h-8 w-8 animate-pulse" />
                 </button>
               </div>
-              <p className="text-sm text-destructive font-bold animate-pulse">Gravando...</p>
+              <p className="text-sm text-destructive font-medium animate-pulse">Gravando...</p>
 
               {displayText && (
                 <div className="w-full bg-muted/50 border border-border rounded-2xl p-3 max-h-32 overflow-y-auto">
@@ -225,7 +225,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
 
               <Button
                 onClick={handleStop}
-                className="w-full gap-2 font-bold uppercase tracking-wider text-xs min-h-[44px]"
+                className="w-full gap-2 font-medium text-xs min-h-[44px]"
                 variant="outline"
               >
                 Parar e Revisar
@@ -248,13 +248,13 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                 <Button
                   variant="outline"
                   size="sm"
-                  className="gap-1.5 font-bold uppercase tracking-wider text-xs min-h-[44px]"
+                  className="gap-1.5 font-medium text-xs min-h-[44px]"
                   onClick={handleReset}
                 >
                   <RotateCcw className="h-3.5 w-3.5" /> Regravar
                 </Button>
                 <Button
-                  className="flex-1 gap-2 font-bold uppercase tracking-wider text-xs min-h-[44px]"
+                  className="flex-1 gap-2 font-medium text-xs min-h-[44px]"
                   onClick={handleSend}
                 >
                   <Send className="h-4 w-4" /> Enviar Sugestão
@@ -278,7 +278,7 @@ export function FeedbackModal({ open, onOpenChange }: FeedbackModalProps) {
                 <CheckCircle2 className="h-10 w-10 text-primary" />
               </div>
               <div className="text-center">
-                <p className="text-sm font-bold text-foreground">Sugestão enviada!</p>
+                <p className="text-sm font-medium text-foreground">Sugestão enviada!</p>
                 <p className="text-xs text-muted-foreground mt-1">Obrigado pelo feedback. Vamos analisar em breve.</p>
               </div>
             </div>
