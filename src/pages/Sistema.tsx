@@ -117,9 +117,9 @@ export default function Sistema() {
       {/* Header */}
       <div className="animate-fade-in">
         <div className="flex items-center gap-2 mb-1">
-          <Server className="h-5 w-5 text-purple-500" />
-          <Badge className="bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 text-[10px] font-bold uppercase tracking-wider">
-            Nível 5 · Acesso Irrestrito
+          <Server className="h-5 w-5 text-qg-blue-600" />
+          <Badge className="bg-qg-blue-600/10 text-qg-blue-600 border-qg-blue-600/20 text-[10px] font-medium">
+            Nível 5 · Acesso irrestrito
           </Badge>
         </div>
         <h1 className="text-3xl md:text-5xl font-medium tracking-[-0.04em] text-foreground leading-[0.9]">
@@ -130,23 +130,23 @@ export default function Sistema() {
         </p>
       </div>
 
-      <Separator className="bg-purple-500/20" />
+      <Separator className="bg-border" />
 
       <Tabs defaultValue="status" className="space-y-4">
-        <TabsList className="bg-purple-500/10">
-          <TabsTrigger value="status" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-xs font-bold gap-1">
+        <TabsList className="bg-muted">
+          <TabsTrigger value="status" className="data-[state=active]:bg-qg-blue-600 data-[state=active]:text-white text-xs font-medium gap-1">
             <Activity className="h-3.5 w-3.5" /> Status
           </TabsTrigger>
-          <TabsTrigger value="gabinetes" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-xs font-bold gap-1">
+          <TabsTrigger value="gabinetes" className="data-[state=active]:bg-qg-blue-600 data-[state=active]:text-white text-xs font-medium gap-1">
             <Building2 className="h-3.5 w-3.5" /> Gabinetes
           </TabsTrigger>
-          <TabsTrigger value="logs" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-xs font-bold gap-1">
-            <Eye className="h-3.5 w-3.5" /> Logs Globais
+          <TabsTrigger value="logs" className="data-[state=active]:bg-qg-blue-600 data-[state=active]:text-white text-xs font-medium gap-1">
+            <Eye className="h-3.5 w-3.5" /> Logs globais
           </TabsTrigger>
-          <TabsTrigger value="contratos" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-xs font-bold gap-1">
+          <TabsTrigger value="contratos" className="data-[state=active]:bg-qg-blue-600 data-[state=active]:text-white text-xs font-medium gap-1">
             <FileText className="h-3.5 w-3.5" /> Contratos
           </TabsTrigger>
-          <TabsTrigger value="assinaturas" className="data-[state=active]:bg-purple-600 data-[state=active]:text-white text-xs font-bold gap-1">
+          <TabsTrigger value="assinaturas" className="data-[state=active]:bg-qg-blue-600 data-[state=active]:text-white text-xs font-medium gap-1">
             <CreditCard className="h-3.5 w-3.5" /> Assinaturas
           </TabsTrigger>
         </TabsList>
@@ -155,54 +155,54 @@ export default function Sistema() {
         <TabsContent value="status" className="space-y-4 animate-fade-up">
           {/* Quick Stats */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+            <Card className="border-qg-blue-600/20 bg-gradient-to-br from-qg-blue-600/5 to-transparent">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
-                    <Building2 className="h-5 w-5 text-purple-500" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-qg-blue-600/10">
+                    <Building2 className="h-5 w-5 text-qg-blue-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-black">{activeGabinetes.length}</p>
-                    <p className="text-xs text-muted-foreground font-medium">Gabinetes Ativos</p>
+                    <p className="text-2xl font-medium">{activeGabinetes.length}</p>
+                    <p className="text-xs text-muted-foreground font-medium">Gabinetes ativos</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+            <Card className="border-qg-blue-600/20 bg-gradient-to-br from-qg-blue-600/5 to-transparent">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
-                    <Archive className="h-5 w-5 text-purple-500" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-qg-blue-600/10">
+                    <Archive className="h-5 w-5 text-qg-blue-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-black">{inactiveGabinetes.length}</p>
-                    <p className="text-xs text-muted-foreground font-medium">Gabinetes Inativos</p>
+                    <p className="text-2xl font-medium">{inactiveGabinetes.length}</p>
+                    <p className="text-xs text-muted-foreground font-medium">Gabinetes inativos</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+            <Card className="border-qg-blue-600/20 bg-gradient-to-br from-qg-blue-600/5 to-transparent">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
-                    <Users className="h-5 w-5 text-purple-500" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-qg-blue-600/10">
+                    <Users className="h-5 w-5 text-qg-blue-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-black">{Object.values(eleitorStats).reduce((a: number, b: number) => a + b, 0)}</p>
-                    <p className="text-xs text-muted-foreground font-medium">Eleitores Globais</p>
+                    <p className="text-2xl font-medium">{Object.values(eleitorStats).reduce((a: number, b: number) => a + b, 0)}</p>
+                    <p className="text-xs text-muted-foreground font-medium">Eleitores globais</p>
                   </div>
                 </div>
               </CardContent>
             </Card>
-            <Card className="border-purple-500/20 bg-gradient-to-br from-purple-500/5 to-transparent">
+            <Card className="border-qg-blue-600/20 bg-gradient-to-br from-qg-blue-600/5 to-transparent">
               <CardContent className="p-4">
                 <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-500/10">
-                    <Shield className="h-5 w-5 text-purple-500" />
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-qg-blue-600/10">
+                    <Shield className="h-5 w-5 text-qg-blue-600" />
                   </div>
                   <div>
-                    <p className="text-2xl font-black">{exclusoes.length}</p>
-                    <p className="text-xs text-muted-foreground font-medium">Registros Arquivados</p>
+                    <p className="text-2xl font-medium">{exclusoes.length}</p>
+                    <p className="text-xs text-muted-foreground font-medium">Registros arquivados</p>
                   </div>
                 </div>
               </CardContent>
@@ -215,10 +215,10 @@ export default function Sistema() {
 
         {/* === GABINETES TAB === */}
         <TabsContent value="gabinetes" className="space-y-4 animate-fade-up">
-          <Card className="border-purple-500/20">
+          <Card className="border-qg-blue-600/20">
             <CardHeader>
-              <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-                <Building2 className="h-4 w-4 text-purple-500" /> Todos os Gabinetes
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Building2 className="h-4 w-4 text-qg-blue-600" /> Todos os gabinetes
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
@@ -231,12 +231,12 @@ export default function Sistema() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider">Político</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Status</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider hidden md:table-cell">Plano</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider hidden md:table-cell">Eleitores</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider hidden lg:table-cell">Criado em</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider">Assinatura</TableHead>
+                        <TableHead className="font-medium text-xs">Político</TableHead>
+                        <TableHead className="font-medium text-xs hidden sm:table-cell">Status</TableHead>
+                        <TableHead className="font-medium text-xs hidden md:table-cell">Plano</TableHead>
+                        <TableHead className="font-medium text-xs hidden md:table-cell">Eleitores</TableHead>
+                        <TableHead className="font-medium text-xs hidden lg:table-cell">Criado em</TableHead>
+                        <TableHead className="font-medium text-xs">Assinatura</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -269,7 +269,7 @@ export default function Sistema() {
                               )}
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
-                              <Badge variant="outline" className={`text-[10px] font-bold gap-1 ${planColor}`}>
+                              <Badge variant="outline" className={`text-[10px] font-medium gap-1 ${planColor}`}>
                                 <Crown className="h-3 w-3" /> {planLabel}
                               </Badge>
                               {sub?.status === "active" && sub?.next_billing_date && (
@@ -279,7 +279,7 @@ export default function Sistema() {
                               )}
                             </TableCell>
                             <TableCell className="hidden md:table-cell">
-                              <span className="text-sm font-bold">{(eleitorStats as any)[gabId] || 0}</span>
+                              <span className="text-sm font-medium">{(eleitorStats as any)[gabId] || 0}</span>
                             </TableCell>
                             <TableCell className="hidden lg:table-cell text-sm text-muted-foreground">
                               {fmtDate(g.created_at)}
@@ -288,7 +288,7 @@ export default function Sistema() {
                               <Button
                                 size="sm"
                                 variant="outline"
-                                className="h-8 gap-1.5 text-[11px] font-bold border-purple-500/30 text-purple-600 hover:bg-purple-500/10 hover:text-purple-600 whitespace-nowrap"
+                                className="h-8 gap-1.5 text-[11px] font-medium border-qg-blue-600/30 text-qg-blue-600 hover:bg-qg-blue-600/10 hover:text-qg-blue-600 whitespace-nowrap"
                                 onClick={() => setAssinaturaTarget({ gabineteId: gabId, gabineteNome: g.full_name || "Gabinete" })}
                               >
                                 <Crown className="h-3 w-3" /> Assinatura
@@ -308,10 +308,10 @@ export default function Sistema() {
         {/* === LOGS GLOBAIS TAB === */}
         <TabsContent value="logs" className="space-y-4 animate-fade-up">
           {/* Audit Logs */}
-          <Card className="border-purple-500/20">
+          <Card className="border-qg-blue-600/20">
             <CardHeader>
-              <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-                <Clock className="h-4 w-4 text-purple-500" /> Logs de Auditoria
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Clock className="h-4 w-4 text-qg-blue-600" /> Logs de auditoria
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
@@ -324,16 +324,16 @@ export default function Sistema() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider">Ação</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider">Usuário</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Data</TableHead>
+                        <TableHead className="font-medium text-xs">Ação</TableHead>
+                        <TableHead className="font-medium text-xs">Usuário</TableHead>
+                        <TableHead className="font-medium text-xs hidden sm:table-cell">Data</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {auditLogs.map((log: any) => (
                         <TableRow key={log.id}>
                           <TableCell>
-                            <Badge variant="outline" className="text-[10px] border-purple-500/30 text-purple-600">
+                            <Badge variant="outline" className="text-[10px] border-qg-blue-600/30 text-qg-blue-600">
                               {log.action}
                             </Badge>
                           </TableCell>
@@ -353,10 +353,10 @@ export default function Sistema() {
           </Card>
 
           {/* Deletion Logs */}
-          <Card className="border-purple-500/20">
+          <Card className="border-qg-blue-600/20">
             <CardHeader>
-              <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
-                <Archive className="h-4 w-4 text-purple-500" /> Registros Arquivados / Excluídos
+              <CardTitle className="text-sm font-medium flex items-center gap-2">
+                <Archive className="h-4 w-4 text-qg-blue-600" /> Registros arquivados / excluídos
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
@@ -369,10 +369,10 @@ export default function Sistema() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider">Origem</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider">Dados</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Excluído por</TableHead>
-                        <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Data</TableHead>
+                        <TableHead className="font-medium text-xs">Origem</TableHead>
+                        <TableHead className="font-medium text-xs">Dados</TableHead>
+                        <TableHead className="font-medium text-xs hidden sm:table-cell">Excluído por</TableHead>
+                        <TableHead className="font-medium text-xs hidden sm:table-cell">Data</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -381,7 +381,7 @@ export default function Sistema() {
                         return (
                           <TableRow key={b.id}>
                             <TableCell>
-                              <Badge variant="outline" className="text-[10px] border-purple-500/30 text-purple-600">
+                              <Badge variant="outline" className="text-[10px] border-qg-blue-600/30 text-qg-blue-600">
                                 {b.tabela_origem}
                               </Badge>
                             </TableCell>
