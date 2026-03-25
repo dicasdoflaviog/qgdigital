@@ -545,7 +545,7 @@ export default function MapaCalor() {
             </Button>
           )}
           <div className="bg-background/90 backdrop-blur-sm rounded-lg px-2 py-1.5 border border-border shrink-0">
-            <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-muted-foreground whitespace-nowrap flex items-center gap-1">
+            <span className="text-[9px] sm:text-[10px] font-medium tracking-widest text-muted-foreground whitespace-nowrap flex items-center gap-1">
               {layerLabelNode}
             </span>
           </div>
@@ -556,17 +556,17 @@ export default function MapaCalor() {
           {isL4Plus && (
             <div className="flex rounded-lg overflow-hidden border border-border bg-background/90 backdrop-blur-sm">
               <Button size="sm" variant={currentLayer === "brasil" ? "default" : "ghost"}
-                className="flex-1 h-7 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider rounded-none whitespace-nowrap px-1"
+                className="flex-1 h-7 text-[8px] sm:text-[9px] font-bold tracking-wider rounded-none whitespace-nowrap px-1"
                 onClick={navigateToBrasil}>
                 <Globe className="h-3 w-3 shrink-0 sm:mr-0.5" /> <span className="hidden sm:inline">País</span>
               </Button>
               <Button size="sm" variant={currentLayer === "estado" ? "default" : "ghost"}
-                className="flex-1 h-7 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider rounded-none whitespace-nowrap px-1"
+                className="flex-1 h-7 text-[8px] sm:text-[9px] font-bold tracking-wider rounded-none whitespace-nowrap px-1"
                 onClick={() => navigateToEstado(selectedEstado || "BA")}>
                 Estado
               </Button>
               <Button size="sm" variant={currentLayer === "municipio" ? "default" : "ghost"}
-                className="flex-1 h-7 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider rounded-none whitespace-nowrap px-1"
+                className="flex-1 h-7 text-[8px] sm:text-[9px] font-bold tracking-wider rounded-none whitespace-nowrap px-1"
                 onClick={navigateToMunicipio}>
                 Cidade
               </Button>
@@ -576,7 +576,7 @@ export default function MapaCalor() {
           {/* Estado selector — L5 can pick any state, L4 sees only contract states */}
           {isL4Plus && (currentLayer === "brasil" || currentLayer === "estado") && (
             <Select value={selectedEstado || "none"} onValueChange={(v) => v === "none" ? navigateToBrasil() : navigateToEstado(v)}>
-              <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold uppercase tracking-wider">
+              <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold tracking-wider">
                 <SelectValue placeholder="Selecionar Estado" />
               </SelectTrigger>
               <SelectContent className="z-map-select">
@@ -596,7 +596,7 @@ export default function MapaCalor() {
           {/* City selector when in estado or municipio view */}
           {(currentLayer === "estado" || (currentLayer === "municipio" && selectedCidade)) && isL4Plus && (
             <Select value={selectedCidade || "todas"} onValueChange={(v) => v === "todas" ? (() => { setSelectedCidade(null); setSelectedGabineteId(null); navigateToEstado(selectedEstado || "BA"); })() : navigateToCidade(v)}>
-              <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold uppercase tracking-wider">
+              <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold tracking-wider">
                 <SelectValue placeholder="Selecionar Cidade" />
               </SelectTrigger>
               <SelectContent className="z-map-select">
@@ -616,7 +616,7 @@ export default function MapaCalor() {
           {/* Visão Global — L5 only */}
           {isL5 && (
             <Button size="sm" variant="outline"
-              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider gap-1 bg-background/90 backdrop-blur-sm border-primary/40 text-primary"
+              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold tracking-wider gap-1 bg-background/90 backdrop-blur-sm border-primary/40 text-primary"
               onClick={() => {
                 setSelectedEstado(null);
                 setSelectedCidade(null);
@@ -633,7 +633,7 @@ export default function MapaCalor() {
           {/* Backfill geocode — L3+ */}
           {roleLevel >= 3 && (
             <Button size="sm" variant="outline"
-              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider gap-1 bg-background/90 backdrop-blur-sm border-accent/40 text-accent-foreground"
+              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold tracking-wider gap-1 bg-background/90 backdrop-blur-sm border-accent/40 text-accent-foreground"
               onClick={handleBackfillGeocode}
               disabled={backfilling}>
               {backfilling ? <Loader2 className="h-3 w-3 animate-spin" /> : <MapPin className="h-3 w-3" />}
@@ -644,12 +644,12 @@ export default function MapaCalor() {
           {/* View mode toggle */}
           <div className="grid grid-cols-2 rounded-lg overflow-hidden border border-border bg-background/90 backdrop-blur-sm">
             <Button size="sm" variant={viewMode === "eleitores" ? "default" : "ghost"}
-              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider gap-1 rounded-none"
+              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold tracking-wider gap-1 rounded-none"
               onClick={() => setViewMode("eleitores")}>
               <Users className="h-3 w-3 shrink-0" /> <span className="hidden sm:inline">Apoiadores</span><span className="sm:hidden">Apoiad.</span>
             </Button>
             <Button size="sm" variant={viewMode === "demandas" ? "default" : "ghost"}
-              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider gap-1 rounded-none"
+              className="h-7 sm:h-8 text-[9px] sm:text-[10px] font-bold tracking-wider gap-1 rounded-none"
               onClick={() => setViewMode("demandas")}>
               <AlertTriangle className="h-3 w-3 shrink-0" /> Demandas
             </Button>
@@ -658,7 +658,7 @@ export default function MapaCalor() {
           {viewMode === "demandas" && (
             <>
               <Select value={categoriaFilter} onValueChange={setCategoriaFilter}>
-                <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold uppercase tracking-wider">
+                <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold tracking-wider">
                   <SelectValue placeholder="Categoria" />
                 </SelectTrigger>
                 <SelectContent className="z-map-select">
@@ -669,7 +669,7 @@ export default function MapaCalor() {
                 </SelectContent>
               </Select>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
-                <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold uppercase tracking-wider">
+                <SelectTrigger className="bg-background/90 backdrop-blur-sm border-border text-[10px] sm:text-xs h-8 sm:h-9 font-bold tracking-wider">
                   <SelectValue placeholder="Status" />
                 </SelectTrigger>
                 <SelectContent className="z-map-select">
@@ -684,7 +684,7 @@ export default function MapaCalor() {
 
           <div className="hidden lg:flex items-center gap-2 bg-background/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-border">
             <Switch checked={showSidebar} onCheckedChange={setShowSidebar} id="sidebar-toggle" />
-            <Label htmlFor="sidebar-toggle" className="text-[10px] font-bold uppercase tracking-wider cursor-pointer">
+            <Label htmlFor="sidebar-toggle" className="text-[10px] font-bold tracking-wider cursor-pointer">
               Painel Intel
             </Label>
           </div>
@@ -717,7 +717,7 @@ export default function MapaCalor() {
                 eventHandlers={{ click: () => navigateToEstado(uf) }}>
                 <Popup>
                   <div className="space-y-1 min-w-[150px]">
-                    <p className="font-black text-sm uppercase">{est.nome} ({uf})</p>
+                    <p className="font-medium text-sm">{est.nome} ({uf})</p>
                     {agg ? (
                       <>
                         <p className="text-xs">Apoiadores: <strong>{agg.eleitores}</strong></p>
@@ -761,7 +761,7 @@ export default function MapaCalor() {
                 eventHandlers={{ click: () => navigateToCidade(cidade) }}>
                 <Popup>
                   <div className="space-y-1 min-w-[150px]">
-                    <p className="font-black text-sm uppercase">{cidade}</p>
+                    <p className="font-medium text-sm">{cidade}</p>
                     {agg ? (
                       <>
                         <p className="text-xs">Apoiadores: <strong>{agg.eleitores}</strong></p>
@@ -813,7 +813,7 @@ export default function MapaCalor() {
                     pathOptions={{ color, fillColor: color, fillOpacity: selectedGabineteId ? 0.6 : 0.45, weight: selectedGabineteId ? 3 : 2 }}>
                     <Popup>
                       <div className="space-y-1 min-w-[160px]">
-                        <p className="font-black text-sm uppercase">{bairro}</p>
+                        <p className="font-medium text-sm">{bairro}</p>
                         <p className="text-xs">Total de Apoiadores: <strong>{data.total}</strong></p>
                       </div>
                     </Popup>
@@ -844,7 +844,7 @@ export default function MapaCalor() {
                     pathOptions={{ color, fillColor: color, fillOpacity: selectedGabineteId ? 0.65 : (hasPending ? 0.55 : 0.25), weight: selectedGabineteId ? 3 : (hasPending ? 2 : 1) }}>
                     <Popup>
                       <div className="space-y-1 min-w-[180px]">
-                        <p className="font-black text-sm uppercase">{bairro}</p>
+                        <p className="font-medium text-sm">{bairro}</p>
                         <p className="text-xs">Total de Demandas: <strong>{data.total}</strong></p>
                         <p className="text-xs">Pendentes: <strong className="text-destructive">{data.pendentes}</strong></p>
                         <p className="text-xs">Categoria Principal: <strong>{topCategoria(data.categorias)}</strong></p>
@@ -870,7 +870,7 @@ export default function MapaCalor() {
       <Sheet open={mobileSidebarOpen} onOpenChange={setMobileSidebarOpen}>
         <SheetContent side="left" className="w-[300px] p-0 overflow-y-auto">
           <SheetHeader className="p-4 border-b">
-            <SheetTitle className="text-xs font-black uppercase tracking-widest text-muted-foreground">
+            <SheetTitle className="text-xs font-medium tracking-widest text-muted-foreground">
               Inteligência Regional
             </SheetTitle>
           </SheetHeader>

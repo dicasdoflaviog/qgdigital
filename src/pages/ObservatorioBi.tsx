@@ -226,7 +226,7 @@ export default function ObservatorioBi() {
       <div className="animate-fade-in">
         <div className="flex items-center gap-2 mb-1">
           <BarChart3 className="h-5 w-5 text-primary" />
-          <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-bold uppercase tracking-wider">
+          <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] font-bold tracking-wider">
             Nível {roleLevel} · Observatório BI
           </Badge>
         </div>
@@ -257,7 +257,7 @@ export default function ObservatorioBi() {
       {/* === PERFORMANCE CHART === */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
             <BarChart3 className="h-4 w-4 text-primary" /> Desempenho por Cidade
           </CardTitle>
         </CardHeader>
@@ -290,7 +290,7 @@ export default function ObservatorioBi() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="border-emerald-500/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2 text-emerald-600">
+            <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2 text-emerald-600">
               <Trophy className="h-4 w-4" /> Top 3 Gabinetes Destaque
             </CardTitle>
           </CardHeader>
@@ -299,7 +299,7 @@ export default function ObservatorioBi() {
               <p className="text-sm text-muted-foreground">Sem atividade recente.</p>
             ) : top3.map((g, i) => (
               <div key={g.id} className="flex items-center gap-3 p-2 rounded-lg bg-emerald-500/5">
-                <span className="text-lg font-black text-emerald-600 w-6 text-center">{i + 1}º</span>
+                <span className="text-lg font-medium text-emerald-600 w-6 text-center">{i + 1}º</span>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">{g.nome}</p>
                   <p className="text-[10px] text-muted-foreground">{g.count} cadastros nos últimos 7 dias</p>
@@ -312,7 +312,7 @@ export default function ObservatorioBi() {
 
         <Card className="border-destructive/20">
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2 text-destructive">
+            <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2 text-destructive">
               <AlertTriangle className="h-4 w-4" /> Top 3 Gabinetes em Alerta
             </CardTitle>
           </CardHeader>
@@ -321,7 +321,7 @@ export default function ObservatorioBi() {
               <p className="text-sm text-muted-foreground">Sem alertas.</p>
             ) : alerta3.map((g, i) => (
               <div key={g.id} className="flex items-center gap-3 p-2 rounded-lg bg-destructive/5">
-                <span className="text-lg font-black text-destructive w-6 text-center">{i + 1}º</span>
+                <span className="text-lg font-medium text-destructive w-6 text-center">{i + 1}º</span>
                 <div className="flex-1">
                   <p className="text-sm font-semibold text-foreground">{g.nome}</p>
                   <p className="text-[10px] text-muted-foreground">
@@ -338,7 +338,7 @@ export default function ObservatorioBi() {
       {/* === PAUTA DA SEMANA (IA) === */}
       <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
             <Brain className="h-4 w-4 text-primary" /> Pauta da Semana — Análise de IA
           </CardTitle>
         </CardHeader>
@@ -367,14 +367,14 @@ export default function ObservatorioBi() {
       {/* === COMPARAÇÃO TERRITORIAL === */}
       <Card>
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
             <ArrowLeftRight className="h-4 w-4 text-primary" /> Comparação Territorial
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex flex-col sm:flex-row gap-3 items-end">
             <div className="flex-1 space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Cidade A</label>
+              <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Cidade A</label>
               <Select value={cidadeA} onValueChange={setCidadeA}>
                 <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
                 <SelectContent>
@@ -384,7 +384,7 @@ export default function ObservatorioBi() {
             </div>
             <ArrowLeftRight className="h-5 w-5 text-muted-foreground shrink-0 mb-2 hidden sm:block" />
             <div className="flex-1 space-y-1">
-              <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Cidade B</label>
+              <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Cidade B</label>
               <Select value={cidadeB} onValueChange={setCidadeB}>
                 <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
                 <SelectContent>
@@ -397,7 +397,7 @@ export default function ObservatorioBi() {
           {compA && compB ? (
             <div className="grid grid-cols-3 gap-2 text-center">
               {/* Labels */}
-              <div className="col-span-3 grid grid-cols-3 text-[10px] font-bold uppercase tracking-wider text-muted-foreground border-b pb-2 mb-1">
+              <div className="col-span-3 grid grid-cols-3 text-[10px] font-bold tracking-wider text-muted-foreground border-b pb-2 mb-1">
                 <span>{compA.cidade}</span>
                 <span>Indicador</span>
                 <span>{compB.cidade}</span>
@@ -408,14 +408,14 @@ export default function ObservatorioBi() {
                 { label: "Atividade (Gabinetes)", a: compA.gabinetes, b: compB.gabinetes, icon: Activity },
               ].map((row) => (
                 <div key={row.label} className="col-span-3 grid grid-cols-3 items-center py-2 border-b border-border/30">
-                  <span className={`text-xl font-black ${row.a >= row.b ? "text-emerald-600" : "text-foreground"}`}>
+                  <span className={`text-xl font-medium ${row.a >= row.b ? "text-emerald-600" : "text-foreground"}`}>
                     {row.a.toLocaleString("pt-BR")}
                   </span>
                   <div className="flex flex-col items-center gap-0.5">
                     <row.icon className="h-4 w-4 text-muted-foreground" />
                     <span className="text-[9px] text-muted-foreground">{row.label}</span>
                   </div>
-                  <span className={`text-xl font-black ${row.b >= row.a ? "text-emerald-600" : "text-foreground"}`}>
+                  <span className={`text-xl font-medium ${row.b >= row.a ? "text-emerald-600" : "text-foreground"}`}>
                     {row.b.toLocaleString("pt-BR")}
                   </span>
                 </div>

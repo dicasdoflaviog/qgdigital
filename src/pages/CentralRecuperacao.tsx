@@ -155,7 +155,7 @@ export default function CentralRecuperacao() {
       <div className="animate-fade-in">
         <div className="flex items-center gap-2 mb-1">
           <Archive className="h-5 w-5 text-purple-500" />
-          <Badge className="bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 text-[10px] font-bold uppercase tracking-wider">
+          <Badge className="bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 text-[10px] font-medium tracking-wider">
             Área de Sistema
           </Badge>
         </div>
@@ -176,14 +176,14 @@ export default function CentralRecuperacao() {
             <div className="flex items-center gap-2">
               <FileBarChart className="h-5 w-5 text-purple-500" />
               <div>
-                <p className="text-sm font-bold">Relatório Estratégico</p>
+                <p className="text-sm font-medium">Relatório Estratégico</p>
                 <p className="text-xs text-muted-foreground">Interno • Tabelas e dados brutos</p>
               </div>
             </div>
             <Button
               onClick={handleStrategicReport}
               disabled={generatingStrategic}
-              className="w-full gap-2 text-xs font-bold uppercase tracking-wider bg-purple-600 hover:bg-purple-700 text-white"
+              className="w-full gap-2 text-xs font-medium tracking-wider bg-purple-600 hover:bg-purple-700 text-white"
             >
               <FileBarChart className="h-4 w-4" />
               {generatingStrategic ? "Gerando..." : "Exportar Relatório Estratégico"}
@@ -196,14 +196,14 @@ export default function CentralRecuperacao() {
             <div className="flex items-center gap-2">
               <FileText className="h-5 w-5 text-primary" />
               <div>
-                <p className="text-sm font-bold">Prestação de Contas</p>
+                <p className="text-sm font-medium">Prestação de Contas</p>
                 <p className="text-xs text-muted-foreground">Público • Dados anonimizados</p>
               </div>
             </div>
             <Button
               onClick={handlePublicReport}
               disabled={generatingPublic}
-              className="w-full gap-2 text-xs font-bold uppercase tracking-wider"
+              className="w-full gap-2 text-xs font-medium tracking-wider"
             >
               <FileText className="h-4 w-4" />
               {generatingPublic ? "Gerando..." : "Exportar Prestação de Contas"}
@@ -221,7 +221,7 @@ export default function CentralRecuperacao() {
                 <Users className="h-5 w-5 text-purple-500" />
               </div>
               <div>
-                <p className="text-2xl font-black">{totalEleitores}</p>
+                <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{totalEleitores}</p>
                 <p className="text-xs text-muted-foreground font-medium">Total de Eleitores</p>
               </div>
             </div>
@@ -235,7 +235,7 @@ export default function CentralRecuperacao() {
                 <MapPin className="h-5 w-5 text-purple-500" />
               </div>
               <div>
-                <p className="text-2xl font-black">{bairros.length}</p>
+                <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{bairros.length}</p>
                 <p className="text-xs text-muted-foreground font-medium">Bairros Mapeados</p>
               </div>
             </div>
@@ -249,7 +249,7 @@ export default function CentralRecuperacao() {
                 <AlertTriangle className="h-5 w-5 text-purple-500" />
               </div>
               <div>
-                <p className="text-2xl font-black">{orphanedCount}</p>
+                <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{orphanedCount}</p>
                 <p className="text-xs text-muted-foreground font-medium">Eleitores Órfãos</p>
               </div>
             </div>
@@ -263,7 +263,7 @@ export default function CentralRecuperacao() {
                 <Shield className="h-5 w-5 text-purple-500" />
               </div>
               <div>
-                <p className="text-2xl font-black">{deactivated.length}</p>
+                <p className="text-2xl font-medium tabular-nums whitespace-nowrap">{deactivated.length}</p>
                 <p className="text-xs text-muted-foreground font-medium">Contas Desativadas</p>
               </div>
             </div>
@@ -274,7 +274,7 @@ export default function CentralRecuperacao() {
       {/* Deactivated Profiles Table */}
       <Card className="border-purple-500/20 animate-fade-up">
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium tracking-wider flex items-center gap-2">
             <Archive className="h-4 w-4 text-purple-500" /> Gabinetes Desativados
           </CardTitle>
         </CardHeader>
@@ -290,10 +290,10 @@ export default function CentralRecuperacao() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Nome</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Data Desativação</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden md:table-cell">WhatsApp</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider text-right">Ações</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider">Nome</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden sm:table-cell">Data Desativação</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden md:table-cell">WhatsApp</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -315,7 +315,7 @@ export default function CentralRecuperacao() {
                         <Button
                           size="sm"
                           variant="outline"
-                          className="gap-1 text-xs font-bold border-purple-500/30 text-purple-600 hover:bg-purple-500/10"
+                          className="gap-1 text-xs font-medium border-purple-500/30 text-purple-600 hover:bg-purple-500/10"
                           onClick={() => handleReactivate(p.id)}
                         >
                           <RotateCcw className="h-3 w-3" /> Reativar
@@ -333,7 +333,7 @@ export default function CentralRecuperacao() {
       {/* Audit Log - Exclusions */}
       <Card className="border-purple-500/20 animate-fade-up">
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium tracking-wider flex items-center gap-2">
             <Clock className="h-4 w-4 text-purple-500" /> Auditoria de Exclusões
           </CardTitle>
         </CardHeader>
@@ -349,10 +349,10 @@ export default function CentralRecuperacao() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Origem</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider">Dados</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider hidden sm:table-cell">Data</TableHead>
-                    <TableHead className="font-bold text-xs uppercase tracking-wider text-right">Backup</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider">Origem</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider">Dados</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden sm:table-cell">Data</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider text-right">Backup</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -376,7 +376,7 @@ export default function CentralRecuperacao() {
                           <Button
                             size="sm"
                             variant="ghost"
-                            className="gap-1 text-xs font-bold"
+                            className="gap-1 text-xs font-medium"
                             onClick={() => handleExportBackup(b)}
                           >
                             <Download className="h-3 w-3" /> JSON

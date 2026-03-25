@@ -1,12 +1,12 @@
 import { useState, useRef } from "react";
 import { Plus, FileText, Upload, Sparkles, Loader2, X, FileUp } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -206,19 +206,19 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-base font-medium uppercase tracking-tight">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe" className="max-w-md max-h-[90vh] overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle className="flex items-center gap-2 text-base font-medium uppercase tracking-tight">
             <div className="flex h-6 w-6 items-center justify-center bg-primary text-primary-foreground">
               <FileText className="h-3.5 w-3.5" />
             </div>
             Novo Ofício
-          </DialogTitle>
-          <DialogDescription className="text-xs">
+          </SheetTitle>
+          <SheetDescription className="text-xs">
             Preencha os dados ou envie um documento para extração automática via IA.
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* File Upload Section */}
@@ -381,7 +381,7 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
             </Button>
           </div>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

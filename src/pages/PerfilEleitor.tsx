@@ -216,7 +216,7 @@ export default function PerfilEleitor() {
           <>
             <div className="flex items-center gap-2 text-warning">
               <Star className="h-5 w-5" />
-              <p className="text-sm font-bold uppercase tracking-wider">Sem permissão (RLS)</p>
+              <p className="text-sm font-bold tracking-wider">Sem permissão (RLS)</p>
             </div>
             <p className="text-muted-foreground text-xs text-center max-w-xs">
               Sua conta não tem permissão para visualizar este eleitor. Verifique com o administrador.
@@ -241,7 +241,7 @@ export default function PerfilEleitor() {
       <div className="flex flex-col items-center justify-center min-h-[60vh] gap-4 p-6">
         <div className="flex items-center gap-2 text-warning">
           <Star className="h-5 w-5" />
-          <p className="text-sm font-bold uppercase tracking-wider">Sem permissão (RLS)</p>
+          <p className="text-sm font-bold tracking-wider">Sem permissão (RLS)</p>
         </div>
         <p className="text-muted-foreground text-xs text-center max-w-xs">
           Não foi possível acessar este registro. Ele pode não existir ou sua conta não tem permissão.
@@ -274,7 +274,7 @@ export default function PerfilEleitor() {
         <div className="p-4 md:p-6 space-y-4 max-w-2xl mx-auto">
           <button
             onClick={() => navigate("/eleitores")}
-            className="flex items-center gap-2 text-muted-foreground text-sm font-bold uppercase tracking-wider hover:text-foreground transition-colors min-h-[48px] active:scale-95"
+            className="flex items-center gap-2 text-muted-foreground text-sm font-bold tracking-wider hover:text-foreground transition-colors min-h-[48px] active:scale-95"
           >
             <ArrowLeft className="h-4 w-4" />
             Voltar
@@ -291,16 +291,16 @@ export default function PerfilEleitor() {
 
           <Card className="p-4 space-y-3">
             <div className="flex items-start gap-3">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-primary text-primary-foreground text-lg font-black uppercase">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center bg-primary text-primary-foreground text-lg font-medium">
                 {eleitor.nome.charAt(0)}
               </div>
               <div className="flex-1 min-w-0">
-                <h1 className="text-lg font-black tracking-tight leading-tight">{eleitor.nome}</h1>
+                <h1 className="text-lg font-medium tracking-tight leading-tight">{eleitor.nome}</h1>
                 <div className="flex items-center gap-2 mt-1 flex-wrap">
-                  <span className="text-xs text-muted-foreground font-bold uppercase tracking-wider flex items-center gap-1">
+                  <span className="text-xs text-muted-foreground font-bold tracking-wider flex items-center gap-1">
                     <MapPin className="h-3 w-3" /> {eleitor.bairro}
                   </span>
-                  <Badge variant={badgeVariant(situacaoColor)} className="text-[10px] font-bold uppercase tracking-wider">
+                  <Badge variant={badgeVariant(situacaoColor)} className="text-[10px] font-bold tracking-wider">
                     {eleitor.situacao}
                   </Badge>
                 </div>
@@ -310,7 +310,7 @@ export default function PerfilEleitor() {
             {eleitor.is_leader && (
               <div className="flex items-center gap-2 bg-warning/10 border border-warning/30 px-3 py-2">
                 <Star className="h-4 w-4 text-warning" />
-                <span className="text-xs font-bold uppercase tracking-wider text-warning">Liderança Comunitária</span>
+                <span className="text-xs font-bold tracking-wider text-warning">Liderança Comunitária</span>
               </div>
             )}
 
@@ -334,7 +334,7 @@ export default function PerfilEleitor() {
               className="flex flex-col items-center justify-center gap-1.5 bg-[#21c45d] text-white p-3 min-h-[64px] transition-all hover:bg-[#1ba94e] active:scale-95"
             >
               <MessageCircle className="h-5 w-5" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">WhatsApp</span>
+              <span className="text-[10px] font-bold tracking-wider">WhatsApp</span>
             </a>
             <a
               href={`tel:${eleitor.whatsapp}`}
@@ -350,7 +350,7 @@ export default function PerfilEleitor() {
               className="flex flex-col items-center justify-center gap-1.5 bg-secondary text-secondary-foreground p-3 min-h-[64px] transition-all hover:bg-secondary/90 active:scale-95"
             >
               <MapPin className="h-5 w-5" />
-              <span className="text-[10px] font-bold uppercase tracking-wider">Rota</span>
+              <span className="text-[10px] font-bold tracking-wider">Rota</span>
             </button>
           </div>
 

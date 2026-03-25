@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { ArrowRight, Check, MessageSquare, Phone, Save, Sparkles, X } from "lucide-react";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
@@ -80,17 +80,17 @@ export function FeedbackModal({
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="flex items-center gap-2 text-base">
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe">
+        <SheetHeader>
+          <SheetTitle className="flex items-center gap-2 text-base">
             <MessageSquare className="h-5 w-5 text-primary" />
             Notificar Eleitor sobre Avanço
-          </DialogTitle>
-          <DialogDescription className="text-xs">
+          </SheetTitle>
+          <SheetDescription className="text-xs">
             O ofício avançou de status. Deseja notificar os eleitores vinculados?
-          </DialogDescription>
-        </DialogHeader>
+          </SheetDescription>
+        </SheetHeader>
 
         {/* Status Change Summary */}
         <div className="flex items-center justify-center gap-3 py-3 bg-muted/50 rounded-2xl">
@@ -211,7 +211,7 @@ export function FeedbackModal({
             Salvar sem Notificar
           </Button>
         </div>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }

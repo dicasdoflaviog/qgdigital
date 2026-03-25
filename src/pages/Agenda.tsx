@@ -107,12 +107,12 @@ export default function Agenda() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant={limitReached ? "destructive" : "secondary"} className="text-xs px-2.5 py-1 font-bold uppercase tracking-wider">
+          <Badge variant={limitReached ? "destructive" : "secondary"} className="text-xs px-2.5 py-1 font-medium">
             <Clock className="h-3 w-3 mr-1" />
             {confirmedCount} de {LIMITE_DIARIO} reuniões
           </Badge>
           {canSchedule && (
-            <Button size="sm" className="font-bold uppercase tracking-wider text-xs" onClick={() => setShowForm(true)}>
+            <Button size="sm" className="font-medium text-xs" onClick={() => setShowForm(true)}>
               <Plus className="h-4 w-4 mr-1" /> Agendar
             </Button>
           )}
@@ -140,7 +140,7 @@ export default function Agenda() {
           {canApprove && pendingItems.length > 0 && (
             <Card>
               <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
                   <AlertTriangle className="h-4 w-4 text-destructive" />
                   Pendentes ({pendingItems.length})
                 </CardTitle>
@@ -152,7 +152,7 @@ export default function Agenda() {
                     r.visibilidade === "off" && "bg-muted/60"
                   )}>
                     <div className="flex items-center gap-1.5">
-                      <p className="text-xs font-bold truncate flex-1">{r.titulo}</p>
+                      <p className="text-xs font-medium truncate flex-1">{r.titulo}</p>
                       {r.visibilidade === "off" && (
                         <Badge variant="outline" className="text-[9px] gap-0.5 shrink-0 border-amber-500/50 text-amber-600">
                           <EyeOff className="h-2.5 w-2.5" /> OFF
@@ -163,7 +163,7 @@ export default function Agenda() {
                       {r.horaInicio} · {getAssessorNome(r.solicitanteId)}
                     </p>
                     <div className="flex gap-1.5">
-                      <Button size="sm" variant="default" className="h-7 text-xs flex-1 font-bold uppercase tracking-wider" onClick={() => handleApprove(r.id)}>
+                      <Button size="sm" variant="default" className="h-7 text-xs flex-1 font-medium" onClick={() => handleApprove(r.id)}>
                         <Check className="h-3 w-3 mr-1" /> Aprovar
                       </Button>
                       <Button size="sm" variant="outline" className="h-7 text-xs">
@@ -223,7 +223,7 @@ export default function Agenda() {
                             <div className="flex items-start justify-between gap-2">
                               <div className="min-w-0 space-y-0.5">
                                 <div className="flex items-center gap-1.5">
-                                  <p className="text-sm font-bold truncate">{r.titulo}</p>
+                                  <p className="text-sm font-medium truncate">{r.titulo}</p>
                                   {isOff && (
                                     <Badge variant="outline" className="text-[9px] gap-0.5 shrink-0 border-amber-500/50 text-amber-600">
                                       <EyeOff className="h-2.5 w-2.5" /> OFF
@@ -242,7 +242,7 @@ export default function Agenda() {
                               </div>
                               <Badge
                                 variant={isConfirmed ? "default" : "secondary"}
-                                className={cn("text-[10px] font-bold uppercase tracking-wider", isConflict && "bg-destructive text-destructive-foreground")}
+                                className={cn("text-[10px] font-medium", isConflict && "bg-destructive text-destructive-foreground")}
                               >
                                 {isConflict ? "Conflito!" : isConfirmed ? "Confirmada" : "Pendente"}
                               </Badge>
@@ -369,7 +369,7 @@ function AgendaForm({
               <div className="space-y-0.5">
                 <div className="flex items-center gap-1.5">
                   <EyeOff className="h-3.5 w-3.5 text-amber-600" />
-                  <Label className="text-xs font-bold uppercase tracking-wider">Modo OFF</Label>
+                  <Label className="text-xs font-medium">Modo OFF</Label>
                 </div>
                 <p className="text-[10px] text-muted-foreground leading-tight">
                   Oculta dos assessores. Apenas admin e secretária visualizam.
@@ -380,8 +380,8 @@ function AgendaForm({
           )}
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)} className="font-bold uppercase tracking-wider text-xs">Cancelar</Button>
-          <Button onClick={handleSubmit} disabled={!titulo || !bairro} className="font-bold uppercase tracking-wider text-xs">Solicitar Agendamento</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)} className="font-medium text-xs">Cancelar</Button>
+          <Button onClick={handleSubmit} disabled={!titulo || !bairro} className="font-medium text-xs">Solicitar Agendamento</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
