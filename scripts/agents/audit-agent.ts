@@ -1,115 +1,160 @@
-import { supabase } from '../utils/supabase-client.js';
-import { analyzeWithAI, isAIAvailable } from '../utils/ai-client.js';
-import { analyzeCode } from '../utils/code-analyzer.js';
+import 'dotenv/config';
+import { glob } from 'glob';
 import * as fs from 'fs';
 import * as path from 'path';
 import { fileURLToPath } from 'url';
+import { analyzeCode } from '../utils/code-analyzer.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const REPORT_DIR = path.resolve(__dirname, '../reports');
 
-async function auditCode() {
-  return analyzeCode();
+interface AuditIssue {
+  severity: 'critico' | 'importante' | 'menor';
+  message: string;
+  file: string;
+  line: number;
 }
 
-function generateMarkdownReport(report: any): string {
-  let md = `# 📊 Relatório de Auditoria de Código\n\n`;
-  md += `**Data:** ${new Date().toLocaleString('pt-BR')}\n\n`;
-  md += `## Resumo\n\n`;
-  md += `- 🔴 **Problemas Críticos:** ${report.summary.criticos}\n`;
-  md += `- 🟡 **Problemas Importantes:** ${report.summary.importantes}\n`;
-  md += `- 🟢 **Problemas Menores:** ${report.summary.menores}\n`;
-  md += `- 📁 **Total:** ${report.summary.total}\n\n`;
-
-  if (report.summary.criticos > 0) {
-    md += `## 🔴 Problemas Críticos\n\n`;
-    report.issues
-      .filter((issue: any) => issue.tipo === 'critico')
-      .forEach((issue: any, idx: number) => {
-        md += `### ${idx + 1}. ${issue.categoria} - ${issue.arquivo}\n`;
-        md += `- **Linha:** ${issue.linha || 'N/A'}\n`;
-        md += `- **Problema:** ${issue.descricao}\n`;
-        if (issue.codigo) md += `- **Código:** \`${issue.codigo}\`\n`;
-        md += `- **Sugestão:** ${issue.sugestao}\n\n`;
-      });
-  }
-
-  if (report.summary.importantes > 0) {
-    md += `## 🟡 Problemas Importantes\n\n`;
-    report.issues
-      .filter((issue: any) => issue.tipo === 'importante')
-      .forEach((issue: any, idx: number) => {
-        md += `### ${idx + 1}. ${issue.categoria} - ${issue.arquivo}\n`;
-        md += `- **Linha:** ${issue.linha || 'N/A'}\n`;
-        md += `- **Problema:** ${issue.descricao}\n`;
-        if (issue.codigo) md += `- **Código:** \`${issue.codigo}\`\n`;
-        md += `- **Sugestão:** ${issue.sugestao}\n\n`;
-      });
-  }
-
-  if (report.summary.menores > 0) {
-    md += `## 🟢 Problemas Menores\n\n`;
-    report.issues
-      .filter((issue: any) => issue.tipo === 'menor')
-      .forEach((issue: any, idx: number) => {
-        md += `${idx + 1}. **${issue.arquivo}:${issue.linha}** - ${issue.descricao}\n`;
-      });
-  }
-
-  return md;
+interface AuditReport {
+  timestamp: string;
+  filesScanned: number;
+  issues: AuditIssue[];
+  summary: {
+    critico: number;
+    importante: number;
+    menor: number;
+  };
 }
 
-async function main() {
-  try {
-    console.log('\n' + '='.repeat(50));
-    console.log('🔍 INICIANDO AUDITORIA DE CÓDIGO');
-    console.log('='.repeat(50) + '\n');
+async function runAudit(): Promise<void> {
+  console.log('\n🔍 QG Digital - Code Quality Audit');
+  console.log('='.repeat(60));
+  console.log('');
 
-    const report = await auditCode();
-    
-    // Criar diretório de reports se não existir
-    if (!fs.existsSync(REPORT_DIR)) {
-      fs.mkdirSync(REPORT_DIR, { recursive: true });
-    }
+  const srcDir = path.join(__dirname, '..', '..', 'src');
+  const files = await glob('**/*.{ts,tsx}', { cwd: srcDir });
 
-    // Salvar JSON
-    const jsonPath = path.join(REPORT_DIR, `audit-${Date.now()}.json`);
-    fs.writeFileSync(jsonPath, JSON.stringify(report, null, 2));
+  console.log(`📊 Scanning ${files.length} TypeScript files...`);
+  console.log('');
 
-    // Salvar Markdown
-    const mdPath = path.join(REPORT_DIR, `audit-${Date.now()}.md`);
-    const markdown = generateMarkdownReport(report);
-    fs.writeFileSync(mdPath, markdown);
+  const report: AuditReport = {
+    timestamp: new Date().toISOString(),
+    filesScanned: files.length,
+    issues: [],
+    summary: { critico: 0, importante: 0, menor: 0 }
+  };
 
-    // Salvar no Supabase
+  // Analyze files
+  for (const file of files) {
     try {
-      await supabase.from('auditorias').insert({
-        tipo: 'code_audit',
-        resultado: report,
-        problemas_criticos: report.summary.criticos,
-        problemas_importantes: report.summary.importantes,
-        problemas_menores: report.summary.menores,
+      const filepath = path.join(srcDir, file);
+      const content = fs.readFileSync(filepath, 'utf-8');
+      const analysis = analyzeCode(content, file);
+
+      analysis.issues.forEach(issue => {
+        report.issues.push({
+          severity: issue.severity,
+          message: issue.message,
+          file: issue.file,
+          line: issue.line
+        });
+        report.summary[issue.severity]++;
       });
-      console.log('✅ Auditoria salva no Supabase\n');
-    } catch (dbError) {
-      console.warn('⚠️ Erro ao salvar no Supabase (continuando):', dbError);
+    } catch (err) {
+      // Skip files that can't be read
     }
-
-    // Exibir resumo
-    console.log('='.repeat(50));
-    console.log('📊 RESUMO DA AUDITORIA');
-    console.log('='.repeat(50));
-    console.log(`🔴 Críticos: ${report.summary.criticos}`);
-    console.log(`🟡 Importantes: ${report.summary.importantes}`);
-    console.log(`🟢 Menores: ${report.summary.menores}`);
-    console.log(`📁 Total: ${report.summary.total}`);
-    console.log('='.repeat(50));
-    console.log(`\n✅ Relatório salvo em:\n   ${mdPath}\n`);
-
-  } catch (error) {
-    console.error('❌ Erro na auditoria:', error);
-    process.exit(1);
   }
+
+  // Print summary
+  console.log('📈 AUDIT RESULTS');
+  console.log('='.repeat(60));
+  console.log(`🔴 Critical:  ${report.summary.critico}`);
+  console.log(`🟠 Important: ${report.summary.importante}`);
+  console.log(`🟡 Minor:     ${report.summary.menor}`);
+  console.log(`📊 Total:     ${report.issues.length}`);
+  console.log('');
+
+  // Show top issues
+  const topIssues = report.issues.slice(0, 15);
+  if (topIssues.length > 0) {
+    console.log('Top Issues Found:');
+    console.log('-'.repeat(60));
+    topIssues.forEach((issue, idx) => {
+      const icon = issue.severity === 'critico' ? '🔴' : issue.severity === 'importante' ? '🟠' : '🟡';
+      console.log(`${String(idx + 1).padStart(2)}. ${icon} [${issue.severity.toUpperCase()}] ${issue.file}`);
+      console.log(`    Line ${issue.line}: ${issue.message}`);
+    });
+    console.log('');
+  }
+
+  // Save JSON report
+  const timestamp = new Date().toISOString().split('T')[0];
+  const reportsDir = path.join(__dirname, '..', 'reports');
+  
+  if (!fs.existsSync(reportsDir)) {
+    fs.mkdirSync(reportsDir, { recursive: true });
+  }
+
+  const jsonFile = path.join(reportsDir, `audit-${timestamp}.json`);
+  fs.writeFileSync(jsonFile, JSON.stringify(report, null, 2));
+
+  // Save Markdown report
+  let markdown = `# 📊 Code Quality Audit Report\n\n`;
+  markdown += `**Date:** ${new Date().toLocaleString()}\n`;
+  markdown += `**Files Scanned:** ${report.filesScanned}\n\n`;
+  markdown += `## Summary\n\n`;
+  markdown += `| Severity | Count |\n`;
+  markdown += `|----------|-------|\n`;
+  markdown += `| 🔴 Critical | ${report.summary.critico} |\n`;
+  markdown += `| 🟠 Important | ${report.summary.importante} |\n`;
+  markdown += `| 🟡 Minor | ${report.summary.menor} |\n\n`;
+
+  if (topIssues.length > 0) {
+    markdown += `## Top Issues\n\n`;
+    topIssues.forEach((issue, idx) => {
+      markdown += `${idx + 1}. **${issue.file}:${issue.line}** (${issue.severity})\n`;
+      markdown += `   - ${issue.message}\n\n`;
+    });
+  }
+
+  const mdFile = path.join(reportsDir, `audit-${timestamp}.md`);
+  fs.writeFileSync(mdFile, markdown);
+
+  console.log(`✅ JSON Report: ${jsonFile}`);
+  console.log(`✅ Markdown:    ${mdFile}`);
+  console.log('');
+
+  // Try to save to Supabase
+  try {
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    const SERVICE_KEY = process.env.SUPABASE_SERVICE_KEY;
+
+    if (SUPABASE_URL && SERVICE_KEY) {
+      const { createClient } = await import('@supabase/supabase-js');
+      const supabase = createClient(SUPABASE_URL, SERVICE_KEY);
+
+      const { error } = await supabase
+        .from('auditorias')
+        .insert({
+          tipo: 'code_quality',
+          issues: report.issues.slice(0, 100), // Limit to 100
+          stats: report.summary,
+          markdown: markdown
+        });
+
+      if (error) {
+        console.warn(`⚠️  Supabase save failed: ${error.message}`);
+      } else {
+        console.log('✅ Report saved to Supabase (auditorias table)');
+      }
+    }
+  } catch (err) {
+    console.warn('⚠️  Supabase integration unavailable (continuing offline)');
+  }
+
+  console.log('\n✅ Audit completed successfully\n');
 }
 
-main();
+runAudit().catch(err => {
+  console.error('❌ Error:', err.message);
+  process.exit(1);
+});

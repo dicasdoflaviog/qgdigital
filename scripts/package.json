@@ -3,17 +3,18 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "audit": "npx ts-node agents/audit-agent.ts",
-    "suggestions": "npx ts-node agents/suggestion-agent.ts",
-    "errors": "npx ts-node agents/error-agent.ts",
+    "audit": "NODE_OPTIONS=\"--loader=ts-node/esm --experimental-specifier-resolution=node --no-warnings\" npx ts-node --esm agents/audit-agent.ts",
+    "suggestions": "NODE_OPTIONS=\"--loader=ts-node/esm --experimental-specifier-resolution=node --no-warnings\" npx ts-node --esm agents/suggestion-agent.ts",
+    "errors": "NODE_OPTIONS=\"--loader=ts-node/esm --experimental-specifier-resolution=node --no-warnings\" npx ts-node --esm agents/error-agent.ts",
     "all": "npm run audit && npm run suggestions && npm run errors",
-    "dashboard": "npx ts-node agents/health-dashboard.ts"
+    "demo": "node test-agents.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.24.0",
     "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^17.3.1",
     "glob": "^10.3.0",
-    "typescript": "^5.3.0",
-    "ts-node": "^10.9.0"
+    "ts-node": "^10.9.0",
+    "typescript": "^5.3.0"
   }
 }

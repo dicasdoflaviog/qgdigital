@@ -1,0 +1,917 @@
+{
+  "timestamp": "2026-03-25T15:56:37.463Z",
+  "filesScanned": 182,
+  "issues": [
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/SystemMaster.tsx",
+      "line": 83
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/SystemMaster.tsx",
+      "line": 114
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/SystemMaster.tsx",
+      "line": 185
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/SystemMaster.tsx",
+      "line": 349
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/SystemMaster.tsx",
+      "line": 428
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (561 lines)",
+      "file": "pages/SystemMaster.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Sistema.tsx",
+      "line": 61
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Sistema.tsx",
+      "line": 100
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Sistema.tsx",
+      "line": 105
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Sistema.tsx",
+      "line": 106
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Sistema.tsx",
+      "line": 243
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Sistema.tsx",
+      "line": 333
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Sistema.tsx",
+      "line": 379
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (433 lines)",
+      "file": "pages/Sistema.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Setup.tsx",
+      "line": 35
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "pages/PerfilEleitor.tsx",
+      "line": 132
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "pages/PerfilEleitor.tsx",
+      "line": 145
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "pages/PerfilEleitor.tsx",
+      "line": 167
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/PerfilEleitor.tsx",
+      "line": 75
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ObservatorioBi.tsx",
+      "line": 75
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ObservatorioBi.tsx",
+      "line": 104
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ObservatorioBi.tsx",
+      "line": 123
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ObservatorioBi.tsx",
+      "line": 130
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ObservatorioBi.tsx",
+      "line": 189
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ObservatorioBi.tsx",
+      "line": 206
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (465 lines)",
+      "file": "pages/ObservatorioBi.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/MapaCalor.tsx",
+      "line": 256
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (897 lines)",
+      "file": "pages/MapaCalor.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/LogSugestoes.tsx",
+      "line": 53
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (732 lines)",
+      "file": "pages/Index.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/GestaoBase.tsx",
+      "line": 55
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/GestaoBase.tsx",
+      "line": 60
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/GestaoBase.tsx",
+      "line": 65
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/GestaoBase.tsx",
+      "line": 101
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/GestaoBase.tsx",
+      "line": 194
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/GestaoBase.tsx",
+      "line": 258
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "pages/Eleitores.tsx",
+      "line": 81
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Eleitores.tsx",
+      "line": 18
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Eleitores.tsx",
+      "line": 75
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Eleitores.tsx",
+      "line": 147
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/DashboardAssessor.tsx",
+      "line": 94
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/DashboardAssessor.tsx",
+      "line": 332
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Dashboard.tsx",
+      "line": 110
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Dashboard.tsx",
+      "line": 535
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/Dashboard.tsx",
+      "line": 632
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (748 lines)",
+      "file": "pages/Dashboard.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ConfiguracaoGabinete.tsx",
+      "line": 103
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/ConfiguracaoGabinete.tsx",
+      "line": 135
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (461 lines)",
+      "file": "pages/ConfiguracaoGabinete.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/CentralRecuperacao.tsx",
+      "line": 31
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/CentralRecuperacao.tsx",
+      "line": 43
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/CentralRecuperacao.tsx",
+      "line": 116
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/CentralRecuperacao.tsx",
+      "line": 133
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/CentralRecuperacao.tsx",
+      "line": 300
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "pages/CentralRecuperacao.tsx",
+      "line": 359
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 59
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 60
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 61
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 89
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 90
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 121
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 216
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 217
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 245
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 68
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 78
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 196
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 197
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "hooks/useVoiceInput.ts",
+      "line": 53
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useVoiceInput.ts",
+      "line": 5
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useVoiceInput.ts",
+      "line": 6
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useVoiceInput.ts",
+      "line": 34
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useVoiceInput.ts",
+      "line": 65
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useTeamMembers.ts",
+      "line": 108
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useSaasStats.ts",
+      "line": 38
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useSaasStats.ts",
+      "line": 85
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useSaasStats.ts",
+      "line": 91
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useSaasStats.ts",
+      "line": 92
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useSaasStats.ts",
+      "line": 121
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useGlobalConfig.ts",
+      "line": 28
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useGlobalConfig.ts",
+      "line": 29
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "hooks/useDemandas.ts",
+      "line": 40
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (1308 lines)",
+      "file": "integrations/supabase/types.ts",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/subscription/PlanoFaturamentoTab.tsx",
+      "line": 75
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (647 lines)",
+      "file": "components/ui/sidebar.tsx",
+      "line": 1
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (439 lines)",
+      "file": "components/mapa/GabineteRaioXModal.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/feedback/FeedbackModal.tsx",
+      "line": 13
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/feedback/FeedbackModal.tsx",
+      "line": 14
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/feedback/FeedbackModal.tsx",
+      "line": 66
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/feedback/FeedbackModal.tsx",
+      "line": 91
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/equipe/InviteMemberModal.tsx",
+      "line": 57
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (449 lines)",
+      "file": "components/layout/AppSidebar.tsx",
+      "line": 1
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (435 lines)",
+      "file": "components/chat/OnboardingIAModal.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 188
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 123
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 235
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (602 lines)",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/dashboard/TransparencyReportModal.tsx",
+      "line": 437
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (517 lines)",
+      "file": "components/dashboard/TransparencyReportModal.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/dashboard/RelatorioModal.tsx",
+      "line": 212
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/dashboard/RankingProdutividade.tsx",
+      "line": 155
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (532 lines)",
+      "file": "components/dashboard/DemandaDetailDrawer.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/eleitores/PhotoCapture.tsx",
+      "line": 105
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 318
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 186
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 231
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 266
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 317
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 328
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 340
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (603 lines)",
+      "file": "components/eleitores/CadastroModal.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/SubscricoesPanel.tsx",
+      "line": 74
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/SubscricoesPanel.tsx",
+      "line": 100
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/StatusSistema.tsx",
+      "line": 19
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/StatusSistema.tsx",
+      "line": 89
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/StatusSistema.tsx",
+      "line": 120
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/SkillsManagerPanel.tsx",
+      "line": 45
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/RecuperacaoDadosPanel.tsx",
+      "line": 25
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/RecuperacaoDadosPanel.tsx",
+      "line": 104
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/RecuperacaoDadosPanel.tsx",
+      "line": 136
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/RecuperacaoDadosPanel.tsx",
+      "line": 200
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (447 lines)",
+      "file": "components/admin/RecuperacaoDadosPanel.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/MRRPanel.tsx",
+      "line": 57
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/MRRPanel.tsx",
+      "line": 80
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/MRRPanel.tsx",
+      "line": 81
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/MRRPanel.tsx",
+      "line": 103
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/MRRPanel.tsx",
+      "line": 118
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/LayoutConfigPanel.tsx",
+      "line": 57
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/LayoutConfigPanel.tsx",
+      "line": 79
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/GestaoClientesPanel.tsx",
+      "line": 113
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/GestaoClientesPanel.tsx",
+      "line": 236
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/GestaoClientesPanel.tsx",
+      "line": 247
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/GestaoClientesPanel.tsx",
+      "line": 253
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/GestaoClientesPanel.tsx",
+      "line": 279
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (625 lines)",
+      "file": "components/admin/GestaoClientesPanel.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/GerenciarAssinaturaModal.tsx",
+      "line": 102
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FinanceiroPanel.tsx",
+      "line": 74
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FinanceiroPanel.tsx",
+      "line": 81
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FinanceiroPanel.tsx",
+      "line": 152
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FinanceiroPanel.tsx",
+      "line": 180
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FinanceiroPanel.tsx",
+      "line": 186
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FeatureFlagsPanel.tsx",
+      "line": 36
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FeatureFlagsPanel.tsx",
+      "line": 38
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/FeatureFlagsPanel.tsx",
+      "line": 68
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/ContratosPanel.tsx",
+      "line": 60
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/ContratosPanel.tsx",
+      "line": 113
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/ContratosPanel.tsx",
+      "line": 217
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/AuditPanel.tsx",
+      "line": 16
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/AuditPanel.tsx",
+      "line": 100
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/admin/AuditPanel.tsx",
+      "line": 195
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/account/DeleteAccountModal.tsx",
+      "line": 43
+    }
+  ],
+  "summary": {
+    "critico": 0,
+    "importante": 133,
+    "menor": 18
+  }
+}
