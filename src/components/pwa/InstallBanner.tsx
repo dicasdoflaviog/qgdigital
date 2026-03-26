@@ -192,7 +192,7 @@ export function InstallBanner() {
                 </div>
               </div>
               <p className="text-[10px] text-muted-foreground text-center">
-                💡 Acesse pelo link publicado: <span className="font-medium">qgdigital.lovable.app</span>
+                💡 Acesse pelo link publicado: <span className="font-medium">qgdigital.vercel.app</span>
               </p>
             </div>
           )}

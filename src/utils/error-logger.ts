@@ -7,10 +7,10 @@ interface ErrorLog {
   arquivo?: string;
   linha?: number;
   url?: string;
-  metadata?: Record<string, any>;
+  metadata?: Record<string, unknown>;
 }
 
-export async function logError(error: Error | ErrorLog, context?: Record<string, any>) {
+export async function logError(error: Error | ErrorLog, context?: Record<string, unknown>) {
   try {
     const errorData: ErrorLog = error instanceof Error 
       ? {
