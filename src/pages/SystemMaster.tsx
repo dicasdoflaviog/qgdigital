@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useContratos, useUpsertContrato, ContratoNacional } from "@/hooks/useContratos";
 import { useQuery } from "@tanstack/react-query";
@@ -38,6 +38,8 @@ const ESCOPO_OPTIONS = ["Regional", "Estadual", "Nacional"];
 
 export default function SystemMaster() {
   const { role, roleLevel } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const activeTab = searchParams.get("tab") || "painel";
 
   // --- Data ---
   const { data: contratos = [], isLoading: loadingContratos } = useContratos();
@@ -210,7 +212,7 @@ export default function SystemMaster() {
         </p>
       </div>
 
-      <Tabs defaultValue="painel" className="space-y-4">
+      <Tabs value={activeTab} onValueChange={(v) => setSearchParams(v !== "painel" ? { tab: v } : {})} className="space-y-4">
         <TabsList className="w-full flex flex-wrap gap-1">
           <TabsTrigger value="painel" className="text-xs font-bold tracking-wider">Painel</TabsTrigger>
           <TabsTrigger value="clientes" className="text-xs font-bold tracking-wider gap-1">

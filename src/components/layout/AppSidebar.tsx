@@ -37,6 +37,7 @@ interface NavItem {
   minLevel?: number;
   exactLevels?: number[];
   group?: MenuGroup;
+  tab?: string; // when set, matches ?tab=<value> for active state
 }
 
 // ── TOPO: Inteligência (Dashboard, Mapa, Observatório) ──
@@ -69,9 +70,9 @@ const estrategicoNavItems: NavItem[] = [
 // ── L5 EXCLUSIVE: Administração SaaS ──
 const saasAdminNavItems: NavItem[] = [
   { title: "Painel Master", url: "/admin/system-master", icon: Server, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
-  { title: "Clientes (Nível 4)", url: "/admin/system-master", icon: Users, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
-  { title: "Habilidades (Skills)", url: "/admin/system-master", icon: ShieldCheck, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
-  { title: "Financeiro (MRR)", url: "/admin/system-master", icon: DollarSign, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
+  { title: "Clientes (Nível 4)", url: "/admin/system-master", tab: "clientes", icon: Users, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
+  { title: "Habilidades (Skills)", url: "/admin/system-master", tab: "skills", icon: ShieldCheck, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
+  { title: "Financeiro (MRR)", url: "/admin/system-master", tab: "mrr", icon: DollarSign, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
   { title: "Chamados de Melhoria", url: "/sugestoes", icon: MessageSquarePlus, roles: ["super_admin"], exactLevels: [5], group: "saas_admin" },
 ];
 
@@ -136,8 +137,18 @@ export function AppSidebar() {
       const itemState = getItemState(item);
       if (itemState === "hidden") return null;
 
-      const active = location.pathname === item.url;
+      // Active detection: for items with a `tab` field, match pathname + ?tab=<value>
+      // For items without a tab, match pathname only (ignoring any query params)
+      const currentTab = new URLSearchParams(location.search).get("tab");
+      const active = location.pathname === item.url && (
+        item.tab !== undefined
+          ? currentTab === item.tab
+          : currentTab === null
+      );
       const isLocked = itemState === "locked";
+
+      // Build the href — include ?tab= when the item specifies a tab
+      const itemHref = item.tab ? `${item.url}?tab=${item.tab}` : item.url;
 
       const linkContent = isLocked ? (
         <button
@@ -156,8 +167,8 @@ export function AppSidebar() {
         </button>
       ) : (
         <NavLink
-          to={item.url}
-          end={item.url === "/"}
+          to={itemHref}
+          end={itemHref === "/"}
           className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all overflow-hidden ${
             collapsed ? "justify-center px-0" : ""
           } ${active ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium" : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-white"}`}
@@ -174,7 +185,7 @@ export function AppSidebar() {
       );
 
       return (
-        <SidebarMenuItem key={item.title + item.url}>
+        <SidebarMenuItem key={item.title + (item.tab ?? item.url)}>
           <SidebarMenuButton asChild isActive={!isLocked && active} tooltip={collapsed ? item.title : undefined}>
             {collapsed ? (
               <Tooltip>
