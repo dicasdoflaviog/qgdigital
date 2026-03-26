@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import { BAIRROS } from "@/data/mockData";
+import { NovoOficioModal } from "@/components/oficios/NovoOficioModal";
+import type { Oficio } from "@/data/oficiosData";
 
 const KEYWORDS = [
   "esgoto", "asfalto", "luz", "iluminação", "água", "buraco", "lixo",
@@ -96,8 +98,13 @@ function timeAgo(date: Date): string {
   return `há ${hours}h`;
 }
 
-function DemandCard({ demand }: { demand: VoiceDemand }) {
-  const navigate = useNavigate();
+function DemandCard({
+  demand,
+  onTransformToOficio,
+}: {
+  demand: VoiceDemand;
+  onTransformToOficio: (demand: VoiceDemand) => void;
+}) {
   const [dismissed, setDismissed] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(demand.transcription);
@@ -199,7 +206,7 @@ function DemandCard({ demand }: { demand: VoiceDemand }) {
           className="h-7 text-[10px] font-medium gap-1"
           onClick={() => {
             setDismissed(true);
-            navigate("/oficios");
+            onTransformToOficio({ ...demand, transcription: editText });
           }}
         >
           <FileText className="h-3 w-3" />
@@ -222,6 +229,25 @@ function DemandCard({ demand }: { demand: VoiceDemand }) {
 }
 
 export function RadarDaRua() {
+  const navigate = useNavigate();
+  const [selectedDemand, setSelectedDemand] = useState<VoiceDemand | null>(null);
+  const [showModal, setShowModal] = useState(false);
+
+  const handleTransformToOficio = (demand: VoiceDemand) => {
+    setSelectedDemand(demand);
+    setShowModal(true);
+  };
+
+  const handleSaveOficio = (_oficio: Oficio) => {
+    setShowModal(false);
+    setSelectedDemand(null);
+    navigate("/oficios");
+  };
+
+  const bairroValido = selectedDemand
+    ? BAIRROS.find((b) => b.toLowerCase() === selectedDemand.bairro.toLowerCase())
+    : undefined;
+
   return (
     <Card className="hover-glow animate-fade-up delay-300 overflow-hidden">
       <CardHeader className="pb-2">
@@ -243,9 +269,29 @@ export function RadarDaRua() {
       </CardHeader>
       <CardContent className="space-y-2">
         {mockDemands.map((demand) => (
-          <DemandCard key={demand.id} demand={demand} />
+          <DemandCard
+            key={demand.id}
+            demand={demand}
+            onTransformToOficio={handleTransformToOficio}
+          />
         ))}
       </CardContent>
+
+      <NovoOficioModal
+        open={showModal}
+        onOpenChange={(v) => {
+          setShowModal(v);
+          if (!v) setSelectedDemand(null);
+        }}
+        onSave={handleSaveOficio}
+        initialBairro={bairroValido}
+        initialPauta={
+          selectedDemand
+            ? `Demanda registrada por ${selectedDemand.assessor}: "${selectedDemand.transcription}"`
+            : undefined
+        }
+        initialEleitorNome={selectedDemand?.eleitorNome}
+      />
     </Card>
   );
 }

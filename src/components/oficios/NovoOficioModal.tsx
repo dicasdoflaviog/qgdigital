@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Plus, FileText, Upload, Sparkles, Loader2, X, FileUp } from "lucide-react";
 import {
   Sheet,
@@ -35,9 +35,19 @@ interface NovoOficioModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSave: (oficio: Oficio) => void;
+  initialBairro?: string;
+  initialPauta?: string;
+  initialEleitorNome?: string;
 }
 
-export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalProps) {
+export function NovoOficioModal({
+  open,
+  onOpenChange,
+  onSave,
+  initialBairro,
+  initialPauta,
+  initialEleitorNome,
+}: NovoOficioModalProps) {
   const [numero, setNumero] = useState("");
   const [titulo, setTitulo] = useState("");
   const [bairro, setBairro] = useState("");
@@ -48,6 +58,14 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
   const [aiResumo, setAiResumo] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
+
+  // Pré-preenche campos quando modal abre com dados do Radar de Rua
+  useEffect(() => {
+    if (!open) { resetForm(); return; }
+    if (initialBairro) setBairro(initialBairro);
+    if (initialPauta) setPauta(initialPauta);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, initialBairro, initialPauta]);
 
   const resetForm = () => {
     setNumero("");
@@ -209,7 +227,7 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe max-w-md">
         <SheetHeader>
-          <SheetTitle className="flex items-center gap-2 text-base font-medium uppercase tracking-tight">
+          <SheetTitle className="flex items-center gap-2 text-base font-medium tracking-tight">
             <div className="flex h-6 w-6 items-center justify-center bg-primary text-primary-foreground">
               <FileText className="h-3.5 w-3.5" />
             </div>
@@ -221,6 +239,16 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
         </SheetHeader>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Banner de origem quando vier do Radar de Rua */}
+          {initialEleitorNome && (
+            <div className="flex items-start gap-2 bg-emerald-50 border border-emerald-200 rounded-lg p-3">
+              <span className="text-emerald-600 text-sm">📡</span>
+              <p className="text-xs text-emerald-700 leading-relaxed">
+                Demanda originada pelo <span className="font-medium">Radar de Rua</span>
+                {initialEleitorNome && <> — eleitor: <span className="font-medium">{initialEleitorNome}</span></>}
+              </p>
+            </div>
+          )}
           {/* File Upload Section */}
           <div className="space-y-2">
             <Label className="label-ui flex items-center gap-1.5">
