@@ -49,6 +49,7 @@ function defaultLevelForRole(role: AppRole | null): number {
     case "assessor": return 1;
     case "secretaria": return 2;
     case "admin": return 3;
+    case "lider_politico": return 4;
     case "super_admin": return 5;
     default: return 1;
   }

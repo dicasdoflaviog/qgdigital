@@ -42,29 +42,29 @@ interface NavItem {
 
 // ── TOPO: Inteligência (Dashboard, Mapa, Observatório) ──
 const inteligenciaNavItems: NavItem[] = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard, roles: ["admin", "super_admin", "assessor", "secretaria"], group: "inteligencia" },
-  { title: "Mapa de Calor", url: "/mapa", icon: MapPin, roles: ["admin", "super_admin"], group: "inteligencia" },
-  { title: "Observatório BI", url: "/observatorio-bi", icon: BarChart3, roles: ["admin", "super_admin"], exactLevels: [3, 4, 5], group: "inteligencia" },
+  { title: "Dashboard", url: "/", icon: LayoutDashboard, roles: ["admin", "lider_politico", "super_admin", "assessor", "secretaria"], group: "inteligencia" },
+  { title: "Mapa de Calor", url: "/mapa", icon: MapPin, roles: ["admin", "lider_politico", "super_admin"], group: "inteligencia" },
+  { title: "Observatório BI", url: "/observatorio-bi", icon: BarChart3, roles: ["admin", "lider_politico", "super_admin"], exactLevels: [3, 4, 5], group: "inteligencia" },
 ];
 
 // ── MEIO: Operacional (Eleitores, Ofícios, Agenda, etc.) ──
 const operacionalNavItems: NavItem[] = [
-  { title: "Eleitores", url: "/eleitores", icon: Users, roles: ["admin", "super_admin", "secretaria", "assessor"], group: "operacional" },
-  { title: "Equipe", url: "/equipe", icon: Trophy, roles: ["admin", "super_admin", "secretaria"], group: "operacional" },
-  { title: "Agenda", url: "/agenda", icon: CalendarDays, roles: ["admin", "super_admin", "secretaria", "assessor"], group: "operacional" },
-  { title: "Calendário", url: "/calendario", icon: CalendarRange, roles: ["admin", "super_admin", "secretaria"], group: "operacional" },
-  { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "super_admin", "secretaria"], group: "operacional" },
-  { title: "Guia de Soluções", url: "/guia", icon: BookOpen, roles: ["admin", "super_admin", "secretaria", "assessor"], group: "operacional" },
-  { title: "Plano", url: "/plano", icon: CreditCard, roles: ["admin", "super_admin"], group: "operacional" },
-  { title: "Instituições", url: "/instituicoes", icon: Building2, roles: ["admin", "super_admin"], group: "operacional" },
-  { title: "Emendas", url: "/emendas", icon: Landmark, roles: ["admin", "super_admin"], group: "operacional" },
+  { title: "Eleitores", url: "/eleitores", icon: Users, roles: ["admin", "lider_politico", "super_admin", "secretaria", "assessor"], group: "operacional" },
+  { title: "Equipe", url: "/equipe", icon: Trophy, roles: ["admin", "lider_politico", "super_admin", "secretaria"], group: "operacional" },
+  { title: "Agenda", url: "/agenda", icon: CalendarDays, roles: ["admin", "lider_politico", "super_admin", "secretaria", "assessor"], group: "operacional" },
+  { title: "Calendário", url: "/calendario", icon: CalendarRange, roles: ["admin", "lider_politico", "super_admin", "secretaria"], group: "operacional" },
+  { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "lider_politico", "super_admin", "secretaria"], group: "operacional" },
+  { title: "Guia de Soluções", url: "/guia", icon: BookOpen, roles: ["admin", "lider_politico", "super_admin", "secretaria", "assessor"], group: "operacional" },
+  { title: "Plano", url: "/plano", icon: CreditCard, roles: ["admin", "lider_politico", "super_admin"], group: "operacional" },
+  { title: "Instituições", url: "/instituicoes", icon: Building2, roles: ["admin", "lider_politico", "super_admin"], group: "operacional" },
+  { title: "Emendas", url: "/emendas", icon: Landmark, roles: ["admin", "lider_politico", "super_admin"], group: "operacional" },
   { title: "Identidade", url: "/configuracao-gabinete", icon: Paintbrush, roles: ["admin"], exactLevels: [3], group: "operacional" },
 ];
 
 // ── L4 Estratégico ──
 const estrategicoNavItems: NavItem[] = [
-  { title: "Observatório", url: "/observatorio", icon: Scale, roles: ["super_admin"], exactLevels: [4, 5], group: "estrategico" },
-  { title: "Gestão de Base", url: "/gestao-base", icon: Database, roles: ["super_admin"], exactLevels: [4, 5], group: "estrategico" },
+  { title: "Observatório", url: "/observatorio", icon: Scale, roles: ["lider_politico", "super_admin"], exactLevels: [4, 5], group: "estrategico" },
+  { title: "Gestão de Base", url: "/gestao-base", icon: Database, roles: ["lider_politico", "super_admin"], exactLevels: [4, 5], group: "estrategico" },
 ];
 
 // ── L5 EXCLUSIVE: Administração SaaS ──

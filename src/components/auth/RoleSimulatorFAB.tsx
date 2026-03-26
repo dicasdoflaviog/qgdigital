@@ -21,7 +21,7 @@ const roleLevels: RoleLevel[] = [
   { level: 1, value: "assessor", label: "Assessor", description: "Cadastro de eleitores e minhas demandas", icon: Users, menus: "Cadastro · Demandas" },
   { level: 2, value: "secretaria", label: "Secretária", description: "Agenda, eleitores e ofícios do gabinete", icon: FileText, menus: "Agenda · Eleitores · Ofícios · Radar" },
   { level: 3, value: "admin", label: "Vereador", description: "Gestão do gabinete, equipe, emendas e relatórios", icon: UserCheck, menus: "Dashboard · Equipe · Emendas" },
-  { level: 4, value: "super_admin", label: "Líder Político", description: "Estratégia regional, mapa de calor, performance de gabinetes", icon: Shield, menus: "Observatório · Mapa · Gestão Base" },
+  { level: 4, value: "lider_politico", label: "Líder Político", description: "Estratégia regional, mapa de calor, performance de gabinetes", icon: Shield, menus: "Observatório · Mapa · Gestão Base" },
   { level: 5, value: "super_admin", label: "System Master", description: "MRR, faturamento, gestão de clientes e auditoria global", icon: Crown, menus: "Financeiro · Contratos · Sistema · Backup" },
 ];
 
@@ -40,8 +40,6 @@ export function RoleSimulatorFAB() {
 
     if (rl.level === 5) {
       impersonateRole(null, null);
-    } else if (rl.level === 4) {
-      impersonateRole(null, 4);
     } else {
       impersonateRole(rl.value, rl.level);
     }

@@ -13,13 +13,13 @@ interface BottomItem {
 }
 
 const allItems: BottomItem[] = [
-  { title: "Painel", url: "/", icon: LayoutDashboard, roles: ["admin", "super_admin", "assessor", "secretaria"] },
-  { title: "Mapa", url: "/mapa", icon: MapPin, roles: ["admin", "super_admin"] },
+  { title: "Painel", url: "/", icon: LayoutDashboard, roles: ["admin", "lider_politico", "super_admin", "assessor", "secretaria"] },
+  { title: "Mapa", url: "/mapa", icon: MapPin, roles: ["admin", "lider_politico", "super_admin"] },
   { title: "Guia", url: "/guia", icon: BookOpen, roles: ["assessor", "secretaria"] },
-  { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "super_admin", "secretaria"] },
+  { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "lider_politico", "super_admin", "secretaria"] },
   { title: "Agenda", url: "/agenda", icon: CalendarDays, roles: ["assessor", "secretaria"] },
   { title: "Eleitores", url: "/eleitores", icon: Users, roles: ["assessor"] },
-  { title: "Ranking", url: "/equipe", icon: Trophy, roles: ["admin", "super_admin"] },
+  { title: "Ranking", url: "/equipe", icon: Trophy, roles: ["admin", "lider_politico", "super_admin"] },
 ];
 
 function NavItem({ item, active }: { item: BottomItem; active: boolean }) {

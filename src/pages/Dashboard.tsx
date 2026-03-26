@@ -211,10 +211,9 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {(role === "super_admin" || role === "admin") && (
+      {role === "admin" && (
         <div className="space-y-2">
           <RelatorioModal />
-          {role === "super_admin" && <TransparencyReportModal />}
         </div>
       )}
 
@@ -352,7 +351,6 @@ export default function Dashboard() {
           )}
 
           {(role === "secretaria" || role === "admin") && <RadarDaRua />}
-          {role === "super_admin" && <ActivityFeed />}
 
           {/* ═══════ Inteligência Regional ═══════ */}
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
@@ -433,7 +431,7 @@ export default function Dashboard() {
           </div>
 
           {/* ═══════ Ranking de Produtividade (L3+) ═══════ */}
-          {(role === "admin" || role === "super_admin") && (
+          {role === "admin" && (
             <RankingProdutividade />
           )}
 
@@ -476,7 +474,7 @@ export default function Dashboard() {
               </Card>
             )}
 
-            {(role === "admin" || role === "super_admin") && (
+            {role === "admin" && (
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-sm flex items-center gap-1.5">

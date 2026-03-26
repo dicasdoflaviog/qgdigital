@@ -207,7 +207,7 @@ export function NovoOficioModal({ open, onOpenChange, onSave }: NovoOficioModalP
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe" className="max-w-md max-h-[90vh] overflow-y-auto">
+      <SheetContent side="bottom" className="rounded-t-2xl max-h-[90vh] overflow-y-auto pb-safe max-w-md">
         <SheetHeader>
           <SheetTitle className="flex items-center gap-2 text-base font-medium uppercase tracking-tight">
             <div className="flex h-6 w-6 items-center justify-center bg-primary text-primary-foreground">
