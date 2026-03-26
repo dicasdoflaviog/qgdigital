@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { LayoutDashboard, MapPin, Plus, Trophy, Sparkles, FileText, CalendarDays, Radio, Users, BookOpen } from "lucide-react";
+import { LayoutDashboard, MapPin, Plus, Trophy, Sparkles, FileText, CalendarDays, Users, BookOpen } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -17,8 +17,7 @@ const allItems: BottomItem[] = [
   { title: "Mapa", url: "/mapa", icon: MapPin, roles: ["admin", "super_admin"] },
   { title: "Guia", url: "/guia", icon: BookOpen, roles: ["assessor", "secretaria"] },
   { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "super_admin", "secretaria"] },
-  { title: "Agenda", url: "/agenda", icon: CalendarDays, roles: ["assessor"] },
-  { title: "Radar", url: "/", icon: Radio, roles: ["secretaria"] },
+  { title: "Agenda", url: "/agenda", icon: CalendarDays, roles: ["assessor", "secretaria"] },
   { title: "Eleitores", url: "/eleitores", icon: Users, roles: ["assessor"] },
   { title: "Ranking", url: "/equipe", icon: Trophy, roles: ["admin", "super_admin"] },
 ];

@@ -41,7 +41,7 @@ interface NavItem {
 
 // ── TOPO: Inteligência (Dashboard, Mapa, Observatório) ──
 const inteligenciaNavItems: NavItem[] = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard, roles: ["admin", "super_admin"], group: "inteligencia" },
+  { title: "Dashboard", url: "/", icon: LayoutDashboard, roles: ["admin", "super_admin", "assessor", "secretaria"], group: "inteligencia" },
   { title: "Mapa de Calor", url: "/mapa", icon: MapPin, roles: ["admin", "super_admin"], group: "inteligencia" },
   { title: "Observatório BI", url: "/observatorio-bi", icon: BarChart3, roles: ["admin", "super_admin"], exactLevels: [3, 4, 5], group: "inteligencia" },
 ];
@@ -53,7 +53,6 @@ const operacionalNavItems: NavItem[] = [
   { title: "Agenda", url: "/agenda", icon: CalendarDays, roles: ["admin", "super_admin", "secretaria", "assessor"], group: "operacional" },
   { title: "Calendário", url: "/calendario", icon: CalendarRange, roles: ["admin", "super_admin", "secretaria"], group: "operacional" },
   { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "super_admin", "secretaria"], group: "operacional" },
-  { title: "Radar da Rua", url: "/", icon: Radio, roles: ["secretaria"], group: "operacional" },
   { title: "Guia de Soluções", url: "/guia", icon: BookOpen, roles: ["admin", "super_admin", "secretaria", "assessor"], group: "operacional" },
   { title: "Plano", url: "/plano", icon: CreditCard, roles: ["admin", "super_admin"], group: "operacional" },
   { title: "Instituições", url: "/instituicoes", icon: Building2, roles: ["admin", "super_admin"], group: "operacional" },

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {
   LayoutDashboard, Users, MapPin, Trophy, CalendarDays, CalendarRange,
-  FileText, Settings, Zap, Radio, BookOpen, X, LogOut, MessageSquarePlus, Database,
+  FileText, Settings, Zap, BookOpen, X, LogOut, MessageSquarePlus, Database,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FeedbackModal } from "@/components/feedback/FeedbackModal";
@@ -16,14 +16,13 @@ import { Separator } from "@/components/ui/separator";
 interface NavItem { title: string; url: string; icon: React.ElementType; roles: string[]; }
 
 const navItems: NavItem[] = [
-  { title: "Dashboard", url: "/", icon: LayoutDashboard, roles: ["admin", "super_admin", "assessor"] },
+  { title: "Dashboard", url: "/", icon: LayoutDashboard, roles: ["admin", "super_admin", "assessor", "secretaria"] },
   { title: "Eleitores", url: "/eleitores", icon: Users, roles: ["admin", "super_admin", "secretaria", "assessor"] },
   { title: "Mapa de Calor", url: "/mapa", icon: MapPin, roles: ["admin", "super_admin"] },
   { title: "Equipe", url: "/equipe", icon: Trophy, roles: ["admin", "super_admin"] },
   { title: "Agenda", url: "/agenda", icon: CalendarDays, roles: ["admin", "super_admin", "secretaria", "assessor"] },
   { title: "Calendário", url: "/calendario", icon: CalendarRange, roles: ["admin", "super_admin", "secretaria"] },
   { title: "Ofícios", url: "/oficios", icon: FileText, roles: ["admin", "super_admin", "secretaria"] },
-  { title: "Radar da Rua", url: "/", icon: Radio, roles: ["secretaria"] },
   { title: "Guia de Soluções", url: "/guia", icon: BookOpen, roles: ["admin", "super_admin", "secretaria", "assessor"] },
   { title: "Configurações", url: "/configuracoes", icon: Settings, roles: ["admin", "super_admin"] },
   { title: "Gestão de Base", url: "/gestao-base", icon: Database, roles: ["super_admin"] },
