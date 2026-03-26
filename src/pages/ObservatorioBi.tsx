@@ -34,6 +34,9 @@ export default function ObservatorioBi() {
   const { role, roleLevel, user } = useAuth();
   const queryClient = useQueryClient();
 
+  const isL3 = roleLevel === 3;
+  const gabineteId = user?.id ?? null;
+
   const [cidadeA, setCidadeA] = useState<string>("");
   const [cidadeB, setCidadeB] = useState<string>("");
   const [diretrizOpen, setDiretrizOpen] = useState(false);
@@ -44,6 +47,7 @@ export default function ObservatorioBi() {
   // Fetch all cities from resumo view
   const { data: resumoGabinetes = [], isLoading: loadingResumo } = useQuery({
     queryKey: ["resumo-gabinetes-bi"],
+    enabled: !isL3,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("resumo_gabinetes_por_cidade" as any)
@@ -53,9 +57,32 @@ export default function ObservatorioBi() {
     },
   });
 
-  // Recent activity per gabinete (last 7 days)
+  // L3: own gabinete stats from resumo view
+  const { data: ownStats, isLoading: loadingOwn } = useQuery({
+    queryKey: ["own-gabinete-stats-bi", gabineteId],
+    enabled: isL3 && !!gabineteId,
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("resumo_gabinetes_por_cidade" as any)
+        .select("*")
+        .eq("gabinete_id", gabineteId!);
+      const rows = (data ?? []) as any[];
+      return rows.reduce(
+        (acc, r) => ({
+          total_eleitores: acc.total_eleitores + Number(r.total_eleitores || 0),
+          total_demandas: acc.total_demandas + Number(r.total_demandas || 0),
+          demandas_resolvidas: acc.demandas_resolvidas + Number(r.demandas_resolvidas || 0),
+          demandas_pendentes: acc.demandas_pendentes + Number(r.demandas_pendentes || 0),
+        }),
+        { total_eleitores: 0, total_demandas: 0, demandas_resolvidas: 0, demandas_pendentes: 0 }
+      );
+    },
+  });
+
+  // Recent activity per gabinete (last 7 days) — L4+ only
   const { data: recentActivity = [] } = useQuery({
     queryKey: ["recent-activity-bi"],
+    enabled: !isL3,
     queryFn: async () => {
       const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString();
       const { data } = await supabase
@@ -66,9 +93,10 @@ export default function ObservatorioBi() {
     },
   });
 
-  // Gabinete names
+  // Gabinete names — L4+ only
   const { data: gabineteNames = {} } = useQuery({
     queryKey: ["gabinete-names-bi"],
+    enabled: !isL3,
     queryFn: async () => {
       const { data } = await supabase.from("profiles").select("id, full_name");
       const m: Record<string, string> = {};
@@ -79,17 +107,19 @@ export default function ObservatorioBi() {
 
   // AI Sentiment — Pauta da Semana
   const { data: pautaSemana, isLoading: loadingPauta, refetch: refetchPauta } = useQuery({
-    queryKey: ["pauta-semana-bi"],
+    queryKey: ["pauta-semana-bi", isL3 ? gabineteId : "all"],
     queryFn: async () => {
       const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString();
-      const { data: demandas } = await supabase
+      let q = supabase
         .from("demandas")
         .select("categoria, descricao, bairro, created_at")
         .gte("created_at", sevenDaysAgo)
         .limit(100);
+      if (isL3 && gabineteId) q = (q as any).eq("gabinete_id", gabineteId);
+      const { data: demandas } = await q;
 
       const { data: fnData, error } = await supabase.functions.invoke("sentiment-analysis", {
-        body: { demandas: demandas ?? [], regiao: "Região monitorada" },
+        body: { demandas: demandas ?? [], regiao: isL3 ? "Seu gabinete" : "Região monitorada" },
       });
       if (error) throw error;
       return fnData?.pauta || "Sem dados suficientes para análise.";
@@ -139,7 +169,7 @@ export default function ObservatorioBi() {
     };
   }, [recentActivity, gabineteNames, resumoGabinetes]);
 
-  if (roleLevel < 4) return <Navigate to="/" replace />;
+  if (roleLevel < 3) return <Navigate to="/" replace />;
 
   const compA = cityStats.find((c) => c.cidade === cidadeA);
   const compB = cityStats.find((c) => c.cidade === cidadeB);
@@ -234,15 +264,19 @@ export default function ObservatorioBi() {
           Observatório BI
         </h1>
         <p className="text-sm text-muted-foreground mt-2">
-          Análise macro-regional de performance, sentimento e inteligência territorial.
+          {isL3
+            ? "Análise de performance e inteligência do seu gabinete."
+            : "Análise macro-regional de performance, sentimento e inteligência territorial."}
         </p>
       </div>
 
       {/* Action Buttons */}
       <div className="flex flex-wrap gap-2">
-        <Button onClick={() => setDiretrizOpen(true)} className="gap-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground">
-          <Megaphone className="h-4 w-4" /> Disparar Diretriz
-        </Button>
+        {!isL3 && (
+          <Button onClick={() => setDiretrizOpen(true)} className="gap-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground">
+            <Megaphone className="h-4 w-4" /> Disparar Diretriz
+          </Button>
+        )}
         <Button
           onClick={handleGenerateReport}
           disabled={generatingReport}
@@ -254,40 +288,74 @@ export default function ObservatorioBi() {
         </Button>
       </div>
 
-      {/* === PERFORMANCE CHART === */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
-            <BarChart3 className="h-4 w-4 text-primary" /> Desempenho por Cidade
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          {loadingResumo ? (
-            <div className="flex items-center justify-center py-12">
-              <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+      {/* === L3: KPI Cards do Próprio Gabinete === */}
+      {isL3 && (
+        <div>
+          <h2 className="text-sm font-medium text-muted-foreground mb-3">Seu gabinete</h2>
+          {loadingOwn ? (
+            <div className="flex items-center gap-2 py-4">
+              <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">Carregando dados...</span>
             </div>
-          ) : chartData.length === 0 ? (
-            <p className="text-sm text-muted-foreground text-center py-8">Sem dados disponíveis.</p>
           ) : (
-            <ResponsiveContainer width="100%" height={280}>
-              <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-border/30" />
-                <XAxis dataKey="cidade" className="text-[10px]" tick={{ fontSize: 10 }} />
-                <YAxis className="text-[10px]" tick={{ fontSize: 10 }} />
-                <Tooltip
-                  contentStyle={{ borderRadius: 12, border: "1px solid hsl(var(--border))", background: "hsl(var(--background))" }}
-                  labelStyle={{ fontWeight: 700, fontSize: 12 }}
-                />
-                <Bar dataKey="eleitores" name="Eleitores" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="demandas" name="Demandas" fill="hsl(var(--muted-foreground))" radius={[4, 4, 0, 0]} opacity={0.6} />
-              </BarChart>
-            </ResponsiveContainer>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { label: "Eleitores", value: ownStats?.total_eleitores ?? 0, icon: Users, color: "text-primary", bg: "bg-primary/10" },
+                { label: "Demandas", value: ownStats?.total_demandas ?? 0, icon: Activity, color: "text-amber-600", bg: "bg-amber-500/10" },
+                { label: "Resolvidas", value: ownStats?.demandas_resolvidas ?? 0, icon: CheckCircle2, color: "text-emerald-600", bg: "bg-emerald-500/10" },
+                { label: "Pendentes", value: ownStats?.demandas_pendentes ?? 0, icon: AlertTriangle, color: "text-destructive", bg: "bg-destructive/10" },
+              ].map((kpi) => (
+                <Card key={kpi.label} className="p-4">
+                  <div className={`w-9 h-9 ${kpi.bg} rounded-xl flex items-center justify-center mb-3`}>
+                    <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
+                  </div>
+                  <p className="text-2xl font-medium text-foreground whitespace-nowrap">
+                    {kpi.value.toLocaleString("pt-BR")}
+                  </p>
+                  <p className="text-xs font-medium text-muted-foreground mt-0.5 whitespace-nowrap">{kpi.label}</p>
+                </Card>
+              ))}
+            </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      )}
 
-      {/* === TOP 3 & ALERTA 3 === */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* === PERFORMANCE CHART + TOP 3 — L4+ only === */}
+      {!isL3 && (
+        <>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
+                <BarChart3 className="h-4 w-4 text-primary" /> Desempenho por Cidade
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {loadingResumo ? (
+              <div className="flex items-center justify-center py-12">
+                <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+              </div>
+            ) : chartData.length === 0 ? (
+              <p className="text-sm text-muted-foreground text-center py-8">Sem dados disponíveis.</p>
+            ) : (
+              <ResponsiveContainer width="100%" height={280}>
+                <BarChart data={chartData} margin={{ top: 5, right: 20, bottom: 5, left: 0 }}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-border/30" />
+                  <XAxis dataKey="cidade" className="text-[10px]" tick={{ fontSize: 10 }} />
+                  <YAxis className="text-[10px]" tick={{ fontSize: 10 }} />
+                  <Tooltip
+                    contentStyle={{ borderRadius: 12, border: "1px solid hsl(var(--border))", background: "hsl(var(--background))" }}
+                    labelStyle={{ fontWeight: 700, fontSize: 12 }}
+                  />
+                  <Bar dataKey="eleitores" name="Eleitores" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="demandas" name="Demandas" fill="hsl(var(--muted-foreground))" radius={[4, 4, 0, 0]} opacity={0.6} />
+                </BarChart>
+              </ResponsiveContainer>
+            )}
+          </CardContent>
+        </Card>
+
+          {/* === TOP 3 & ALERTA 3 === */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Card className="border-emerald-500/20">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2 text-emerald-600">
@@ -334,6 +402,8 @@ export default function ObservatorioBi() {
           </CardContent>
         </Card>
       </div>
+        </>
+      )}
 
       {/* === PAUTA DA SEMANA (IA) === */}
       <Card className="border-primary/20 bg-gradient-to-br from-primary/5 to-transparent">
@@ -346,7 +416,7 @@ export default function ObservatorioBi() {
           {loadingPauta ? (
             <div className="flex items-center gap-2 py-4">
               <Loader2 className="h-4 w-4 animate-spin text-primary" />
-              <span className="text-sm text-muted-foreground">Analisando demandas da região...</span>
+              <span className="text-sm text-muted-foreground">Analisando demandas{isL3 ? " do seu gabinete" : " da região"}...</span>
             </div>
           ) : (
             <div className="space-y-3">
@@ -364,101 +434,104 @@ export default function ObservatorioBi() {
         </CardContent>
       </Card>
 
-      {/* === COMPARAÇÃO TERRITORIAL === */}
-      <Card>
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
-            <ArrowLeftRight className="h-4 w-4 text-primary" /> Comparação Territorial
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3 items-end">
-            <div className="flex-1 space-y-1">
-              <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Cidade A</label>
-              <Select value={cidadeA} onValueChange={setCidadeA}>
-                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
-                <SelectContent>
-                  {cidades.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-            <ArrowLeftRight className="h-5 w-5 text-muted-foreground shrink-0 mb-2 hidden sm:block" />
-            <div className="flex-1 space-y-1">
-              <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Cidade B</label>
-              <Select value={cidadeB} onValueChange={setCidadeB}>
-                <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
-                <SelectContent>
-                  {cidades.filter((c) => c !== cidadeA).map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-
-          {compA && compB ? (
-            <div className="grid grid-cols-3 gap-2 text-center">
-              {/* Labels */}
-              <div className="col-span-3 grid grid-cols-3 text-[10px] font-bold tracking-wider text-muted-foreground border-b pb-2 mb-1">
-                <span>{compA.cidade}</span>
-                <span>Indicador</span>
-                <span>{compB.cidade}</span>
+      {/* === COMPARAÇÃO TERRITORIAL — L4+ only === */}
+      {!isL3 && (
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
+              <ArrowLeftRight className="h-4 w-4 text-primary" /> Comparação Territorial
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-col sm:flex-row gap-3 items-end">
+              <div className="flex-1 space-y-1">
+                <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Cidade A</label>
+                <Select value={cidadeA} onValueChange={setCidadeA}>
+                  <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                  <SelectContent>
+                    {cidades.map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                  </SelectContent>
+                </Select>
               </div>
-              {[
-                { label: "Total Eleitores", a: compA.total_eleitores, b: compB.total_eleitores, icon: Users },
-                { label: "Demandas Resolvidas", a: compA.demandas_resolvidas, b: compB.demandas_resolvidas, icon: CheckCircle2 },
-                { label: "Atividade (Gabinetes)", a: compA.gabinetes, b: compB.gabinetes, icon: Activity },
-              ].map((row) => (
-                <div key={row.label} className="col-span-3 grid grid-cols-3 items-center py-2 border-b border-border/30">
-                  <span className={`text-xl font-medium ${row.a >= row.b ? "text-emerald-600" : "text-foreground"}`}>
-                    {row.a.toLocaleString("pt-BR")}
-                  </span>
-                  <div className="flex flex-col items-center gap-0.5">
-                    <row.icon className="h-4 w-4 text-muted-foreground" />
-                    <span className="text-[9px] text-muted-foreground">{row.label}</span>
-                  </div>
-                  <span className={`text-xl font-medium ${row.b >= row.a ? "text-emerald-600" : "text-foreground"}`}>
-                    {row.b.toLocaleString("pt-BR")}
-                  </span>
-                </div>
-              ))}
+              <ArrowLeftRight className="h-5 w-5 text-muted-foreground shrink-0 mb-2 hidden sm:block" />
+              <div className="flex-1 space-y-1">
+                <label className="text-[10px] font-bold tracking-wider text-muted-foreground">Cidade B</label>
+                <Select value={cidadeB} onValueChange={setCidadeB}>
+                  <SelectTrigger><SelectValue placeholder="Selecione..." /></SelectTrigger>
+                  <SelectContent>
+                    {cidades.filter((c) => c !== cidadeA).map((c) => <SelectItem key={c} value={c}>{c}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          ) : (
-            <p className="text-sm text-muted-foreground text-center py-4">
-              Selecione duas cidades acima para comparar lado a lado.
-            </p>
-          )}
-        </CardContent>
-      </Card>
 
-      {/* === DISPARAR DIRETRIZ DIALOG === */}
-      <Dialog open={diretrizOpen} onOpenChange={setDiretrizOpen}>
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2 text-sm font-medium">
-              <Megaphone className="h-4 w-4 text-destructive" /> Disparar diretriz regional
-            </DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <p className="text-xs text-muted-foreground">
-              Esta mensagem aparecerá como um aviso urgente para todos os Vereadores (Nível 3) da rede.
-            </p>
-            <Textarea
-              placeholder="Escreva a diretriz..."
-              value={diretrizMsg}
-              onChange={(e) => setDiretrizMsg(e.target.value)}
-              rows={4}
-              className="resize-none"
-            />
-            <Button
-              onClick={handleDisparar}
-              disabled={sendingDiretriz || !diretrizMsg.trim()}
-              className="w-full gap-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground"
-            >
-              {sendingDiretriz ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
-              Enviar Diretriz
-            </Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+            {compA && compB ? (
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <div className="col-span-3 grid grid-cols-3 text-[10px] font-bold tracking-wider text-muted-foreground border-b pb-2 mb-1">
+                  <span>{compA.cidade}</span>
+                  <span>Indicador</span>
+                  <span>{compB.cidade}</span>
+                </div>
+                {[
+                  { label: "Total Eleitores", a: compA.total_eleitores, b: compB.total_eleitores, icon: Users },
+                  { label: "Demandas Resolvidas", a: compA.demandas_resolvidas, b: compB.demandas_resolvidas, icon: CheckCircle2 },
+                  { label: "Atividade (Gabinetes)", a: compA.gabinetes, b: compB.gabinetes, icon: Activity },
+                ].map((row) => (
+                  <div key={row.label} className="col-span-3 grid grid-cols-3 items-center py-2 border-b border-border/30">
+                    <span className={`text-xl font-medium ${row.a >= row.b ? "text-emerald-600" : "text-foreground"}`}>
+                      {row.a.toLocaleString("pt-BR")}
+                    </span>
+                    <div className="flex flex-col items-center gap-0.5">
+                      <row.icon className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-[9px] text-muted-foreground">{row.label}</span>
+                    </div>
+                    <span className={`text-xl font-medium ${row.b >= row.a ? "text-emerald-600" : "text-foreground"}`}>
+                      {row.b.toLocaleString("pt-BR")}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground text-center py-4">
+                Selecione duas cidades acima para comparar lado a lado.
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
+
+      {/* === DISPARAR DIRETRIZ DIALOG — L4+ only === */}
+      {!isL3 && (
+        <Dialog open={diretrizOpen} onOpenChange={setDiretrizOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-sm font-medium">
+                <Megaphone className="h-4 w-4 text-destructive" /> Disparar diretriz regional
+              </DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4">
+              <p className="text-xs text-muted-foreground">
+                Esta mensagem aparecerá como um aviso urgente para todos os Vereadores (Nível 3) da rede.
+              </p>
+              <Textarea
+                placeholder="Escreva a diretriz..."
+                value={diretrizMsg}
+                onChange={(e) => setDiretrizMsg(e.target.value)}
+                rows={4}
+                className="resize-none"
+              />
+              <Button
+                onClick={handleDisparar}
+                disabled={sendingDiretriz || !diretrizMsg.trim()}
+                className="w-full gap-2 bg-destructive hover:bg-destructive/90 text-destructive-foreground"
+              >
+                {sendingDiretriz ? <Loader2 className="h-4 w-4 animate-spin" /> : <Send className="h-4 w-4" />}
+                Enviar Diretriz
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   );
 }
