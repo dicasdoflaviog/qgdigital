@@ -84,7 +84,7 @@ export default function Oficios() {
   return (
     <div className="p-4 md:p-6 space-y-4 pb-28 md:pb-6">
       <div>
-        <h1 className="text-2xl font-semibold md:text-3xl flex items-center gap-2">
+        <h1 className="text-2xl font-medium md:text-3xl flex items-center gap-2">
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground"><FileText className="h-4 w-4" /></div>
           Gestão de Ofícios
         </h1>
@@ -147,7 +147,7 @@ function StatCard({ label, value, icon, highlight }: { label: string; value: num
       <CardContent className="p-3 flex items-center gap-3">
         <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${highlight ? "bg-destructive text-destructive-foreground" : "bg-primary text-primary-foreground"}`}>{icon}</div>
         <div>
-          <p className="text-lg font-semibold text-foreground">{value}</p>
+          <p className="text-lg font-medium text-foreground">{value}</p>
           <p className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">{label}</p>
         </div>
       </CardContent>

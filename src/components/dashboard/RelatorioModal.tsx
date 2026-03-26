@@ -227,7 +227,7 @@ export function RelatorioModal() {
       </DialogTrigger>
       <DialogContent className="max-w-sm" onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="font-medium uppercase tracking-tight">
+          <DialogTitle className="font-medium">
             Relatório Estratégico
           </DialogTitle>
         </DialogHeader>

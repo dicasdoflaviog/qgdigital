@@ -281,7 +281,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
               <section>
                 <div className="flex items-center gap-2 mb-2">
                   <MapPin className="h-3.5 w-3.5 text-primary" />
-                  <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+                  <h3 className="text-[10px] font-medium text-muted-foreground">
                     Mancha de Influência
                   </h3>
                 </div>
@@ -324,7 +324,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             <section>
               <div className="flex items-center gap-2 mb-2">
                 <BarChart3 className="h-3.5 w-3.5 text-primary" />
-                <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Funil de Demandas</h3>
+                <h3 className="text-[10px] font-medium text-muted-foreground">Funil de Demandas</h3>
               </div>
               <div className="bg-muted/50 rounded-xl p-4 space-y-3">
                 <div className="flex items-center justify-between text-xs">
@@ -335,17 +335,17 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
                 <div className="grid grid-cols-3 gap-3 text-center">
                   <div>
                     <p className="text-base font-medium text-foreground">{perf.totalDemandas}</p>
-                    <p className="text-[8px] text-muted-foreground uppercase">Recebidas</p>
+                    <p className="text-[8px] text-muted-foreground">Recebidas</p>
                   </div>
                   <div>
                     <p className="text-base font-medium text-success">{perf.demandasResolvidas}</p>
-                    <p className="text-[8px] text-muted-foreground uppercase">Resolvidas</p>
+                    <p className="text-[8px] text-muted-foreground">Resolvidas</p>
                   </div>
                   <div>
                     <p className={`text-base font-medium ${perf.demandasPendentes > 10 ? "text-destructive" : "text-foreground"}`}>
                       {perf.demandasPendentes}
                     </p>
-                    <p className="text-[8px] text-muted-foreground uppercase">Pendentes</p>
+                    <p className="text-[8px] text-muted-foreground">Pendentes</p>
                   </div>
                 </div>
               </div>
@@ -354,7 +354,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             {/* === PERFIL DA BASE (Dores + Bairros) === */}
             <div className="grid grid-cols-2 gap-3">
               <section className="bg-muted/50 rounded-xl p-3">
-                <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground mb-2">Principais Dores</p>
+                <p className="text-[10px] font-medium text-muted-foreground mb-2">Principais Dores</p>
                 {perf.topCategorias.length === 0 ? (
                   <p className="text-xs text-muted-foreground">Sem dados</p>
                 ) : (
@@ -375,7 +375,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
               <section className="bg-muted/50 rounded-xl p-3">
                 <div className="flex items-center gap-1 mb-2">
                   <MapPin className="h-3 w-3 text-destructive" />
-                  <p className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Top Bairros</p>
+                  <p className="text-[10px] font-medium text-muted-foreground">Top Bairros</p>
                 </div>
                 {perf.topBairros.length === 0 ? (
                   <p className="text-xs text-muted-foreground">Sem dados</p>
@@ -399,7 +399,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             <section>
               <div className="flex items-center gap-2 mb-2">
                 <Lightbulb className="h-3.5 w-3.5 text-warning" />
-                <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Nota de Inteligência</h3>
+                <h3 className="text-[10px] font-medium text-muted-foreground">Nota de Inteligência</h3>
               </div>
               <div className="bg-primary/5 border border-primary/10 rounded-xl p-4 relative">
                 <div className="absolute top-2 right-2">
@@ -413,7 +413,7 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
             <section>
               <div className="flex items-center gap-2 mb-2">
                 <MessageSquare className="h-3.5 w-3.5 text-primary" />
-                <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Feedback para o Vereador</h3>
+                <h3 className="text-[10px] font-medium text-muted-foreground">Feedback para o Vereador</h3>
               </div>
               <Textarea
                 placeholder="Escreva uma orientação estratégica para este gabinete..."

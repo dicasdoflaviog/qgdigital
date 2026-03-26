@@ -73,8 +73,8 @@ export function OficioCard({ oficio, onStatusChange }: OficioCardProps) {
               {assessor && <span>📋 {assessor.nome}</span>}
             </div>
             <div className="flex gap-1.5 items-center flex-wrap">
-              {atrasado && <Button size="sm" variant="destructive" className="h-7 text-xs gap-1" onClick={handleGerarCobranca}><AlertTriangle className="h-3 w-3" />Cobrança</Button>}
-              <Button size="sm" variant="outline" className="h-7 text-xs gap-1" onClick={() => setDetailOpen(true)}><FileText className="h-3 w-3" />Ver</Button>
+              {atrasado && <Button size="sm" variant="destructive" className="h-9 text-xs gap-1" onClick={handleGerarCobranca}><AlertTriangle className="h-3 w-3" />Cobrança</Button>}
+              <Button size="sm" variant="outline" className="h-9 text-xs gap-1" onClick={() => setDetailOpen(true)}><FileText className="h-3 w-3" />Ver</Button>
               {nextStatuses.length > 0 && (
                 <Select onValueChange={(v) => onStatusChange(oficio, v as OficioStatus)}>
                   <SelectTrigger className="h-7 text-xs w-auto min-w-[110px] gap-1"><ArrowUpRight className="h-3 w-3" /><SelectValue placeholder="Avançar" /></SelectTrigger>

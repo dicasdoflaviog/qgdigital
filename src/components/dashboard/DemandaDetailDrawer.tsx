@@ -326,7 +326,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
         <div className="flex-1 overflow-y-auto p-4 space-y-5">
           {/* Solicitante */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Solicitante</h4>
+            <h4 className="text-[10px] font-medium text-slate-500">Solicitante</h4>
             <div className="bg-slate-800/60 rounded-xl p-3 space-y-2">
               {demanda.eleitor_nome ? (
                 <div className="flex items-center justify-between">
@@ -353,7 +353,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Localização */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Localização</h4>
+            <h4 className="text-[10px] font-medium text-slate-500">Localização</h4>
             <div className="bg-slate-800/60 rounded-xl p-3">
               <div className="flex items-center gap-2 text-sm text-slate-300">
                 <MapPin className="h-4 w-4 text-slate-400 shrink-0" />
@@ -372,7 +372,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Descrição */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Descrição</h4>
+            <h4 className="text-[10px] font-medium text-slate-500">Descrição</h4>
             <div className="bg-slate-800/60 rounded-xl p-3">
               <p className="text-sm text-slate-300 leading-relaxed">
                 {demanda.descricao || "Sem descrição registrada."}
@@ -384,7 +384,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Alterar Status */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Alterar Status</h4>
+            <h4 className="text-[10px] font-medium text-slate-500">Alterar Status</h4>
             <div className="flex items-center gap-2">
               <Select value={currentStatus} onValueChange={handleStatusChange} disabled={saving}>
                 <SelectTrigger className="flex-1 h-9 text-xs bg-slate-800 border-slate-700 text-slate-200">
@@ -406,7 +406,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
           {/* Linha do Tempo */}
           <section className="space-y-2">
-            <h4 className="text-[10px] font-medium uppercase tracking-widest text-slate-500">Linha do Tempo</h4>
+            <h4 className="text-[10px] font-medium text-slate-500">Linha do Tempo</h4>
             {loadingTimeline ? (
               <div className="flex items-center justify-center py-4">
                 <Loader2 className="h-5 w-5 animate-spin text-slate-500" />

@@ -452,7 +452,7 @@ export function TransparencyReportModal() {
       </DialogTrigger>
       <DialogContent className="max-w-sm" onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
-          <DialogTitle className="font-medium uppercase tracking-tight flex items-center gap-2">
+          <DialogTitle className="font-medium flex items-center gap-2">
             <Shield className="h-5 w-5 text-primary" />
             Relatório de Transparência
           </DialogTitle>

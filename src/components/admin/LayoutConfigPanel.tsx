@@ -92,7 +92,7 @@ export function LayoutConfigPanel() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-medium uppercase tracking-tight">Configurações de Layout Global</h2>
+        <h2 className="text-lg font-medium">Configurações de Layout Global</h2>
         <p className="text-sm text-muted-foreground mt-1">
           Defina a identidade institucional que será herdada por todos os gabinetes da plataforma.
         </p>

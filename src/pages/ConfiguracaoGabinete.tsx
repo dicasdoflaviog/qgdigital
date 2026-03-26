@@ -172,7 +172,7 @@ export default function ConfiguracaoGabinete() {
         {/* Logo Upload */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+            <CardTitle className="text-sm font-medium uppercase tracking-wider flex items-center gap-2">
               <Image className="h-4 w-4 text-primary" /> Logo / Brasão
             </CardTitle>
           </CardHeader>
@@ -191,7 +191,7 @@ export default function ConfiguracaoGabinete() {
                     className="hidden"
                     onChange={(e) => e.target.files?.[0] && handleUpload("logo", e.target.files[0])}
                   />
-                  <Button variant="outline" size="sm" className="gap-1.5 text-xs font-bold uppercase" asChild>
+                  <Button variant="outline" size="sm" className="gap-1.5 text-xs font-medium uppercase" asChild>
                     <span>
                       {uploading === "logo" ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
                       Enviar Logo
@@ -206,7 +206,7 @@ export default function ConfiguracaoGabinete() {
         {/* Foto Oficial */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+            <CardTitle className="text-sm font-medium uppercase tracking-wider flex items-center gap-2">
               <Camera className="h-4 w-4 text-primary" /> Foto Oficial
             </CardTitle>
           </CardHeader>
@@ -227,7 +227,7 @@ export default function ConfiguracaoGabinete() {
                     className="hidden"
                     onChange={(e) => e.target.files?.[0] && handleUpload("foto", e.target.files[0])}
                   />
-                  <Button variant="outline" size="sm" className="gap-1.5 text-xs font-bold uppercase" asChild>
+                  <Button variant="outline" size="sm" className="gap-1.5 text-xs font-medium uppercase" asChild>
                     <span>
                       {uploading === "foto" ? <Loader2 className="h-3 w-3 animate-spin" /> : <Upload className="h-3 w-3" />}
                       Enviar Foto
@@ -242,7 +242,7 @@ export default function ConfiguracaoGabinete() {
         {/* Cores do Partido */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+            <CardTitle className="text-sm font-medium uppercase tracking-wider flex items-center gap-2">
               <Palette className="h-4 w-4 text-primary" /> Cores do Partido
             </CardTitle>
           </CardHeader>
@@ -273,7 +273,7 @@ export default function ConfiguracaoGabinete() {
         {/* Dados Institucionais */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+            <CardTitle className="text-sm font-medium uppercase tracking-wider flex items-center gap-2">
               <Building2 className="h-4 w-4 text-primary" /> Dados Institucionais
             </CardTitle>
           </CardHeader>
@@ -318,7 +318,7 @@ export default function ConfiguracaoGabinete() {
       {config?.ia_nome && (
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+            <CardTitle className="text-sm font-medium uppercase tracking-wider flex items-center gap-2">
               <Brain className="h-4 w-4 text-primary" /> DNA do Assistente ({config.ia_nome})
             </CardTitle>
           </CardHeader>
@@ -425,7 +425,7 @@ export default function ConfiguracaoGabinete() {
       {/* Gestão de Convites */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-sm font-bold uppercase tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium uppercase tracking-wider flex items-center gap-2">
             <Users className="h-4 w-4 text-primary" /> Gestão de Equipe
           </CardTitle>
         </CardHeader>
@@ -433,7 +433,7 @@ export default function ConfiguracaoGabinete() {
           <p className="text-xs text-muted-foreground mb-3">
             Convide novos membros definindo o nível de acesso: Assessor (Nível 1) ou Secretária (Nível 2).
           </p>
-          <Button onClick={() => setInviteOpen(true)} className="gap-2 font-bold uppercase tracking-wider text-xs">
+          <Button onClick={() => setInviteOpen(true)} className="gap-2 font-medium uppercase tracking-wider text-xs">
             <Users className="h-4 w-4" /> Convidar Membro
           </Button>
         </CardContent>
@@ -444,7 +444,7 @@ export default function ConfiguracaoGabinete() {
         <Button
           onClick={handleSave}
           disabled={saving || isLoading}
-          className="gap-2 h-12 px-8 font-bold uppercase tracking-wider text-sm"
+          className="gap-2 h-12 px-8 font-medium uppercase tracking-wider text-sm"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
           Salvar Configurações

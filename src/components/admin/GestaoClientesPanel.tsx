@@ -428,7 +428,7 @@ export function GestaoClientesPanel() {
       <Dialog open={!!selectedClient} onOpenChange={(v) => { if (!v) { setSelectedClient(null); setEditForm(null); } }}>
         <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="text-sm font-medium uppercase tracking-tight flex items-center gap-2">
+            <DialogTitle className="text-sm font-medium flex items-center gap-2">
               <Shield className="h-4 w-4 text-qg-blue-500" />
               Configurar Contrato
             </DialogTitle>

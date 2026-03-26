@@ -200,7 +200,7 @@ export default function SystemMaster() {
       <div className="animate-fade-in">
         <div className="flex items-center gap-2 mb-1">
           <Shield className="h-5 w-5 text-purple-500" />
-          <Badge className="bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 text-[10px] font-bold tracking-wider">
+          <Badge className="bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20 text-[10px] font-medium tracking-wider">
             Nível 5 · System Master
           </Badge>
         </div>
@@ -214,29 +214,29 @@ export default function SystemMaster() {
 
       <Tabs value={activeTab} onValueChange={(v) => setSearchParams(v !== "painel" ? { tab: v } : {})} className="space-y-4">
         <TabsList className="w-full flex flex-wrap gap-1">
-          <TabsTrigger value="painel" className="text-xs font-bold tracking-wider">Painel</TabsTrigger>
-          <TabsTrigger value="clientes" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="painel" className="text-xs font-medium tracking-wider">Painel</TabsTrigger>
+          <TabsTrigger value="clientes" className="text-xs font-medium tracking-wider gap-1">
             <Users className="h-3 w-3" /> Clientes
           </TabsTrigger>
-          <TabsTrigger value="skills" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="skills" className="text-xs font-medium tracking-wider gap-1">
             <Cpu className="h-3 w-3" /> Skills
           </TabsTrigger>
-          <TabsTrigger value="mrr" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="mrr" className="text-xs font-medium tracking-wider gap-1">
             <TrendingUp className="h-3 w-3" /> MRR
           </TabsTrigger>
-          <TabsTrigger value="financeiro" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="financeiro" className="text-xs font-medium tracking-wider gap-1">
             <DollarSign className="h-3 w-3" /> Faturamento
           </TabsTrigger>
-          <TabsTrigger value="flags" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="flags" className="text-xs font-medium tracking-wider gap-1">
             <ToggleRight className="h-3 w-3" /> Recursos
           </TabsTrigger>
-          <TabsTrigger value="auditoria" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="auditoria" className="text-xs font-medium tracking-wider gap-1">
             <ScrollText className="h-3 w-3" /> Logs
           </TabsTrigger>
-          <TabsTrigger value="recuperacao" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="recuperacao" className="text-xs font-medium tracking-wider gap-1">
             <Trash2 className="h-3 w-3" /> Lixeira
           </TabsTrigger>
-          <TabsTrigger value="layout" className="text-xs font-bold tracking-wider gap-1">
+          <TabsTrigger value="layout" className="text-xs font-medium tracking-wider gap-1">
             <Palette className="h-3 w-3" /> Layout
           </TabsTrigger>
         </TabsList>
@@ -254,7 +254,7 @@ export default function SystemMaster() {
               </div>
               <div>
                 <p className="text-3xl font-medium">{totalEleitores.toLocaleString("pt-BR")}</p>
-                <p className="text-xs text-muted-foreground font-bold tracking-wider">Eleitores no Sistema</p>
+                <p className="text-xs text-muted-foreground font-medium tracking-wider">Eleitores no Sistema</p>
               </div>
             </div>
           </CardContent>
@@ -268,7 +268,7 @@ export default function SystemMaster() {
               </div>
               <div>
                 <p className="text-3xl font-medium">{contratos.filter((c) => c.ativo).length}</p>
-                <p className="text-xs text-muted-foreground font-bold tracking-wider">Contratos Ativos</p>
+                <p className="text-xs text-muted-foreground font-medium tracking-wider">Contratos Ativos</p>
               </div>
             </div>
           </CardContent>
@@ -282,7 +282,7 @@ export default function SystemMaster() {
               </div>
               <div>
                 <p className="text-3xl font-medium">{securityLogs.length}</p>
-                <p className="text-xs text-muted-foreground font-bold tracking-wider">Alertas de Segurança</p>
+                <p className="text-xs text-muted-foreground font-medium tracking-wider">Alertas de Segurança</p>
               </div>
             </div>
           </CardContent>
@@ -292,7 +292,7 @@ export default function SystemMaster() {
       {/* === TOP 5 ESTADOS - BAR CHART === */}
       <Card className="border-purple-500/20">
         <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium tracking-wider flex items-center gap-2">
             <BarChart3 className="h-4 w-4 text-purple-500" /> Top 5 Estados com Mais Atividade
           </CardTitle>
         </CardHeader>
@@ -325,7 +325,7 @@ export default function SystemMaster() {
       {/* === GESTÃO DE CONTRATOS L4 === */}
       <Card className="border-purple-500/20">
         <CardHeader>
-          <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2">
+          <CardTitle className="text-sm font-medium tracking-wider flex items-center gap-2">
             <MapPin className="h-4 w-4 text-purple-500" /> Gestão de Escopo Geográfico — Usuários Nível 4
           </CardTitle>
         </CardHeader>
@@ -339,12 +339,12 @@ export default function SystemMaster() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs tracking-wider">Usuário L4</TableHead>
-                    <TableHead className="font-bold text-xs tracking-wider hidden sm:table-cell">Status</TableHead>
-                    <TableHead className="font-bold text-xs tracking-wider hidden md:table-cell">Escopo</TableHead>
-                    <TableHead className="font-bold text-xs tracking-wider hidden md:table-cell">Estados</TableHead>
-                    <TableHead className="font-bold text-xs tracking-wider hidden lg:table-cell">Limite</TableHead>
-                    <TableHead className="font-bold text-xs tracking-wider w-36">Ação</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider">Usuário L4</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden sm:table-cell">Status</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden md:table-cell">Escopo</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden md:table-cell">Estados</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden lg:table-cell">Limite</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider w-36">Ação</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -390,10 +390,10 @@ export default function SystemMaster() {
                           ) : "—"}
                         </TableCell>
                         <TableCell className="hidden lg:table-cell">
-                          <span className="text-sm font-bold">{c?.limite_gabinetes ?? "—"}</span>
+                          <span className="text-sm font-medium">{c?.limite_gabinetes ?? "—"}</span>
                         </TableCell>
                         <TableCell>
-                          <Button size="sm" variant="outline" className="h-8 gap-1.5 text-[10px] font-bold tracking-wider"
+                          <Button size="sm" variant="outline" className="h-8 gap-1.5 text-[10px] font-medium tracking-wider"
                             onClick={() => openEdit(u.id)}>
                             <Pencil className="h-3 w-3" /> Configurar Escopo
                           </Button>
@@ -412,7 +412,7 @@ export default function SystemMaster() {
       {securityLogs.length > 0 && (
         <Card className="border-destructive/30">
           <CardHeader>
-            <CardTitle className="text-sm font-bold tracking-wider flex items-center gap-2 text-destructive">
+            <CardTitle className="text-sm font-medium tracking-wider flex items-center gap-2 text-destructive">
               <Lock className="h-4 w-4" /> Log de Tentativas de Acesso Indevido
             </CardTitle>
           </CardHeader>
@@ -421,9 +421,9 @@ export default function SystemMaster() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-bold text-xs tracking-wider">Usuário</TableHead>
-                    <TableHead className="font-bold text-xs tracking-wider">Detalhes</TableHead>
-                    <TableHead className="font-bold text-xs tracking-wider hidden sm:table-cell">Data</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider">Usuário</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider">Detalhes</TableHead>
+                    <TableHead className="font-medium text-xs tracking-wider hidden sm:table-cell">Data</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -463,12 +463,12 @@ export default function SystemMaster() {
           {editForm && (
             <div className="space-y-4">
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold tracking-wider">Usuário</Label>
+                <Label className="text-xs font-medium tracking-wider">Usuário</Label>
                 <p className="text-sm font-medium">{(profileMap as any)[editForm.user_id] || editForm.user_id.slice(0, 8)}</p>
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold tracking-wider">Escopo Geográfico</Label>
+                <Label className="text-xs font-medium tracking-wider">Escopo Geográfico</Label>
                 <Select value={editForm.escopo_geografico} onValueChange={(v) => setEditForm({ ...editForm, escopo_geografico: v })}>
                   <SelectTrigger className="min-h-[44px]"><SelectValue /></SelectTrigger>
                   <SelectContent>
@@ -478,13 +478,13 @@ export default function SystemMaster() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold tracking-wider">Estados Autorizados</Label>
+                <Label className="text-xs font-medium tracking-wider">Estados Autorizados</Label>
                 <div className="grid grid-cols-6 gap-1.5 max-h-[200px] overflow-y-auto p-1">
                   {TODOS_ESTADOS.map((uf) => {
                     const selected = editForm.estados_autorizados.includes(uf);
                     return (
                       <button key={uf} type="button" onClick={() => toggleEstado(uf)}
-                        className={`text-[10px] font-bold py-1.5 rounded-md border transition-colors ${
+                        className={`text-[10px] font-medium py-1.5 rounded-md border transition-colors ${
                           selected
                             ? "bg-primary text-primary-foreground border-primary"
                             : "bg-muted/50 text-muted-foreground border-border hover:bg-muted"
@@ -500,7 +500,7 @@ export default function SystemMaster() {
               </div>
 
               <div className="space-y-1.5">
-                <Label className="text-xs font-bold tracking-wider">Limite de Gabinetes</Label>
+                <Label className="text-xs font-medium tracking-wider">Limite de Gabinetes</Label>
                 <Input type="number" min={1} max={1000} value={editForm.limite_gabinetes}
                   onChange={(e) => setEditForm({ ...editForm, limite_gabinetes: parseInt(e.target.value) || 10 })}
                   className="min-h-[44px]" />
@@ -508,14 +508,14 @@ export default function SystemMaster() {
 
               <div className="flex items-center justify-between border border-border p-3 rounded-xl">
                 <div>
-                  <p className="text-sm font-bold">Contrato Ativo</p>
+                  <p className="text-sm font-medium">Contrato Ativo</p>
                   <p className="text-xs text-muted-foreground">Desativar bloqueia o acesso ao mapa nacional</p>
                 </div>
                 <Switch checked={editForm.ativo} onCheckedChange={(v) => setEditForm({ ...editForm, ativo: v })} />
               </div>
 
               <Button onClick={handleSave} disabled={upsertContrato.isPending}
-                className="w-full min-h-[48px] text-sm font-bold tracking-wider rounded-full">
+                className="w-full min-h-[48px] text-sm font-medium tracking-wider rounded-full">
                 {upsertContrato.isPending && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
                 Salvar Contrato
               </Button>

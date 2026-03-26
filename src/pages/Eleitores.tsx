@@ -109,7 +109,7 @@ export default function Eleitores() {
   return (
     <div className="p-4 md:p-6 space-y-4 pb-28 md:pb-6">
       <div>
-        <h1 className="text-2xl font-semibold md:text-3xl">Eleitores</h1>
+        <h1 className="text-2xl font-medium md:text-3xl">Eleitores</h1>
         <p className="text-xs font-medium text-muted-foreground mt-1">{filtered.length} registros</p>
 
         {/* Visibility badge based on role level */}

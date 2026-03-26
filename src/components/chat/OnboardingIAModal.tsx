@@ -222,7 +222,7 @@ export function OnboardingIAModal({ open, onComplete, level }: OnboardingIAModal
               <div className="pt-2">
                 <div className="flex items-center justify-center gap-1.5 opacity-50">
                   <ShieldCheck className="h-3 w-3 text-emerald-500" />
-                  <span className="text-[10px] text-slate-500 tracking-wider uppercase font-medium">Certificado de Segurança QG Digital</span>
+                  <span className="text-[10px] text-slate-500 tracking-wider font-medium">Certificado de Segurança QG Digital</span>
                 </div>
               </div>
             </div>

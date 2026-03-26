@@ -85,7 +85,7 @@ export default function InviteMemberModal({ open, onOpenChange, callerRoleLevel 
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="max-w-md rounded-2xl">
         <DialogHeader>
-          <DialogTitle className="font-medium uppercase tracking-tight flex items-center gap-2">
+          <DialogTitle className="font-medium flex items-center gap-2">
             <Send className="h-5 w-5 text-primary" />
             {inviteTitle}
           </DialogTitle>

@@ -349,7 +349,7 @@ export function FinanceiroPanel() {
       <Dialog open={!!editingId} onOpenChange={(v) => { if (!v) setEditingId(null); }}>
         <DialogContent className="sm:max-w-sm">
           <DialogHeader>
-            <DialogTitle className="text-sm font-medium uppercase tracking-tight">
+            <DialogTitle className="text-sm font-medium">
               Configurar Valor
             </DialogTitle>
           </DialogHeader>

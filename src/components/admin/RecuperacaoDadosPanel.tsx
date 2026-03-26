@@ -261,10 +261,10 @@ export function RecuperacaoDadosPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs font-medium uppercase">Nome</TableHead>
-                    <TableHead className="text-xs font-medium uppercase hidden sm:table-cell">Bairro</TableHead>
-                    <TableHead className="text-xs font-medium uppercase hidden md:table-cell">Excluído em</TableHead>
-                    <TableHead className="text-xs font-medium uppercase text-right">Ações</TableHead>
+                    <TableHead className="text-xs font-medium">Nome</TableHead>
+                    <TableHead className="text-xs font-medium hidden sm:table-cell">Bairro</TableHead>
+                    <TableHead className="text-xs font-medium hidden md:table-cell">Excluído em</TableHead>
+                    <TableHead className="text-xs font-medium text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -307,10 +307,10 @@ export function RecuperacaoDadosPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="text-xs font-medium uppercase">Descrição</TableHead>
-                    <TableHead className="text-xs font-medium uppercase hidden sm:table-cell">Categoria</TableHead>
-                    <TableHead className="text-xs font-medium uppercase hidden md:table-cell">Excluído em</TableHead>
-                    <TableHead className="text-xs font-medium uppercase text-right">Ações</TableHead>
+                    <TableHead className="text-xs font-medium">Descrição</TableHead>
+                    <TableHead className="text-xs font-medium hidden sm:table-cell">Categoria</TableHead>
+                    <TableHead className="text-xs font-medium hidden md:table-cell">Excluído em</TableHead>
+                    <TableHead className="text-xs font-medium text-right">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

@@ -117,7 +117,7 @@ export function NotificationBell() {
       >
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-          <h3 className="text-sm font-medium uppercase tracking-tight">Notificações</h3>
+          <h3 className="text-sm font-medium">Notificações</h3>
           {unreadCount > 0 && (
             <Button
               variant="ghost"

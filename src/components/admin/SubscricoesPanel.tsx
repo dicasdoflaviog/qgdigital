@@ -158,13 +158,13 @@ export function SubscricoesPanel() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="font-medium text-xs uppercase">Gabinete</TableHead>
-                    <TableHead className="font-medium text-xs uppercase">Plano</TableHead>
-                    <TableHead className="font-medium text-xs uppercase">Status</TableHead>
-                    <TableHead className="font-medium text-xs uppercase hidden md:table-cell">Ativado por</TableHead>
-                    <TableHead className="font-medium text-xs uppercase hidden lg:table-cell">Próx. Renovação</TableHead>
-                    <TableHead className="font-medium text-xs uppercase hidden lg:table-cell">MP Payment ID</TableHead>
-                    <TableHead className="font-medium text-xs uppercase">Ações</TableHead>
+                    <TableHead className="font-medium text-xs">Gabinete</TableHead>
+                    <TableHead className="font-medium text-xs">Plano</TableHead>
+                    <TableHead className="font-medium text-xs">Status</TableHead>
+                    <TableHead className="font-medium text-xs hidden md:table-cell">Ativado por</TableHead>
+                    <TableHead className="font-medium text-xs hidden lg:table-cell">Próx. Renovação</TableHead>
+                    <TableHead className="font-medium text-xs hidden lg:table-cell">MP Payment ID</TableHead>
+                    <TableHead className="font-medium text-xs">Ações</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

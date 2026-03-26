@@ -52,7 +52,7 @@ export function RankingProdutividade() {
     <div className="space-y-4">
       {/* Section Header + Period Filter */}
       <div className="flex items-center justify-between">
-        <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground flex items-center gap-1.5">
+        <h2 className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
           <Trophy className="h-3.5 w-3.5" /> Ranking de Produtividade
         </h2>
         <div className="flex gap-1">
@@ -100,7 +100,7 @@ export function RankingProdutividade() {
                       {getInitials(top.nome)}
                     </AvatarFallback>
                   </Avatar>
-                  <p className="font-medium text-base leading-tight">{top.nome}</p>
+                  <p className="font-medium text-base leading-tight truncate">{top.nome}</p>
                   <p className="text-white/80 text-xs mt-1">
                     {top.cadastros_periodo} cadastro{top.cadastros_periodo !== 1 ? "s" : ""}
                   </p>

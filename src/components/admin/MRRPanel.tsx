@@ -185,7 +185,7 @@ export function MRRPanel() {
             <div className="space-y-3">
               {months.map((m, i) => (
                 <div key={i} className="flex items-center gap-3">
-                  <span className="text-xs font-medium w-12 text-right text-muted-foreground uppercase">{m.label}</span>
+                  <span className="text-xs font-medium w-12 text-right text-muted-foreground">{m.label}</span>
                   <div className="flex-1 h-7 bg-muted/50 rounded-full overflow-hidden">
                     <div
                       className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-full transition-all duration-700 flex items-center justify-end pr-2"

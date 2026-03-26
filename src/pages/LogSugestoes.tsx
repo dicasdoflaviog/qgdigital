@@ -179,7 +179,7 @@ export default function LogSugestoes() {
                     </Badge>
                   </div>
 
-                  <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap">{fb.content}</p>
+                  <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap line-clamp-3">{fb.content}</p>
 
                   <div className="flex flex-wrap gap-2 pt-1">
                     {fb.status === "pendente" && (

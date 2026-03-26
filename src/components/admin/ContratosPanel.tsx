@@ -203,7 +203,7 @@ export function ContratosPanel() {
       <Dialog open={!!editingId} onOpenChange={(v) => { if (!v) { setEditingId(null); setEditForm(null); } }}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-sm font-medium uppercase tracking-tight">
+            <DialogTitle className="text-sm font-medium">
               {editingId === "new" ? "Novo Contrato" : "Editar Contrato"}
             </DialogTitle>
           </DialogHeader>

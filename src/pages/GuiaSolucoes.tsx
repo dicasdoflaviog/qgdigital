@@ -196,7 +196,7 @@ export default function GuiaSolucoes() {
       </div>
       <Dialog open={modalOpen} onOpenChange={(o) => { setModalOpen(o); if (!o) resetForm(); }}>
         <DialogTrigger asChild>
-          <Button className="w-full gap-2 font-bold uppercase tracking-wider text-sm h-12">
+          <Button className="w-full gap-2 font-medium uppercase tracking-wider text-sm h-12">
             <Plus className="h-4 w-4" /> Novo Contato
           </Button>
         </DialogTrigger>
@@ -206,36 +206,36 @@ export default function GuiaSolucoes() {
             </DialogHeader>
             <div className="space-y-3 pt-2">
               <div>
-                <Label className="text-xs font-bold uppercase tracking-wider">Nome *</Label>
+                <Label className="text-xs font-medium uppercase tracking-wider">Nome *</Label>
                 <Input value={form.nome} onChange={(e) => setForm({ ...form, nome: e.target.value })} placeholder="Nome do contato" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs font-bold uppercase tracking-wider">Cargo / Função</Label>
+                  <Label className="text-xs font-medium uppercase tracking-wider">Cargo / Função</Label>
                   <Input value={form.cargo_funcao} onChange={(e) => setForm({ ...form, cargo_funcao: e.target.value })} placeholder="Gerente, Enfermeira..." />
                 </div>
                 <div>
-                  <Label className="text-xs font-bold uppercase tracking-wider">Instituição</Label>
+                  <Label className="text-xs font-medium uppercase tracking-wider">Instituição</Label>
                   <Input value={form.instituicao} onChange={(e) => setForm({ ...form, instituicao: e.target.value })} placeholder="Embasa, UBS..." />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <Label className="text-xs font-bold uppercase tracking-wider">WhatsApp</Label>
+                  <Label className="text-xs font-medium uppercase tracking-wider">WhatsApp</Label>
                   <Input value={form.whatsapp} onChange={(e) => setForm({ ...form, whatsapp: e.target.value })} placeholder="71999999999" />
                 </div>
                 <div>
-                  <Label className="text-xs font-bold uppercase tracking-wider">Bairro de Atuação</Label>
+                  <Label className="text-xs font-medium uppercase tracking-wider">Bairro de Atuação</Label>
                   <Input value={form.bairro_atuacao} onChange={(e) => setForm({ ...form, bairro_atuacao: e.target.value })} placeholder="Eixo Sul, Centro..." />
                 </div>
               </div>
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <Label className="text-xs font-bold uppercase tracking-wider">Categoria</Label>
+                  <Label className="text-xs font-medium uppercase tracking-wider">Categoria</Label>
                   <button
                     type="button"
                     onClick={() => setShowNewCat(!showNewCat)}
-                    className="text-[10px] font-bold uppercase tracking-wider text-primary hover:underline"
+                    className="text-[10px] font-medium uppercase tracking-wider text-primary hover:underline"
                   >
                     {showNewCat ? "Usar existente" : "+ Nova Categoria"}
                   </button>
@@ -259,10 +259,10 @@ export default function GuiaSolucoes() {
                 )}
               </div>
               <div>
-                <Label className="text-xs font-bold uppercase tracking-wider">Observação</Label>
+                <Label className="text-xs font-medium uppercase tracking-wider">Observação</Label>
                 <Textarea value={form.observacao} onChange={(e) => setForm({ ...form, observacao: e.target.value })} placeholder="Fala direto com ele para religação de água..." rows={2} />
               </div>
-              <Button className="w-full font-bold uppercase tracking-wider" onClick={handleSave}>
+              <Button className="w-full font-medium uppercase tracking-wider" onClick={handleSave}>
                 {editingId ? "Salvar Alterações" : "Cadastrar Contato"}
               </Button>
             </div>
@@ -311,7 +311,7 @@ export default function GuiaSolucoes() {
               <div key={catValue} className="space-y-2">
                 <div className="flex items-center gap-2">
                   <CatIcon className={`h-4 w-4 ${catInfo.color}`} />
-                  <h2 className="text-sm font-bold uppercase tracking-wider text-muted-foreground">
+                  <h2 className="text-sm font-medium uppercase tracking-wider text-muted-foreground">
                     {catInfo.label}
                   </h2>
                   <Badge variant="secondary" className="text-[10px]">{items.length}</Badge>
@@ -322,7 +322,7 @@ export default function GuiaSolucoes() {
                       <div className="flex items-start gap-3">
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <p className="text-sm font-bold truncate">{c.nome}</p>
+                            <p className="text-sm font-medium truncate">{c.nome}</p>
                             {c.bairro_atuacao && (
                               <Badge variant="outline" className="text-[10px] shrink-0">{c.bairro_atuacao}</Badge>
                             )}

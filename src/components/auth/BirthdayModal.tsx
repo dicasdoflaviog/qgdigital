@@ -71,7 +71,7 @@ export function BirthdayModal({ open, onClose, userName }: BirthdayModalProps) {
           bg-card/95 backdrop-blur-xl
           border border-border
           shadow-[0_24px_80px_rgba(0,0,0,0.25)]
-          z-[200]
+          z-80
           p-6
           overflow-hidden
         "

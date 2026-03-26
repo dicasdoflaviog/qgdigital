@@ -104,7 +104,7 @@ export default function Emendas() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold text-foreground">Painel de Emendas</h1>
+          <h1 className="text-lg font-medium text-foreground">Painel de Emendas</h1>
           <p className="text-xs text-muted-foreground">Acompanhamento parlamentar</p>
         </div>
         <Button onClick={() => setModalOpen(true)} size="sm" className="rounded-full gap-1.5">
@@ -119,7 +119,7 @@ export default function Emendas() {
             <CircleDollarSign className="h-3.5 w-3.5 text-muted-foreground" />
             <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Total Indicado</span>
           </div>
-          <p className="text-sm font-bold text-foreground">{formatCurrency(indicado)}</p>
+          <p className="text-sm font-medium text-foreground">{formatCurrency(indicado)}</p>
           <p className="text-[10px] text-muted-foreground">{stats?.byStatus?.["Indicada"]?.count ?? 0} emendas</p>
         </div>
         <div className="bg-card rounded-2xl p-3 border border-border/50">
@@ -127,7 +127,7 @@ export default function Emendas() {
             <HardHat className="h-3.5 w-3.5 text-warning" />
             <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Em Execução</span>
           </div>
-          <p className="text-sm font-bold text-foreground">{formatCurrency(emExecucao)}</p>
+          <p className="text-sm font-medium text-foreground">{formatCurrency(emExecucao)}</p>
           <p className="text-[10px] text-muted-foreground">{stats?.byStatus?.["Em Execução"]?.count ?? 0} emendas</p>
         </div>
         <div className="bg-card rounded-2xl p-3 border border-border/50">
@@ -135,7 +135,7 @@ export default function Emendas() {
             <CheckCircle2 className="h-3.5 w-3.5 text-success" />
             <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Concluído</span>
           </div>
-          <p className="text-sm font-bold text-foreground">{formatCurrency(concluido)}</p>
+          <p className="text-sm font-medium text-foreground">{formatCurrency(concluido)}</p>
           <p className="text-[10px] text-muted-foreground">{stats?.byStatus?.["Concluída"]?.count ?? 0} emendas</p>
         </div>
       </div>

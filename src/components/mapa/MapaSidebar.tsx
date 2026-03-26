@@ -132,7 +132,7 @@ export function MapaSidebar({
     <div className={`w-72 shrink-0 bg-card border-r border-border flex-col h-full z-intel-panel ${isMobile ? "flex w-full border-r-0" : "flex"}`}>
       {/* Sticky header with close button */}
       <div className="p-4 border-b border-border shrink-0 flex items-center justify-between gap-2">
-        <h2 className="text-xs font-medium uppercase tracking-widest text-muted-foreground truncate">
+        <h2 className="text-xs font-medium text-muted-foreground truncate">
           {selectedCidade ? selectedCidade : "Inteligência Regional"}
         </h2>
         {onClose && (
@@ -178,7 +178,7 @@ export function MapaSidebar({
         <div className="p-4 border-t border-border">
           <div className="flex items-center gap-2 mb-3">
             <Target className="h-4 w-4 text-primary shrink-0" />
-            <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+            <h3 className="text-[10px] font-medium text-muted-foreground">
               Top 5 Cidades — Eleitores
             </h3>
           </div>
@@ -210,7 +210,7 @@ export function MapaSidebar({
         <div className="p-4 border-t border-border">
           <div className="flex items-center gap-2 mb-3">
             <Building2 className="h-4 w-4 text-primary shrink-0" />
-            <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground truncate">
+            <h3 className="text-[10px] font-medium text-muted-foreground truncate">
               Gabinetes em {selectedCidade}
             </h3>
           </div>
@@ -330,7 +330,7 @@ export function MapaSidebar({
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-2 mb-3">
           <MapPin className="h-4 w-4 text-destructive shrink-0" />
-          <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">
+          <h3 className="text-[10px] font-medium text-muted-foreground">
             Bairros com mais demandas
           </h3>
         </div>
@@ -355,7 +355,7 @@ export function MapaSidebar({
       <div className="p-4 border-t border-border">
         <div className="flex items-center gap-2 mb-3">
           <BarChart3 className="h-4 w-4 text-primary shrink-0" />
-          <h3 className="text-[10px] font-medium uppercase tracking-widest text-muted-foreground">Top Categorias</h3>
+          <h3 className="text-[10px] font-medium text-muted-foreground">Top Categorias</h3>
         </div>
         {stats.topCategorias.length === 0 ? (
           <p className="text-xs text-muted-foreground">Sem dados</p>
