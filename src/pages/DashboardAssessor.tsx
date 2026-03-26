@@ -122,18 +122,18 @@ export default function DashboardAssessor() {
             Olá, {firstName}! 👋
           </p>
           {metaBatida && (
-            <Badge className="text-[9px] px-1.5 py-0 bg-gradient-to-r from-amber-500 to-yellow-400 text-white border-0 font-bold uppercase tracking-wider gap-0.5 animate-fade-in">
+            <Badge className="text-[9px] px-1.5 py-0 bg-gradient-to-r from-amber-500 to-yellow-400 text-white border-0 font-medium uppercase tracking-wider gap-0.5 animate-fade-in">
               <Award className="h-2.5 w-2.5" />
               Destaque
             </Badge>
           )}
         </div>
-        <h1 className="text-xl md:text-2xl font-semibold tracking-tight text-foreground mt-1">
+        <h1 className="text-xl md:text-2xl font-medium tracking-tight text-foreground mt-1">
           Meu Painel
         </h1>
         <p className="text-xs text-muted-foreground mt-1 flex items-center justify-center gap-1">
           <MapPin className="h-3 w-3" />
-          Bom trabalho hoje em <span className="font-semibold text-foreground">{bairroPrincipal}</span>
+          Bom trabalho hoje em <span className="font-medium text-foreground">{bairroPrincipal}</span>
         </p>
       </div>
 
@@ -141,10 +141,10 @@ export default function DashboardAssessor() {
       <Card className="bg-card rounded-2xl shadow-sm border-0 animate-fade-up" style={{ animationDelay: "100ms" }}>
         <CardContent className="p-4">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-semibold text-muted-foreground">
+            <span className="text-xs font-medium text-muted-foreground">
               Sua Meta Mensal
             </span>
-            <span className="text-xs font-bold text-foreground">
+            <span className="text-xs font-medium text-foreground">
               {cadastrosEsteMes}/{META_MENSAL}
             </span>
           </div>
@@ -182,16 +182,20 @@ export default function DashboardAssessor() {
       {/* ── MÉTRICAS ── */}
       <div className="grid grid-cols-3 gap-3 animate-fade-up" style={{ animationDelay: "400ms" }}>
         {[
-          { value: meusEleitores.length, label: "Meus Cadastros" },
-          { value: pendencias, label: "Pendências", alert: pendencias > 0 },
-          { value: oficiosGerados, label: "Ofícios Gerados" },
-        ].map(({ value, label, alert }) => (
-          <Card key={label} className="bg-card rounded-2xl shadow-sm border-0">
+          { value: meusEleitores.length, label: "Meus Cadastros", route: "/eleitores" },
+          { value: pendencias, label: "Pendências", alert: pendencias > 0, route: "/oficios" },
+          { value: oficiosGerados, label: "Ofícios Gerados", route: "/oficios" },
+        ].map(({ value, label, alert, route }) => (
+          <Card
+            key={label}
+            className="bg-card rounded-2xl shadow-sm border-0 cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+            onClick={() => navigate(route)}
+          >
             <CardContent className="p-4 text-center">
-              <p className="text-2xl font-bold text-primary">{value}</p>
-              <p className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground mt-1">{label}</p>
+              <p className="text-2xl font-medium text-primary">{value}</p>
+              <p className="text-[9px] font-medium uppercase tracking-wider text-muted-foreground mt-1">{label}</p>
               {alert && (
-                <span className="text-[8px] font-semibold text-destructive mt-1 block">Atenção</span>
+                <span className="text-[8px] font-medium text-destructive mt-1 block">Atenção</span>
               )}
             </CardContent>
           </Card>
@@ -200,18 +204,21 @@ export default function DashboardAssessor() {
 
       {/* ── ANIVERSARIANTES ── */}
       {aniversariantes.length > 0 && (
-        <Card className="animate-fade-up rounded-2xl shadow-sm border-0 bg-card">
+        <Card
+          className="animate-fade-up rounded-2xl shadow-sm border-0 bg-card cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+          onClick={() => navigate("/eleitores")}
+        >
           <CardContent className="p-4 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shrink-0">
               <Cake className="h-5 w-5 text-primary" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-semibold text-foreground">
+              <p className="text-xs font-medium text-foreground">
                 {aniversariantes.length} aniversariante{aniversariantes.length > 1 ? "s" : ""} hoje!
               </p>
               <p className="text-[10px] text-muted-foreground">Envie uma mensagem de parabéns 🎂</p>
             </div>
-            <span className="text-[10px] font-semibold text-primary">Hoje</span>
+            <span className="text-[10px] font-medium text-primary">Hoje</span>
           </CardContent>
         </Card>
       )}
@@ -229,13 +236,14 @@ export default function DashboardAssessor() {
             return (
               <Card
                 key={o.id}
-                className="rounded-2xl shadow-sm border-0 bg-card"
+                className="rounded-2xl shadow-sm border-0 bg-card cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+                onClick={() => navigate("/oficios")}
               >
                 <CardContent className="p-4">
                   <div className="flex items-center justify-between gap-2 mb-2">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <p className="text-xs font-semibold truncate text-foreground">{o.titulo}</p>
+                        <p className="text-xs font-medium truncate text-foreground">{o.titulo}</p>
                         <Badge className="text-[8px] font-medium rounded-full bg-primary/10 text-primary border-0 px-2 py-0.5 shrink-0">
                           {atrasado && <AlertTriangle className="h-2 w-2 mr-0.5" />}
                           {o.status === "resolvido" && <CheckCircle2 className="h-2 w-2 mr-0.5" />}
@@ -260,7 +268,7 @@ export default function DashboardAssessor() {
       {favoritos.length > 0 && (
         <div className="animate-fade-up">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+            <h2 className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
               <Star className="h-3.5 w-3.5" /> Contatos Favoritos
             </h2>
             <Button
@@ -277,7 +285,7 @@ export default function DashboardAssessor() {
               <Card key={c.id} className="rounded-2xl shadow-sm border-0 bg-card">
                 <CardContent className="p-3.5 flex items-center justify-between">
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-semibold truncate text-foreground">{c.nome}</p>
+                    <p className="text-xs font-medium truncate text-foreground">{c.nome}</p>
                     <p className="text-[10px] text-muted-foreground truncate">
                       {c.cargo_funcao}{c.cargo_funcao && c.instituicao ? " · " : ""}{c.instituicao}
                     </p>
@@ -316,7 +324,7 @@ export default function DashboardAssessor() {
       {/* ── ÚLTIMOS CADASTROS ── */}
       <div className="animate-fade-up">
         <div className="flex items-center justify-between mb-2">
-          <h2 className="text-xs font-semibold text-muted-foreground flex items-center gap-1.5">
+          <h2 className="text-xs font-medium text-muted-foreground flex items-center gap-1.5">
             <Users className="h-3.5 w-3.5" /> Últimos Cadastros
           </h2>
           <Button
@@ -332,21 +340,28 @@ export default function DashboardAssessor() {
           {meusEleitores.slice(0, 5).map((e: any) => (
             <Card
               key={e.id}
-              className="rounded-2xl shadow-sm border-0 bg-card"
+              className="rounded-2xl shadow-sm border-0 bg-card cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+              onClick={() => navigate(`/eleitores/${e.id}`)}
             >
               <CardContent className="p-3.5 flex items-center justify-between">
                 <div className="flex items-center gap-2.5 min-w-0 flex-1">
-                  <div className="flex h-8 w-8 items-center justify-center bg-primary/10 text-primary rounded-full shrink-0 text-[10px] font-bold uppercase">
+                  <div className="flex h-8 w-8 items-center justify-center bg-primary/10 text-primary rounded-full shrink-0 text-[10px] font-medium uppercase">
                     {(e.nome || "?").charAt(0)}
                   </div>
                   <div className="min-w-0 flex-1">
-                    <p className="text-xs font-semibold truncate text-foreground">{e.nome}</p>
+                    <p className="text-xs font-medium truncate text-foreground">{e.nome}</p>
                     <p className="text-[10px] text-muted-foreground">
                       {e.bairro} · {e.situacao}
                     </p>
                   </div>
                 </div>
-                <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0 rounded-xl" asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="h-8 w-8 shrink-0 rounded-xl"
+                  onClick={(evt) => evt.stopPropagation()}
+                  asChild
+                >
                   <a href={`https://wa.me/${(e.whatsapp || "").replace(/\D/g, "")}`} target="_blank" rel="noopener noreferrer">
                     <MessageCircle className="h-3.5 w-3.5 text-primary" />
                   </a>
@@ -368,19 +383,19 @@ export default function DashboardAssessor() {
               <Trophy className="h-10 w-10 text-white" />
             </div>
             <DialogHeader className="text-center space-y-2">
-              <DialogTitle className="text-xl font-semibold text-foreground">
+              <DialogTitle className="text-xl font-medium text-foreground">
                 🏅 Meta Batida!
               </DialogTitle>
             </DialogHeader>
             <p className="text-sm text-muted-foreground leading-relaxed px-2">
-              Parabéns, <span className="font-semibold text-foreground">{firstName}</span>! Você atingiu seu objetivo de campo este mês.
+              Parabéns, <span className="font-medium text-foreground">{firstName}</span>! Você atingiu seu objetivo de campo este mês.
             </p>
-            <Badge className="bg-gradient-to-r from-amber-500 to-yellow-400 text-white border-0 font-semibold uppercase tracking-wider gap-1 px-3 py-1">
+            <Badge className="bg-gradient-to-r from-amber-500 to-yellow-400 text-white border-0 font-medium uppercase tracking-wider gap-1 px-3 py-1">
               <Award className="h-3.5 w-3.5" />
               Destaque do Mês
             </Badge>
             <Button
-              className="w-full mt-2 h-12 font-semibold text-sm rounded-xl"
+              className="w-full mt-2 h-12 font-medium text-sm rounded-xl"
               onClick={() => setCelebrationOpen(false)}
             >
               Continuar Trabalhando 🚀

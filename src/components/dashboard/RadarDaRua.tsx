@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Radio, MessageSquare, FileText, Send, Clock, MapPin, User, Mic, Sparkles, Pencil, Check } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -96,6 +97,7 @@ function timeAgo(date: Date): string {
 }
 
 function DemandCard({ demand }: { demand: VoiceDemand }) {
+  const navigate = useNavigate();
   const [dismissed, setDismissed] = useState(false);
   const [editing, setEditing] = useState(false);
   const [editText, setEditText] = useState(demand.transcription);
@@ -195,7 +197,10 @@ function DemandCard({ demand }: { demand: VoiceDemand }) {
         <Button
           size="sm"
           className="h-7 text-[10px] font-medium gap-1"
-          onClick={() => setDismissed(true)}
+          onClick={() => {
+            setDismissed(true);
+            navigate("/oficios");
+          }}
         >
           <FileText className="h-3 w-3" />
           Transformar em Ofício
@@ -221,11 +226,11 @@ export function RadarDaRua() {
     <Card className="hover-glow animate-fade-up delay-300 overflow-hidden">
       <CardHeader className="pb-2">
         <CardTitle className="text-sm flex items-center justify-between">
-          <div className="flex items-center gap-1.5 font-medium tracking-tight uppercase">
+          <div className="flex items-center gap-1.5 font-medium tracking-tight">
             <div className="flex h-6 w-6 items-center justify-center bg-emerald-600 text-white rounded-full">
               <Radio className="h-3.5 w-3.5" />
             </div>
-            Radar da Rua
+            Radar da rua
             <Badge
               variant="outline"
               className="ml-1 text-[10px] font-medium border-emerald-500/50 text-emerald-600 animate-pulse"

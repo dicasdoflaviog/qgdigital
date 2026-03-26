@@ -716,15 +716,17 @@ const Index = () => {
     switch (simulatedLevel) {
       case 1: return <DashboardAssessor />;
       case 2: return <DashboardSecretaria />;
-      case 3: return <DashboardVereador />;
-      case 4: return <DashboardSuperAdmin />;
-      case 5: return <DashboardDeus />;
+      case 3: return <Dashboard />;
+      case 4: return <Dashboard />;
+      case 5: return <Dashboard />;
     }
   }
 
   // Normal routing based on actual role
   if (role === "assessor") return <DashboardAssessor />;
-  if (role === "super_admin") return <DashboardDeus />;
+  if (role === "super_admin") return <Dashboard />;
+  if (role === "vereador") return <Dashboard />;
+  if (role === "lider_politico") return <Dashboard />;
   return <Dashboard />;
 };
 

@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-03-25T15:56:37.463Z",
+  "timestamp": "2026-03-25T16:34:46.617Z",
   "filesScanned": 182,
   "issues": [
     {
@@ -334,84 +334,6 @@
     },
     {
       "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 59
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 60
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 61
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 89
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 90
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 121
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 216
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 217
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/reportGenerators.ts",
-      "line": 245
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/intelligenceReportGenerator.ts",
-      "line": 68
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/intelligenceReportGenerator.ts",
-      "line": 78
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/intelligenceReportGenerator.ts",
-      "line": 196
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "lib/intelligenceReportGenerator.ts",
-      "line": 197
-    },
-    {
-      "severity": "importante",
       "message": "console.log",
       "file": "hooks/useVoiceInput.ts",
       "line": 53
@@ -495,6 +417,84 @@
       "line": 40
     },
     {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 59
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 60
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 61
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 89
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 90
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 121
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 216
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 217
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/reportGenerators.ts",
+      "line": 245
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 68
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 78
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 196
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "lib/intelligenceReportGenerator.ts",
+      "line": 197
+    },
+    {
       "severity": "menor",
       "message": "Large file (1308 lines)",
       "file": "integrations/supabase/types.ts",
@@ -541,78 +541,6 @@
       "message": "Type any",
       "file": "components/feedback/FeedbackModal.tsx",
       "line": 91
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "components/equipe/InviteMemberModal.tsx",
-      "line": 57
-    },
-    {
-      "severity": "menor",
-      "message": "Large file (449 lines)",
-      "file": "components/layout/AppSidebar.tsx",
-      "line": 1
-    },
-    {
-      "severity": "menor",
-      "message": "Large file (435 lines)",
-      "file": "components/chat/OnboardingIAModal.tsx",
-      "line": 1
-    },
-    {
-      "severity": "importante",
-      "message": "console.log",
-      "file": "components/chat/ChatAguia.tsx",
-      "line": 188
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "components/chat/ChatAguia.tsx",
-      "line": 123
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "components/chat/ChatAguia.tsx",
-      "line": 235
-    },
-    {
-      "severity": "menor",
-      "message": "Large file (602 lines)",
-      "file": "components/chat/ChatAguia.tsx",
-      "line": 1
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "components/dashboard/TransparencyReportModal.tsx",
-      "line": 437
-    },
-    {
-      "severity": "menor",
-      "message": "Large file (517 lines)",
-      "file": "components/dashboard/TransparencyReportModal.tsx",
-      "line": 1
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "components/dashboard/RelatorioModal.tsx",
-      "line": 212
-    },
-    {
-      "severity": "importante",
-      "message": "Type any",
-      "file": "components/dashboard/RankingProdutividade.tsx",
-      "line": 155
-    },
-    {
-      "severity": "menor",
-      "message": "Large file (532 lines)",
-      "file": "components/dashboard/DemandaDetailDrawer.tsx",
-      "line": 1
     },
     {
       "severity": "importante",
@@ -666,6 +594,48 @@
       "severity": "menor",
       "message": "Large file (603 lines)",
       "file": "components/eleitores/CadastroModal.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/equipe/InviteMemberModal.tsx",
+      "line": 57
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (435 lines)",
+      "file": "components/chat/OnboardingIAModal.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "console.log",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 188
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 123
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 235
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (602 lines)",
+      "file": "components/chat/ChatAguia.tsx",
+      "line": 1
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (449 lines)",
+      "file": "components/layout/AppSidebar.tsx",
       "line": 1
     },
     {
@@ -907,6 +877,36 @@
       "message": "Type any",
       "file": "components/account/DeleteAccountModal.tsx",
       "line": 43
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/dashboard/TransparencyReportModal.tsx",
+      "line": 437
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (517 lines)",
+      "file": "components/dashboard/TransparencyReportModal.tsx",
+      "line": 1
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/dashboard/RelatorioModal.tsx",
+      "line": 212
+    },
+    {
+      "severity": "importante",
+      "message": "Type any",
+      "file": "components/dashboard/RankingProdutividade.tsx",
+      "line": 155
+    },
+    {
+      "severity": "menor",
+      "message": "Large file (532 lines)",
+      "file": "components/dashboard/DemandaDetailDrawer.tsx",
+      "line": 1
     }
   ],
   "summary": {

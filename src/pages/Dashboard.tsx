@@ -570,7 +570,11 @@ export default function Dashboard() {
               {mockOficios.slice(0, 5).map((o) => {
                 const dias = diasDesdeProtocolo(o);
                 return (
-                  <div key={o.id} className="flex items-center justify-between p-3 rounded-lg border hover:border-primary/30 transition-colors">
+                  <div
+                    key={o.id}
+                    className="flex items-center justify-between p-3 rounded-lg border cursor-pointer hover:border-primary/30 active:bg-accent/50 transition-colors touch-manipulation"
+                    onClick={() => navigate("/oficios")}
+                  >
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2 mb-1">
                         <span className="text-xs font-mono text-muted-foreground">{o.numero}</span>
@@ -588,7 +592,7 @@ export default function Dashboard() {
                         size="icon"
                         className="h-8 w-8"
                         title="Ver detalhes"
-                        onClick={() => navigate("/oficios")}
+                        onClick={(e) => { e.stopPropagation(); navigate("/oficios"); }}
                       >
                         <Eye className="h-4 w-4 text-muted-foreground" />
                       </Button>
@@ -597,7 +601,7 @@ export default function Dashboard() {
                         size="icon"
                         className="h-8 w-8"
                         title="Assinar"
-                        onClick={() => toast.info("Assinatura em breve")}
+                        onClick={(e) => { e.stopPropagation(); toast.info("Assinatura em breve"); }}
                       >
                         <PenLine className="h-4 w-4 text-muted-foreground" />
                       </Button>
@@ -606,7 +610,7 @@ export default function Dashboard() {
                         size="icon"
                         className="h-8 w-8"
                         title="Enviar via WhatsApp"
-                        onClick={() => toast.info("Envio via WhatsApp em breve")}
+                        onClick={(e) => { e.stopPropagation(); toast.info("Envio via WhatsApp em breve"); }}
                       >
                         <MessageCircle className="h-4 w-4 text-emerald-500" />
                       </Button>
