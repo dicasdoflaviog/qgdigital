@@ -4,7 +4,8 @@ import { AppSidebar } from "./AppSidebar";
 import { BottomBar } from "./BottomBar";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOffline } from "@/contexts/OfflineContext";
-import { Zap, Eye, Menu, X, Wifi, WifiOff, Loader2 } from "lucide-react";
+import { Zap, Eye, Menu, X, Wifi, WifiOff, Loader2, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 import { WelcomeModal } from "@/components/auth/WelcomeModal";
 import { BirthdayModal } from "@/components/auth/BirthdayModal";
 import { InstallBanner } from "@/components/pwa/InstallBanner";
@@ -64,7 +65,8 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const currentLabel = levelLabels[simulatedLevel ?? roleLevel] || levelLabels[roleLevel] || "—";
+  const { theme, setTheme } = useTheme();
+  const isDark = theme === "dark";
 
   return (
     <SidebarProvider>
@@ -119,6 +121,13 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
 
             <div className="ml-auto flex items-center gap-2 shrink-0">
+              <button
+                onClick={() => setTheme(isDark ? "light" : "dark")}
+                className="flex h-10 w-10 items-center justify-center rounded-lg hover:bg-accent active:bg-accent/70 transition-colors shrink-0"
+                aria-label={isDark ? "Mudar para tema claro" : "Mudar para tema escuro"}
+              >
+                {isDark ? <Sun className="h-4.5 w-4.5 text-foreground" /> : <Moon className="h-4.5 w-4.5 text-foreground" />}
+              </button>
               <NotificationBell />
               <RoleSwitcher />
 
