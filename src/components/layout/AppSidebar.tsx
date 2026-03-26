@@ -223,7 +223,7 @@ export function AppSidebar() {
   const showOperacional = roleLevel <= 3;
   const showEstrategico = isL4;
   const showSaasMenus = isL5;
-  const showInteligencia = roleLevel >= 3 && roleLevel <= 4;
+  const showInteligencia = roleLevel <= 4; // N1–N4 veem o grupo (N5 usa saas menus)
 
   const inteligencia = filterByRole(inteligenciaNavItems);
   const operacional = filterByRole(operacionalNavItems);
