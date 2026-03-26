@@ -15,7 +15,24 @@ import { GabinetesRedePanel } from "@/components/admin/GabinetesRedePanel";
 
 const LAST_ELEITOR_STORAGE_KEY = "qg:last-eleitor-detalhe";
 
-const toEleitorProfileSnapshot = (e: any) => {
+interface EleitorRaw {
+  id: string;
+  nome: string;
+  whatsapp?: string;
+  bairro?: string;
+  data_nascimento?: string;
+  dataNascimento?: string;
+  situacao?: string;
+  is_leader?: boolean;
+  assessor_id?: string | null;
+  assessorId?: string | null;
+  created_at?: string;
+  criadoEm?: string;
+  updated_at?: string;
+  image_urls?: string[] | null;
+}
+
+const toEleitorProfileSnapshot = (e: EleitorRaw) => {
   const createdAt = e.created_at || (e.criadoEm ? `${e.criadoEm}T12:00:00Z` : new Date().toISOString());
   const updatedAt = e.updated_at || createdAt;
 
@@ -72,13 +89,13 @@ export default function Eleitores() {
     }
   };
 
-  const openPerfil = (eleitor: any) => {
+  const openPerfil = (eleitor: EleitorRaw) => {
     const snapshot = toEleitorProfileSnapshot(eleitor);
 
     try {
       sessionStorage.setItem(LAST_ELEITOR_STORAGE_KEY, JSON.stringify(snapshot));
     } catch (storageError) {
-      console.warn("[Eleitores] Falha ao salvar fallback local", storageError);
+      // Fallback storage failed, continue without persistence
     }
 
     navigate(`/eleitores/${eleitor.id}`, { state: { eleitor: snapshot } });
@@ -144,8 +161,8 @@ export default function Eleitores() {
       </div>
 
       <div className="space-y-2">
-        {filtered.map((e: any) => {
-          const color = getSituacaoColor(e.situacao);
+        {filtered.map((e: EleitorRaw) => {
+          const color = getSituacaoColor(e.situacao || "");
           const dateField = e.dataNascimento || e.data_nascimento;
           return (
             <Card key={e.id} className="p-3 cursor-pointer hover:border-primary/30 transition-colors" onClick={() => openPerfil(e)}>

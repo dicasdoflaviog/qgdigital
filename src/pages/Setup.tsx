@@ -32,8 +32,9 @@ export default function Setup() {
 
       setDone(true);
       toast({ title: "Super Admin criado com sucesso!" });
-    } catch (err: any) {
-      toast({ title: "Erro", description: err.message, variant: "destructive" });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro desconhecido";
+      toast({ title: "Erro", description: errorMessage, variant: "destructive" });
     } finally {
       setLoading(false);
     }

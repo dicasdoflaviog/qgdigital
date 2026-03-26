@@ -185,7 +185,7 @@ export function ChatAguia() {
           } as any);
         } catch (gabErr: unknown) {
           const msg = gabErr instanceof Error ? gabErr.message : String(gabErr);
-          console.warn("[ChatAguia] gabinete_config upsert falhou para L5 (não crítico):", msg);
+          // Gabinete config upsert non-critical for L5 system master
         }
       } else {
         // L3/L4: usa gabinete_id normalmente
@@ -232,11 +232,12 @@ export function ChatAguia() {
       };
       setMessages([welcome]);
       await saveMessage("assistant", welcome.content);
-    } catch (err: any) {
+    } catch (err) {
       // Rollback optimistic state
       setOnboardingDone(false);
       setShowOnboarding(true);
-      toast({ title: "Falha ao registrar batismo. Tente novamente.", description: err?.message || "Erro desconhecido", variant: "destructive" });
+      const errorMessage = err instanceof Error ? err.message : "Erro desconhecido";
+      toast({ title: "Falha ao registrar batismo. Tente novamente.", description: errorMessage, variant: "destructive" });
     }
   };
 
@@ -351,7 +352,6 @@ export function ChatAguia() {
         await saveMessage("assistant", assistantSoFar);
       }
     } catch (e) {
-      console.error("Chat error:", e);
       const errMsg = "❌ Erro de conexão. Tente novamente.";
       setMessages(prev => [...prev, { role: "assistant", content: errMsg }]);
       await saveMessage("assistant", errMsg);

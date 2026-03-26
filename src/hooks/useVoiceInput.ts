@@ -1,16 +1,48 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 
+interface SpeechRecognitionConstructor {
+  new (): SpeechRecognitionInstance;
+}
+interface SpeechRecognitionInstance {
+  lang: string;
+  continuous: boolean;
+  interimResults: boolean;
+  onresult: ((event: SpeechRecognitionEvent) => void) | null;
+  onend: (() => void) | null;
+  onerror: ((event: SpeechRecognitionErrorEvent) => void) | null;
+  start: () => void;
+  stop: () => void;
+}
+interface SpeechRecognitionEvent {
+  results: SpeechRecognitionResultList;
+}
+interface SpeechRecognitionResultList {
+  length: number;
+  [index: number]: SpeechRecognitionResult;
+}
+interface SpeechRecognitionResult {
+  isFinal: boolean;
+  [index: number]: SpeechRecognitionAlternative;
+}
+interface SpeechRecognitionAlternative {
+  transcript: string;
+  confidence: number;
+}
+interface SpeechRecognitionErrorEvent {
+  error: string;
+}
+
 declare global {
   interface Window {
-    webkitSpeechRecognition: any;
-    SpeechRecognition: any;
+    webkitSpeechRecognition: SpeechRecognitionConstructor | undefined;
+    SpeechRecognition: SpeechRecognitionConstructor | undefined;
   }
 }
 
 export const useVoiceInput = (onResult: (text: string) => void) => {
   const [isListening, setIsListening] = useState(false);
   const [supported, setSupported] = useState(true);
-  const recognitionRef = useRef<any>(null);
+  const recognitionRef = useRef<SpeechRecognitionInstance | null>(null);
   const isListeningRef = useRef(false);
   const fullTranscriptRef = useRef("");
   const onResultRef = useRef(onResult);
@@ -31,7 +63,7 @@ export const useVoiceInput = (onResult: (text: string) => void) => {
     recognition.continuous = true;
     recognition.interimResults = true;
 
-    recognition.onresult = (event: any) => {
+    recognition.onresult = (event: SpeechRecognitionEvent) => {
       let interim = "";
       let final = "";
       for (let i = 0; i < event.results.length; i++) {
@@ -50,7 +82,6 @@ export const useVoiceInput = (onResult: (text: string) => void) => {
 
     recognition.onend = () => {
       if (isListeningRef.current) {
-        console.log("Speech recognition ended due to silence, restarting...");
         try {
           recognition.start();
         } catch {
@@ -62,7 +93,7 @@ export const useVoiceInput = (onResult: (text: string) => void) => {
       }
     };
 
-    recognition.onerror = (event: any) => {
+    recognition.onerror = (event: SpeechRecognitionErrorEvent) => {
       console.error("Speech recognition error:", event.error);
       if (event.error === "not-allowed" || event.error === "denied") {
         isListeningRef.current = false;

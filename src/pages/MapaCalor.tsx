@@ -253,8 +253,9 @@ export default function MapaCalor() {
       if (data.updated > 0) {
         refetchEleitores();
       }
-    } catch (err: any) {
-      toast({ title: "Erro na geocodificação", description: err.message, variant: "destructive" });
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Erro desconhecido";
+      toast({ title: "Erro na geocodificação", description: errorMessage, variant: "destructive" });
     } finally {
       setBackfilling(false);
     }

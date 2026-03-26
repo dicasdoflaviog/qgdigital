@@ -72,7 +72,7 @@ type PerfilEleitorRecord = ReturnType<typeof mockToProfile>;
 
 const LAST_ELEITOR_STORAGE_KEY = "qg:last-eleitor-detalhe";
 
-function normalizeEleitor(source: any): PerfilEleitorRecord | null {
+function normalizeEleitor(source: unknown): PerfilEleitorRecord | null {
   if (!source || typeof source !== "object") return null;
 
   const id = source.id ? String(source.id) : "";
@@ -129,7 +129,6 @@ export default function PerfilEleitor() {
     enabled: !!id && !isMockId,
     retry: 2,
     queryFn: async () => {
-      console.log("[PerfilEleitor] Buscando eleitor", { id });
       const { data, error } = await supabase
         .from("eleitores")
         .select("*")
@@ -137,12 +136,7 @@ export default function PerfilEleitor() {
         .maybeSingle();
 
       if (error) {
-        console.error("[PerfilEleitor] Erro Supabase", error);
         throw error;
-      }
-
-      if (!data) {
-        console.warn("[PerfilEleitor] Sem retorno no Supabase, usando fallback local quando disponível", { id });
       }
 
       return data;
@@ -163,8 +157,8 @@ export default function PerfilEleitor() {
 
     try {
       sessionStorage.setItem(LAST_ELEITOR_STORAGE_KEY, JSON.stringify(eleitor));
-    } catch (storageError) {
-      console.warn("[PerfilEleitor] Falha ao salvar fallback local", storageError);
+    } catch {
+      // Fallback storage failed, continue without persistence
     }
   }, [eleitor]);
 

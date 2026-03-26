@@ -22,6 +22,11 @@ interface Feedback {
   created_at: string;
 }
 
+interface ProfileBasic {
+  id: string;
+  full_name: string;
+}
+
 export default function LogSugestoes() {
   const { role } = useAuth();
   const navigate = useNavigate();
@@ -50,7 +55,7 @@ export default function LogSugestoes() {
 
   const profileMap = useMemo(() => {
     const map: Record<string, string> = {};
-    profiles.forEach((p: any) => { map[p.id] = p.full_name; });
+    (profiles as ProfileBasic[]).forEach((p) => { map[p.id] = p.full_name; });
     return map;
   }, [profiles]);
 
