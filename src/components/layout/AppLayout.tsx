@@ -152,9 +152,9 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
           </header>
 
           <InstallBanner />
-          <main className="flex-1 overflow-y-auto pb-24 md:pb-0" style={{ WebkitOverflowScrolling: 'touch' }}>
+          <main className="flex-1 overflow-y-auto pb-20 md:pb-0" style={{ WebkitOverflowScrolling: 'touch' }}>
             {children}
-            <footer className="py-4 px-4 text-center space-y-0.5">
+            <footer className="py-2 md:py-4 px-4 text-center space-y-0.5">
               <p className="text-[10px] text-slate-500 font-medium">{BRAND.footerCredit}</p>
               <p className="text-[10px] text-muted-foreground/40">{BRAND.name} v{BRAND.version}</p>
             </footer>

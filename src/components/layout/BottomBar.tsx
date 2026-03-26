@@ -59,7 +59,7 @@ export function BottomBar() {
     <>
       <nav
         className="fixed bottom-0 left-0 right-0 z-bottombar flex items-end justify-around bg-card/95 backdrop-blur-md border-t border-border/60 shadow-[0_-2px_10px_rgba(0,0,0,0.08)] pt-1 px-2 md:hidden"
-        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 16px) + 0.25rem)' }}
+        style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 0.25rem)' }}
       >
         {left.map((item) => (
           <NavItem key={item.title} item={item} active={isActive(item.url)} />
