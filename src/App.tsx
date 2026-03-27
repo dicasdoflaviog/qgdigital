@@ -36,6 +36,7 @@ import SystemMaster from "./pages/SystemMaster";
 import ObservatorioBi from "./pages/ObservatorioBi";
 import ConfiguracaoGabinete from "./pages/ConfiguracaoGabinete";
 import Plano from "./pages/Plano";
+import PerfilEleitoral from "./pages/PerfilEleitoral";
 
 const queryClient = new QueryClient();
 
@@ -82,6 +83,7 @@ const App = () => (
                         <Route path="/central-recuperacao" element={<CentralRecuperacao />} />
                         <Route path="/observatorio" element={<ObservatorioLegislativo />} />
                         <Route path="/observatorio-bi" element={<ObservatorioBi />} />
+                        <Route path="/perfil-eleitoral" element={<PerfilEleitoral />} />
                         <Route path="/admin/system-master" element={<SystemMaster />} />
                         <Route path="/master/admin" element={<SystemMaster />} />
                         <Route path="/sistema" element={<Sistema />} />

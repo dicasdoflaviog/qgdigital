@@ -510,6 +510,7 @@ export type Database = {
           latitude: number | null
           longitude: number | null
           nome: string
+          sexo: string | null
           situacao: string
           updated_at: string
           whatsapp: string
@@ -529,6 +530,7 @@ export type Database = {
           latitude?: number | null
           longitude?: number | null
           nome: string
+          sexo?: string | null
           situacao?: string
           updated_at?: string
           whatsapp?: string
@@ -548,6 +550,7 @@ export type Database = {
           latitude?: number | null
           longitude?: number | null
           nome?: string
+          sexo?: string | null
           situacao?: string
           updated_at?: string
           whatsapp?: string

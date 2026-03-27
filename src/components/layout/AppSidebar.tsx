@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Users, MapPin, Trophy, CalendarDays, CalendarRange, FileText, Settings,
   Zap, Radio, BookOpen, CloudOff, Database, MessageSquarePlus, Building2, Landmark,
   Archive, Server, Scale, ShieldCheck, DollarSign, Lock, BarChart3, LogOut, Paintbrush,
-  CreditCard,
+  CreditCard, PieChart,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -45,6 +45,7 @@ const inteligenciaNavItems: NavItem[] = [
   { title: "Dashboard", url: "/", icon: LayoutDashboard, roles: ["admin", "lider_politico", "super_admin", "assessor", "secretaria"], group: "inteligencia" },
   { title: "Mapa de Calor", url: "/mapa", icon: MapPin, roles: ["admin", "lider_politico", "super_admin"], group: "inteligencia" },
   { title: "Observatório BI", url: "/observatorio-bi", icon: BarChart3, roles: ["admin", "lider_politico", "super_admin"], exactLevels: [3, 4, 5], group: "inteligencia" },
+  { title: "Perfil eleitoral", url: "/perfil-eleitoral", icon: PieChart, roles: ["admin", "lider_politico", "super_admin", "secretaria"], exactLevels: [2, 3, 4, 5], group: "inteligencia" },
 ];
 
 // ── MEIO: Operacional (Eleitores, Ofícios, Agenda, etc.) ──

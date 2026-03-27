@@ -63,6 +63,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
   const [whatsapp, setWhatsapp] = useState("");
   const [bairro, setBairro] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
+  const [sexo, setSexo] = useState<"M" | "F" | "O" | "">("");
   const [situacao, setSituacao] = useState("");
   const [isLeader, setIsLeader] = useState(false);
   const [processingVoice, setProcessingVoice] = useState(false);
@@ -127,6 +128,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
     setWhatsapp("");
     setBairro("");
     setDataNascimento("");
+    setSexo("");
     setSituacao("");
     setIsLeader(false);
     setDuplicateMsg(null);
@@ -296,6 +298,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
         whatsapp: digits,
         bairro,
         data_nascimento: dataNascimento || null,
+        sexo: sexo || null,
         situacao: situacao.trim() || "Novo Cadastro",
         is_leader: isLeader,
         latitude: lat,
@@ -530,6 +533,22 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
             <div className="space-y-1.5">
               <Label htmlFor="cad-nascimento" className="label-ui">Data de Nascimento</Label>
               <Input id="cad-nascimento" type="date" value={dataNascimento} onChange={(e) => setDataNascimento(e.target.value)} className="min-h-[44px]" />
+            </div>
+          )}
+
+          {mode === "pf" && (
+            <div className="space-y-1.5">
+              <Label className="label-ui">Sexo <span className="text-muted-foreground font-normal">(opcional)</span></Label>
+              <Select value={sexo} onValueChange={(v) => setSexo(v as "M" | "F" | "O" | "")}>
+                <SelectTrigger className="min-h-[44px]">
+                  <SelectValue placeholder="Selecionar..." />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="M">Masculino</SelectItem>
+                  <SelectItem value="F">Feminino</SelectItem>
+                  <SelectItem value="O">Outro</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           )}
 
