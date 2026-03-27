@@ -31,13 +31,18 @@ export function useRoleSimulator() {
   const simulateLevel = (nivel: SimulatorLevel) => {
     queryClient.clear();
     impersonateRole(nivel.role, nivel.levelArg);
-    navigate("/", { replace: true });
+    // Use setTimeout to ensure state updates before navigation
+    setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 0);
   };
 
   const stopSimulation = () => {
     queryClient.clear();
     impersonateRole(null, null);
-    navigate("/", { replace: true });
+    setTimeout(() => {
+      navigate("/", { replace: true });
+    }, 0);
   };
 
   return {

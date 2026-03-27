@@ -709,25 +709,39 @@ function MockStatCard({ icon, value, label, highlight, isText, onClick }: {
 const Index = () => {
   const { role, simulatedLevel, loading } = useAuth();
 
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div className="p-4 md:p-6 space-y-4">
+        <div className="h-12 bg-muted rounded-lg animate-pulse"></div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="h-24 bg-muted rounded-lg animate-pulse"></div>
+          ))}
+        </div>
+        <div className="space-y-2">
+          <div className="h-8 bg-muted rounded-lg animate-pulse w-2/3"></div>
+          <div className="h-32 bg-muted rounded-lg animate-pulse"></div>
+        </div>
+      </div>
+    );
+  }
 
-  // When simulating a specific level, show the appropriate dashboard
   if (simulatedLevel !== null) {
     switch (simulatedLevel) {
       case 1: return <DashboardAssessor />;
-      case 2: return <DashboardSecretaria />;
+      case 2: return <Dashboard />;
       case 3: return <DashboardVereador />;
       case 4: return <DashboardSuperAdmin />;
       case 5: return <DashboardDeus />;
+      default: return <Dashboard />;
     }
   }
 
-  // Real role routing — one string per level
   if (role === "assessor") return <DashboardAssessor />;
-  if (role === "secretaria") return <DashboardSecretaria />;
+  if (role === "secretaria") return <Dashboard />;
   if (role === "lider_politico") return <DashboardSuperAdmin />;
   if (role === "super_admin") return <DashboardDeus />;
-  return <Dashboard />; // N3 (admin) and safe fallback
+  return <Dashboard />;
 };
 
 export default Index;

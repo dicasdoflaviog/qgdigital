@@ -78,11 +78,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setImpersonatedRole(r);
     setSimulatedLevel(level);
 
-    // Hard reset: invalidate all react-query caches so data re-fetches for new role context
-    try {
-      const qc = new QueryClient();
-      qc.clear();
-    } catch { /* ignore */ }
+    // Cache clearing is handled by useRoleSimulator.ts before calling this function
   }, [realRole]);
 
   const fetchProfileAndRole = async (userId: string) => {
