@@ -30,6 +30,7 @@ const levelLabels: Record<number, string> = {
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const { role, realRole, isImpersonating, profile, user, roleLevel, simulatedLevel } = useAuth();
+  const currentLabel = levelLabels[roleLevel] ?? `Nível ${roleLevel}`;
   const { isOnline, pendingCount, syncing } = useOffline();
   useRealtimeSync();
   useDocumentTitle("Painel");
