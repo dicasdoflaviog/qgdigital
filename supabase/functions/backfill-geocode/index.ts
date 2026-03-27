@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
     let updated = 0;
 
     for (const voter of voters) {
-      const query = [voter.bairro, voter.cidade || "", voter.estado || "Brasil"]
+      const query = [voter.bairro, voter.cidade || "Teixeira de Freitas", voter.estado || "BA"]
         .filter(Boolean)
         .join(", ");
 

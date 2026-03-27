@@ -22,8 +22,9 @@ import { toast } from "@/hooks/use-toast";
 import { Users, AlertTriangle, Loader2, Globe, RotateCcw, Eye, MapPin, Building2, Map, Navigation, PanelLeftOpen } from "lucide-react";
 import "leaflet/dist/leaflet.css";
 
-// --- Geographic coords for Teixeira de Freitas bairros ---
-const BAIRRO_COORDS: Record<string, [number, number]> = {
+// --- Geographic coords specific to Teixeira de Freitas bairros ---
+// Only used when selectedCidade === "Teixeira de Freitas"
+const TDF_BAIRRO_COORDS: Record<string, [number, number]> = {
   // Região Central
   "Centro":[-17.5393,-39.7436],"Bela Vista":[-17.5370,-39.7410],"Recanto do Lago":[-17.5355,-39.7460],
   "Jardim Caraípe":[-17.5410,-39.7400],
@@ -49,26 +50,35 @@ const BAIRRO_COORDS: Record<string, [number, number]> = {
   "Santa Maria":[-17.5400,-39.7340],"Jardim América":[-17.5370,-39.7500],
 };
 
-/**
- * Deterministic fallback: generate stable coords for unknown bairros
- * so they don't all collapse on "Centro". Spreads them around the city center.
- */
-function getBairroCoordsFallback(bairro: string): [number, number] {
-  if (BAIRRO_COORDS[bairro]) return BAIRRO_COORDS[bairro];
+/** Spread unknown bairros around the given city center deterministically */
+function getBairroCoordsFallback(bairro: string, cityBase: [number, number]): [number, number] {
   const hash = bairro.split("").reduce((acc, c) => acc + c.charCodeAt(0), 0);
   const angle = (hash % 360) * (Math.PI / 180);
   const distance = 0.008 + (hash % 50) * 0.0003;
   return [
-    -17.5393 + Math.cos(angle) * distance,
-    -39.7436 + Math.sin(angle) * distance,
+    cityBase[0] + Math.cos(angle) * distance,
+    cityBase[1] + Math.sin(angle) * distance,
   ];
 }
 
-/** Get coords with geocoded override support */
-function getBairroCoords(bairro: string, geocoded?: Record<string, [number, number]>): [number, number] {
-  if (BAIRRO_COORDS[bairro]) return BAIRRO_COORDS[bairro];
-  if (geocoded?.[bairro]) return geocoded[bairro];
-  return getBairroCoordsFallback(bairro);
+/**
+ * Get bairro coords scoped by city to avoid cross-city name collisions.
+ * geocoded keys must use format "cityName:bairroName".
+ * TDF_BAIRRO_COORDS only applied when cityName === "Teixeira de Freitas".
+ */
+function getBairroCoords(
+  bairro: string,
+  cityName: string,
+  cidadesMap: Record<string, [number, number]>,
+  geocoded: Record<string, [number, number]>
+): [number, number] {
+  if (cityName === "Teixeira de Freitas" && TDF_BAIRRO_COORDS[bairro]) {
+    return TDF_BAIRRO_COORDS[bairro];
+  }
+  const key = `${cityName}:${bairro}`;
+  if (geocoded[key]) return geocoded[key];
+  const cityBase = cidadesMap[cityName] ?? [-17.5393, -39.7436];
+  return getBairroCoordsFallback(bairro, cityBase);
 }
 
 const ESTADO_COORDS: Record<string, { coords: [number, number]; nome: string }> = {
@@ -397,28 +407,31 @@ export default function MapaCalor() {
     return map;
   }, [cityFilteredEleitores]);
 
-  // --- Auto-geocode unknown bairros ---
+  // --- Auto-geocode unknown bairros (scoped by city to avoid cross-city collisions) ---
   useEffect(() => {
-    const unknownBairros = Object.keys(eleitoresBairroData).filter(
-      (b) => !BAIRRO_COORDS[b] && !geocodedCoords[b] && !geocodeAttempted.current.has(b)
-    );
+    const city = selectedCidade || "Teixeira de Freitas";
+    const state = selectedEstado || "BA";
+    const isTDF = city === "Teixeira de Freitas";
+
+    const unknownBairros = Object.keys(eleitoresBairroData).filter((b) => {
+      if (isTDF && TDF_BAIRRO_COORDS[b]) return false;
+      const key = `${city}:${b}`;
+      return !geocodedCoords[key] && !geocodeAttempted.current.has(key);
+    });
     if (unknownBairros.length === 0) return;
 
     const batch = unknownBairros.slice(0, 5);
-    batch.forEach((b) => geocodeAttempted.current.add(b));
-
-    const city = selectedCidade || "Teixeira de Freitas";
-    const state = selectedEstado || "BA";
+    batch.forEach((b) => geocodeAttempted.current.add(`${city}:${b}`));
 
     Promise.all(
       batch.map(async (bairro) => {
         const result = await geocodeAddress(bairro, city, state);
-        if (result) return { bairro, coords: [result.lat, result.lng] as [number, number] };
+        if (result) return { key: `${city}:${bairro}`, coords: [result.lat, result.lng] as [number, number] };
         return null;
       })
     ).then((results) => {
       const newCoords: Record<string, [number, number]> = {};
-      results.forEach((r) => { if (r) newCoords[r.bairro] = r.coords; });
+      results.forEach((r) => { if (r) newCoords[r.key] = r.coords; });
       if (Object.keys(newCoords).length > 0) {
         setGeocodedCoords((prev) => ({ ...prev, ...newCoords }));
       }
@@ -485,6 +498,7 @@ export default function MapaCalor() {
       .slice(0, 5);
   }, [cidadeAggData]);
 
+  const currentCity = selectedCidade || "Teixeira de Freitas";
   const maxEleitores = Math.max(...Object.values(eleitoresBairroData).map((d) => d.total), 1);
   const maxDemandas = Math.max(...Object.values(demandasBairroData).map((d) => d.total), 1);
 
@@ -803,7 +817,7 @@ export default function MapaCalor() {
               disableClusteringAtZoom={15}
             >
               {Object.entries(eleitoresBairroData).map(([bairro, data]) => {
-                const coords = getBairroCoords(bairro, geocodedCoords);
+                const coords = getBairroCoords(bairro, currentCity, cidadesMap, geocodedCoords);
                 const ratio = data.total / maxEleitores;
                 const color = selectedGabineteId && gabineteColorMap[selectedGabineteId]
                   ? gabineteColorMap[selectedGabineteId]
@@ -833,7 +847,7 @@ export default function MapaCalor() {
               disableClusteringAtZoom={15}
             >
               {Object.entries(demandasBairroData).map(([bairro, data]) => {
-                const coords = getBairroCoords(bairro, geocodedCoords);
+                const coords = getBairroCoords(bairro, currentCity, cidadesMap, geocodedCoords);
                 const hasPending = data.pendentes > 0;
                 const ratio = data.total / maxDemandas;
                 const color = selectedGabineteId && gabineteColorMap[selectedGabineteId]
