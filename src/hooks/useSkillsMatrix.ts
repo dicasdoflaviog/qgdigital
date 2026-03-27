@@ -13,25 +13,41 @@ export const L5_EXCLUSIVE_FEATURES = [
   "system_master", "sistema", "sugestoes", "central_recuperacao",
 ] as const;
 
-/** All manageable features with labels */
-export const ALL_SKILLS = [
-  { key: "dashboard", label: "Dashboard" },
-  { key: "eleitores", label: "Eleitores" },
-  { key: "mapa_calor", label: "Mapa de Calor" },
-  { key: "equipe", label: "Equipe" },
-  { key: "agenda", label: "Agenda" },
-  { key: "calendario", label: "Calendário" },
-  { key: "oficios", label: "Ofícios" },
-  { key: "guia", label: "Guia de Soluções" },
-  { key: "configuracoes", label: "Configurações" },
-  { key: "instituicoes", label: "Instituições" },
-  { key: "emendas", label: "Emendas" },
-  { key: "observatorio", label: "Observatório" },
-  { key: "gestao_base", label: "Gestão de Base" },
-  { key: "relatorios_pdf", label: "Relatórios PDF" },
-  { key: "ia_demandas", label: "IA de Demandas" },
-  { key: "ia_oficios", label: "IA de Ofícios" },
-] as const;
+export type SkillGroup = "inteligencia" | "operacional" | "estrategico" | "ia";
+
+export interface SkillDef {
+  key: string;
+  label: string;
+  group: SkillGroup;
+  description?: string;
+}
+
+/** All manageable features with labels and groups */
+export const ALL_SKILLS: SkillDef[] = [
+  // ── Inteligência ──
+  { key: "dashboard",           label: "Dashboard",            group: "inteligencia", description: "Painel principal com KPIs e resumo" },
+  { key: "mapa_calor",          label: "Mapa de Calor",        group: "inteligencia", description: "Visualização geográfica de eleitores" },
+  { key: "observatorio_bi",     label: "Observatório BI",      group: "inteligencia", description: "Análises e gráficos avançados" },
+  { key: "perfil_eleitoral",    label: "Perfil Eleitoral",     group: "inteligencia", description: "Demografias: sexo, faixa etária, bairro" },
+  // ── Operacional ──
+  { key: "eleitores",           label: "Eleitores",            group: "operacional",  description: "Cadastro e gestão de eleitores" },
+  { key: "equipe",              label: "Equipe",               group: "operacional",  description: "Gestão de assessores e ranking" },
+  { key: "agenda",              label: "Agenda",               group: "operacional",  description: "Reuniões e compromissos" },
+  { key: "calendario",          label: "Calendário",           group: "operacional",  description: "Eventos políticos do calendário" },
+  { key: "oficios",             label: "Ofícios",              group: "operacional",  description: "Criação e gestão de ofícios" },
+  { key: "guia",                label: "Guia de Soluções",     group: "operacional",  description: "Catálogo de soluções para demandas" },
+  { key: "instituicoes",        label: "Instituições",         group: "operacional",  description: "Banco de dados de instituições" },
+  { key: "emendas",             label: "Emendas",              group: "operacional",  description: "Gestão de emendas parlamentares" },
+  { key: "configuracao_gabinete", label: "Identidade do Gabinete", group: "operacional", description: "Logo, cores e dados do gabinete" },
+  { key: "plano",               label: "Plano",                group: "operacional",  description: "Informações de assinatura e plano" },
+  // ── Estratégico ──
+  { key: "observatorio",        label: "Observatório",         group: "estrategico",  description: "Painel legislativo estratégico" },
+  { key: "gestao_base",         label: "Gestão de Base",       group: "estrategico",  description: "Estratégia de base eleitoral" },
+  // ── IA ──
+  { key: "ia_demandas",         label: "IA de Demandas",       group: "ia",           description: "Assistente IA para triagem de demandas" },
+  { key: "ia_oficios",          label: "IA de Ofícios",        group: "ia",           description: "Redação automática de ofícios com IA" },
+  { key: "relatorios_pdf",      label: "Relatórios PDF",       group: "ia",           description: "Geração e exportação de relatórios" },
+];
 
 /** Map sidebar route URLs to feature keys */
 export const ROUTE_TO_SKILL: Record<string, string> = {
@@ -48,6 +64,10 @@ export const ROUTE_TO_SKILL: Record<string, string> = {
   "/emendas": "emendas",
   "/observatorio": "observatorio",
   "/gestao-base": "gestao_base",
+  "/perfil-eleitoral": "perfil_eleitoral",
+  "/observatorio-bi": "observatorio_bi",
+  "/configuracao-gabinete": "configuracao_gabinete",
+  "/plano": "plano",
 };
 
 export function useSkillsMatrix() {

@@ -110,8 +110,9 @@ export function SubscricoesPanel() {
   const mrr = subscriptions
     .filter((s) => s.status === "active")
     .reduce((acc, s) => {
-      if (s.plan_type === "gold") return acc + 297;
-      if (s.plan_type === "silver") return acc + 197;
+      if (s.plan_type === "gold") return acc + 997;
+      if (s.plan_type === "silver") return acc + 497;
+      if (s.plan_type === "bronze") return acc + 197;
       return acc;
     }, 0);
 
@@ -261,9 +262,9 @@ export function SubscricoesPanel() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="bronze">Bronze</SelectItem>
-                    <SelectItem value="silver">Prata</SelectItem>
-                    <SelectItem value="gold">Ouro</SelectItem>
+                    <SelectItem value="bronze">Essencial (R$ 197)</SelectItem>
+                    <SelectItem value="silver">Profissional (R$ 497)</SelectItem>
+                    <SelectItem value="gold">Completo (R$ 997)</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

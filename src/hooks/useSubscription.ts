@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 
 export type SubscriptionPlan = "bronze" | "silver" | "gold";
+export type PlanKey = SubscriptionPlan;
 export type SubscriptionStatus = "active" | "past_due" | "canceled" | "trialing" | "pending";
 
 export interface Subscription {
@@ -28,30 +29,96 @@ export interface Subscription {
   updated_at: string;
 }
 
-const PLAN_LABELS: Record<SubscriptionPlan, string> = {
-  bronze: "Bronze",
-  silver: "Prata",
-  gold: "Ouro",
+const PLAN_LABELS: Record<PlanKey, string> = {
+  bronze: "Essencial",
+  silver: "Profissional",
+  gold: "Completo",
 };
 
-const PLAN_COLORS: Record<SubscriptionPlan, string> = {
-  bronze: "text-amber-700",
-  silver: "text-slate-400",
-  gold: "text-yellow-500",
+const PLAN_COLORS: Record<PlanKey, string> = {
+  bronze: "text-qg-blue-600",
+  silver: "text-emerald-600",
+  gold: "text-amber-600",
 };
 
-const PLAN_BG: Record<SubscriptionPlan, string> = {
-  bronze: "bg-amber-700/10 border-amber-700/20",
-  silver: "bg-slate-400/10 border-slate-400/20",
-  gold: "bg-yellow-500/10 border-yellow-500/20",
+const PLAN_BG: Record<PlanKey, string> = {
+  bronze: "bg-qg-blue-500/10 border-qg-blue-500/20",
+  silver: "bg-emerald-500/10 border-emerald-500/20",
+  gold: "bg-amber-500/10 border-amber-500/20",
 };
 
-// Preços em BRL (já consideram margem sobre taxas MP)
-// Pix: ~0,99% taxa | Cartão: ~3,99% taxa
-export const PLAN_PRICES: Record<SubscriptionPlan, number> = {
-  bronze: 0,     // sem cobrança via MP (plano gratuito/entrada)
-  silver: 197,
-  gold: 297,
+export const PLAN_PRICES: Record<PlanKey, number> = {
+  bronze: 197,
+  silver: 497,
+  gold: 997,
+};
+
+export const PLAN_USER_LIMITS: Record<PlanKey, number | null> = {
+  bronze: 3,
+  silver: 10,
+  gold: null,
+};
+
+export const PLAN_VOTER_LIMITS: Record<PlanKey, number | null> = {
+  bronze: 500,
+  silver: null,
+  gold: null,
+};
+
+export const PLAN_FEATURES: Record<PlanKey, string[]> = {
+  bronze: [
+    "Dashboard com KPIs",
+    "Cadastro de eleitores (até 500)",
+    "Agenda de reuniões",
+    "Guia de Soluções",
+    "Entrada por voz (campo)",
+    "App offline",
+    "Até 3 usuários",
+  ],
+  silver: [
+    "Tudo do Essencial",
+    "Eleitores ilimitados",
+    "Mapa de Calor (geolocalização)",
+    "Perfil Eleitoral (sexo, idade, bairros)",
+    "Equipe & Ranking de assessores",
+    "Calendário político",
+    "Ofícios (rascunho → resolução)",
+    "Identidade do Gabinete",
+    "IA de Demandas (triagem automática)",
+    "IA de Ofícios (redação automática)",
+    "Mensagens personalizadas",
+    "Relatórios em PDF",
+    "Até 10 usuários",
+  ],
+  gold: [
+    "Tudo do Profissional",
+    "Observatório BI (análises avançadas)",
+    "Emendas parlamentares",
+    "Banco de Instituições estratégicas",
+    "Usuários ilimitados",
+    "Suporte prioritário via WhatsApp",
+    "Onboarding dedicado",
+  ],
+};
+
+export const PLAN_LOCKED_FEATURES: Record<PlanKey, string[]> = {
+  bronze: [
+    "Mapa de Calor",
+    "Perfil Eleitoral",
+    "Ofícios e documentos",
+    "IA de Demandas e Ofícios",
+    "Relatórios PDF",
+    "Observatório BI",
+    "Emendas parlamentares",
+  ],
+  silver: [
+    "Observatório BI",
+    "Emendas parlamentares",
+    "Banco de Instituições",
+    "Usuários ilimitados",
+    "Suporte prioritário",
+  ],
+  gold: [],
 };
 
 export { PLAN_LABELS, PLAN_COLORS, PLAN_BG };
@@ -103,7 +170,7 @@ export function useSubscription(gabineteId?: string | null) {
 
   /** Cria preferência MP e redireciona para checkout */
   const createMpPreference = useMutation({
-    mutationFn: async (plan: "silver" | "gold") => {
+    mutationFn: async (plan: PlanKey) => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) throw new Error("Não autenticado");
 
