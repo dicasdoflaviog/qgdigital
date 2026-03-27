@@ -43,6 +43,7 @@ export default function ObservatorioBi() {
   const [diretrizMsg, setDiretrizMsg] = useState("");
   const [sendingDiretriz, setSendingDiretriz] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
+  const [selectedGabineteId, setSelectedGabineteId] = useState<string | null>(null);
 
   // Fetch all cities from resumo view
   const { data: resumoGabinetes = [], isLoading: loadingResumo } = useQuery({
@@ -366,15 +367,34 @@ export default function ObservatorioBi() {
             {top3.length === 0 ? (
               <p className="text-sm text-muted-foreground">Sem atividade recente.</p>
             ) : top3.map((g, i) => (
-              <div key={g.id} className="flex items-center gap-3 p-2 rounded-lg bg-emerald-500/5">
+              <div
+                key={g.id}
+                className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
+                  selectedGabineteId === g.id
+                    ? "bg-emerald-500/15 ring-1 ring-emerald-400"
+                    : "bg-emerald-500/5 hover:bg-emerald-500/10 active:bg-emerald-500/15"
+                }`}
+                onClick={() => {
+                  setSelectedGabineteId(selectedGabineteId === g.id ? null : g.id);
+                  toast({ title: selectedGabineteId === g.id ? "Filtro removido" : `Gabinete selecionado: ${g.nome}` });
+                }}
+              >
                 <span className="text-lg font-medium text-emerald-600 w-6 text-center">{i + 1}º</span>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">{g.nome}</p>
+                  <p className="text-sm font-medium text-foreground">{g.nome}</p>
                   <p className="text-[10px] text-muted-foreground">{g.count} cadastros nos últimos 7 dias</p>
                 </div>
                 <TrendingUp className="h-4 w-4 text-emerald-500" />
               </div>
             ))}
+            {selectedGabineteId && top3.some((g) => g.id === selectedGabineteId) && (
+              <button
+                className="text-xs text-primary font-medium mt-1 hover:underline"
+                onClick={() => setSelectedGabineteId(null)}
+              >
+                Ver todos →
+              </button>
+            )}
           </CardContent>
         </Card>
 
@@ -388,10 +408,21 @@ export default function ObservatorioBi() {
             {alerta3.length === 0 ? (
               <p className="text-sm text-muted-foreground">Sem alertas.</p>
             ) : alerta3.map((g, i) => (
-              <div key={g.id} className="flex items-center gap-3 p-2 rounded-lg bg-destructive/5">
+              <div
+                key={g.id}
+                className={`flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
+                  selectedGabineteId === g.id
+                    ? "bg-destructive/15 ring-1 ring-destructive/50"
+                    : "bg-destructive/5 hover:bg-destructive/10 active:bg-destructive/15"
+                }`}
+                onClick={() => {
+                  setSelectedGabineteId(selectedGabineteId === g.id ? null : g.id);
+                  toast({ title: selectedGabineteId === g.id ? "Filtro removido" : `Gabinete selecionado: ${g.nome}` });
+                }}
+              >
                 <span className="text-lg font-medium text-destructive w-6 text-center">{i + 1}º</span>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-foreground">{g.nome}</p>
+                  <p className="text-sm font-medium text-foreground">{g.nome}</p>
                   <p className="text-[10px] text-muted-foreground">
                     {g.count === 0 ? "Sem atividade nos últimos 7 dias" : `Apenas ${g.count} cadastros recentes`}
                   </p>
@@ -399,6 +430,14 @@ export default function ObservatorioBi() {
                 <TrendingDown className="h-4 w-4 text-destructive" />
               </div>
             ))}
+            {selectedGabineteId && alerta3.some((g) => g.id === selectedGabineteId) && (
+              <button
+                className="text-xs text-primary font-medium mt-1 hover:underline"
+                onClick={() => setSelectedGabineteId(null)}
+              >
+                Ver todos →
+              </button>
+            )}
           </CardContent>
         </Card>
       </div>

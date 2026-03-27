@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -39,6 +40,7 @@ function getInitials(name: string) {
 
 export function RankingProdutividade() {
   const [period, setPeriod] = useState<PeriodFilter>("month");
+  const navigate = useNavigate();
   const { data: assessores, isLoading } = useAssessorPerformance(period);
 
   const top = assessores?.[0];
@@ -82,7 +84,10 @@ export function RankingProdutividade() {
       ) : (
         <div className="grid gap-4 grid-cols-1 md:grid-cols-3">
           {/* Top Recruiter Card */}
-          <Card className="bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 border-0 text-white overflow-hidden relative">
+          <Card
+            className="bg-gradient-to-br from-indigo-600 via-violet-600 to-purple-700 border-0 text-white overflow-hidden relative cursor-pointer active:opacity-90 transition-opacity"
+            onClick={() => navigate("/equipe")}
+          >
             <CardContent className="p-5 flex flex-col items-center justify-center text-center h-full min-h-[180px]">
               <div className="absolute top-3 right-3 opacity-10">
                 <Star className="h-16 w-16" />

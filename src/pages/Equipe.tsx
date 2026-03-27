@@ -34,6 +34,7 @@ export default function Equipe() {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("todos");
+  const [activeFilter, setActiveFilter] = useState<"active" | "pending" | null>(null);
   const [togglingId, setTogglingId] = useState<string | null>(null);
 
   const isL4 = roleLevel === 4;
@@ -82,6 +83,12 @@ export default function Equipe() {
   const totalCount = members?.length ?? 0;
   const activeCount = members?.filter((m) => m.is_active).length ?? 0;
   const pendingCount = members?.filter((m) => !m.is_active).length ?? 0;
+
+  const filteredMembers = activeFilter === "active"
+    ? (members ?? []).filter((m) => m.is_active)
+    : activeFilter === "pending"
+      ? (members ?? []).filter((m) => !m.is_active)
+      : (members ?? []);
 
   // L4 specific stats
   const totalAlcance = isL4
@@ -158,7 +165,12 @@ export default function Equipe() {
         </div>
       ) : (
         <div className="grid grid-cols-3 gap-3">
-          <Card className="rounded-2xl shadow-sm border-border">
+          <Card
+            className={`rounded-2xl shadow-sm border-border cursor-pointer transition-all active:scale-95 ${
+              activeFilter === null ? "ring-2 ring-primary/40 bg-primary/5" : "hover:border-primary/40"
+            }`}
+            onClick={() => setActiveFilter(null)}
+          >
             <CardContent className="p-4 flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                 <Users className="h-5 w-5 text-primary" />
@@ -169,7 +181,12 @@ export default function Equipe() {
               </div>
             </CardContent>
           </Card>
-          <Card className="rounded-2xl shadow-sm border-border">
+          <Card
+            className={`rounded-2xl shadow-sm border-border cursor-pointer transition-all active:scale-95 ${
+              activeFilter === "active" ? "ring-2 ring-success/40 bg-success/5" : "hover:border-success/40"
+            }`}
+            onClick={() => setActiveFilter(activeFilter === "active" ? null : "active")}
+          >
             <CardContent className="p-4 flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl bg-success/10 flex items-center justify-center shrink-0">
                 <ShieldCheck className="h-5 w-5 text-success" />
@@ -180,7 +197,12 @@ export default function Equipe() {
               </div>
             </CardContent>
           </Card>
-          <Card className="rounded-2xl shadow-sm border-border">
+          <Card
+            className={`rounded-2xl shadow-sm border-border cursor-pointer transition-all active:scale-95 ${
+              activeFilter === "pending" ? "ring-2 ring-warning/40 bg-warning/5" : "hover:border-warning/40"
+            }`}
+            onClick={() => setActiveFilter(activeFilter === "pending" ? null : "pending")}
+          >
             <CardContent className="p-4 flex items-center gap-3">
               <div className="h-10 w-10 rounded-xl bg-warning/10 flex items-center justify-center shrink-0">
                 <Clock className="h-5 w-5 text-warning" />
@@ -231,7 +253,7 @@ export default function Equipe() {
         </div>
       ) : (
         <TeamTable
-          members={members ?? []}
+          members={filteredMembers}
           onToggleActive={handleToggle}
           onChangeRole={handleRoleChange}
           togglingId={togglingId}

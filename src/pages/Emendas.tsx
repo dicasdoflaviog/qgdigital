@@ -114,23 +114,44 @@ export default function Emendas() {
 
       {/* Highlight Cards — 3 cols */}
       <div className="grid grid-cols-3 gap-2">
-        <div className="bg-card rounded-2xl p-3 border border-border/50">
+        <div
+          className={`bg-card rounded-2xl p-3 border cursor-pointer transition-all active:scale-95 ${
+            statusFilter === "Indicada"
+              ? "border-primary ring-2 ring-primary/30 bg-primary/5"
+              : "border-border/50 hover:border-primary/40"
+          }`}
+          onClick={() => setStatusFilter(statusFilter === "Indicada" ? "todos" : "Indicada")}
+        >
           <div className="flex items-center gap-1.5 mb-1">
             <CircleDollarSign className="h-3.5 w-3.5 text-muted-foreground" />
-            <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Total Indicado</span>
+            <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Total indicado</span>
           </div>
           <p className="text-sm font-medium text-foreground">{formatCurrency(indicado)}</p>
           <p className="text-[10px] text-muted-foreground">{stats?.byStatus?.["Indicada"]?.count ?? 0} emendas</p>
         </div>
-        <div className="bg-card rounded-2xl p-3 border border-border/50">
+        <div
+          className={`bg-card rounded-2xl p-3 border cursor-pointer transition-all active:scale-95 ${
+            statusFilter === "Em Execução"
+              ? "border-warning ring-2 ring-warning/30 bg-warning/5"
+              : "border-border/50 hover:border-warning/40"
+          }`}
+          onClick={() => setStatusFilter(statusFilter === "Em Execução" ? "todos" : "Em Execução")}
+        >
           <div className="flex items-center gap-1.5 mb-1">
             <HardHat className="h-3.5 w-3.5 text-warning" />
-            <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Em Execução</span>
+            <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Em execução</span>
           </div>
           <p className="text-sm font-medium text-foreground">{formatCurrency(emExecucao)}</p>
           <p className="text-[10px] text-muted-foreground">{stats?.byStatus?.["Em Execução"]?.count ?? 0} emendas</p>
         </div>
-        <div className="bg-card rounded-2xl p-3 border border-border/50">
+        <div
+          className={`bg-card rounded-2xl p-3 border cursor-pointer transition-all active:scale-95 ${
+            statusFilter === "Concluída"
+              ? "border-success ring-2 ring-success/30 bg-success/5"
+              : "border-border/50 hover:border-success/40"
+          }`}
+          onClick={() => setStatusFilter(statusFilter === "Concluída" ? "todos" : "Concluída")}
+        >
           <div className="flex items-center gap-1.5 mb-1">
             <CheckCircle2 className="h-3.5 w-3.5 text-success" />
             <span className="text-[9px] text-muted-foreground uppercase tracking-wide font-medium">Concluído</span>

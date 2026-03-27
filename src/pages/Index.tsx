@@ -1,11 +1,17 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSaasStats } from "@/hooks/useSaasStats";
+import { useVoterStats } from "@/hooks/useVoters";
+import { useAssessores } from "@/hooks/useDashboardData";
+import { useDemandas } from "@/hooks/useDemandas";
+import { useGabinetesCidade } from "@/hooks/useGabinetesCidade";
 import { AniversariantesAlertCard } from "@/components/dashboard/AniversariantesAlertCard";
 import Dashboard from "./Dashboard";
 import DashboardAssessor from "./DashboardAssessor";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import {
   Users, CalendarDays, FileText, Landmark, MapPin, Server,
@@ -180,22 +186,16 @@ function DashboardSecretaria() {
 
 /** Mock dashboard for Vereador (Level 3) simulation */
 function DashboardVereador() {
-  const [investimentoOpen, setInvestimentoOpen] = useState(false);
-  const [rankingOpen, setRankingOpen] = useState(false);
-  const [baseOpen, setBaseOpen] = useState(false);
-  const [protocoladosOpen, setProtocoladosOpen] = useState(false);
+  const navigate = useNavigate();
+  const { data: voterStats, isLoading: loadingStats } = useVoterStats();
+  const { data: assessoresData, isLoading: loadingAssessores } = useAssessores();
+  const { data: demandas, isLoading: loadingDemandas } = useDemandas();
 
-  const emendas = [
-    { titulo: "Reforma da UBS Centro", valor: "R$ 500.000", status: "Em execução" },
-    { titulo: "Pavimentação Rua das Flores", valor: "R$ 350.000", status: "Empenhada" },
-    { titulo: "Equipamentos para Escola Municipal", valor: "R$ 200.000", status: "Indicada" },
-  ];
-
-  const assessores = [
-    { nome: "João Silva", cadastros: 312, posicao: 1 },
-    { nome: "Maria Santos", cadastros: 287, posicao: 2 },
-    { nome: "Pedro Costa", cadastros: 245, posicao: 3 },
-  ];
+  const top3Assessores = (assessoresData ?? []).slice(0, 3);
+  const demandasResolvidas = (demandas ?? []).filter(
+    (d) => d.status === "Resolvida" || d.status === "resolvida" || d.status === "Ofício Gerado"
+  ).length;
+  const totalDemandas = (demandas ?? []).length;
 
   return (
     <div className="p-4 md:p-6 space-y-5 pb-28 md:pb-6">
@@ -204,167 +204,97 @@ function DashboardVereador() {
         <p className="text-sm text-primary-foreground/70 mt-1">Performance e emendas do mandato</p>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <MockStatCard icon={<Landmark className="h-4 w-4" />} value="R$ 2M" label="Investimento total" isText onClick={() => setInvestimentoOpen(true)} />
-        <MockStatCard icon={<Trophy className="h-4 w-4" />} value="João" label="1º ranking" isText onClick={() => setRankingOpen(true)} />
-        <MockStatCard icon={<Users className="h-4 w-4" />} value="1.250" label="Base total" onClick={() => setBaseOpen(true)} />
-        <MockStatCard icon={<FileText className="h-4 w-4" />} value="48" label="Ofícios protocolados" onClick={() => setProtocoladosOpen(true)} />
+        {loadingStats ? (
+          <>
+            <Skeleton className="h-20 rounded-lg" />
+            <Skeleton className="h-20 rounded-lg" />
+          </>
+        ) : (
+          <>
+            <MockStatCard
+              icon={<Users className="h-4 w-4" />}
+              value={String(voterStats?.total ?? 0)}
+              label="Total de eleitores"
+              onClick={() => navigate("/eleitores")}
+            />
+            <MockStatCard
+              icon={<CalendarDays className="h-4 w-4" />}
+              value={String(voterStats?.novos7d ?? 0)}
+              label="Novos esta semana"
+              onClick={() => navigate("/eleitores")}
+            />
+          </>
+        )}
+        {loadingDemandas ? (
+          <>
+            <Skeleton className="h-20 rounded-lg" />
+            <Skeleton className="h-20 rounded-lg" />
+          </>
+        ) : (
+          <>
+            <MockStatCard
+              icon={<CheckCircle2 className="h-4 w-4" />}
+              value={String(demandasResolvidas)}
+              label="Demandas resolvidas"
+              onClick={() => navigate("/demandas")}
+            />
+            <MockStatCard
+              icon={<FileText className="h-4 w-4" />}
+              value={String(totalDemandas)}
+              label="Total de demandas"
+              onClick={() => navigate("/oficios")}
+            />
+          </>
+        )}
       </div>
+
+      {/* Ranking de assessores — dados reais */}
       <Card>
         <CardContent className="p-4 space-y-3">
           <h2 className="text-sm font-medium text-foreground flex items-center gap-2">
             <Trophy className="h-4 w-4 text-primary" /> Ranking de assessores
           </h2>
-          {assessores.map((a) => (
-            <div key={a.posicao} className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50">
-              <div className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-medium ${a.posicao === 1 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
-                {a.posicao}º
-              </div>
-              <div className="flex-1">
-                <p className="text-xs font-medium text-foreground">{a.nome}</p>
-                <p className="text-[10px] text-muted-foreground">{a.cadastros} cadastros</p>
-              </div>
+          {loadingAssessores ? (
+            <div className="space-y-2">
+              {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 rounded-lg" />)}
             </div>
-          ))}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent className="p-4 space-y-3">
-          <h2 className="text-sm font-medium text-foreground flex items-center gap-2">
-            <Landmark className="h-4 w-4 text-primary" /> Emendas em destaque
-          </h2>
-          {emendas.map((e, i) => (
-            <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/50">
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium text-foreground truncate">{e.titulo}</p>
-                <p className="text-[10px] text-muted-foreground">{e.valor}</p>
-              </div>
-              <Badge variant="outline" className="text-[9px]">{e.status}</Badge>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
-
-      {/* BottomSheet — Investimento total */}
-      <Sheet open={investimentoOpen} onOpenChange={setInvestimentoOpen}>
-        <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-lg font-medium">🏛️ Investimento total</SheetTitle>
-          </SheetHeader>
-          <div className="space-y-3">
-            {emendas.map((e, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-foreground truncate">{e.titulo}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{e.valor}</p>
-                </div>
-                <Badge variant="outline" className="text-xs ml-2 shrink-0">{e.status}</Badge>
-              </div>
-            ))}
-            <div className="p-3 rounded-xl bg-primary/10 text-center">
-              <p className="text-2xl font-medium text-primary whitespace-nowrap">R$ 2.000.000</p>
-              <p className="text-xs text-muted-foreground mt-1">Total investido no mandato</p>
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      {/* BottomSheet — Ranking */}
-      <Sheet open={rankingOpen} onOpenChange={setRankingOpen}>
-        <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-lg font-medium">🏆 Ranking de assessores</SheetTitle>
-          </SheetHeader>
-          <div className="space-y-3">
-            {assessores.map((a) => (
-              <div key={a.posicao} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
-                <div className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-medium ${a.posicao === 1 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
-                  {a.posicao}º
+          ) : top3Assessores.length === 0 ? (
+            <p className="text-xs text-muted-foreground text-center py-4">Nenhum assessor cadastrado</p>
+          ) : (
+            top3Assessores.map((a, idx) => (
+              <div
+                key={a.id}
+                className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50 cursor-pointer active:bg-muted transition-colors min-h-[44px]"
+                onClick={() => navigate("/equipe")}
+              >
+                <div className={`flex h-8 w-8 items-center justify-center rounded-lg text-xs font-medium ${idx === 0 ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+                  {idx + 1}º
                 </div>
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">{a.nome}</p>
-                  <p className="text-xs text-muted-foreground">{a.cadastros} cadastros registrados</p>
+                  <p className="text-xs font-medium text-foreground">{a.nome}</p>
+                  <p className="text-[10px] text-muted-foreground">{a.cadastros} cadastros</p>
                 </div>
               </div>
-            ))}
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      {/* BottomSheet — Base total */}
-      <Sheet open={baseOpen} onOpenChange={setBaseOpen}>
-        <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-lg font-medium">👥 Base total de eleitores</SheetTitle>
-          </SheetHeader>
-          <div className="space-y-3">
-            {[
-              { bairro: "Centro", count: 380 },
-              { bairro: "Liberdade", count: 290 },
-              { bairro: "Vila Nova", count: 250 },
-              { bairro: "Jardim América", count: 210 },
-              { bairro: "Outros", count: 120 },
-            ].map((b, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
-                <span className="text-sm font-medium text-foreground">{b.bairro}</span>
-                <span className="text-sm font-medium text-primary whitespace-nowrap">{b.count} eleitores</span>
-              </div>
-            ))}
-            <div className="p-3 rounded-xl bg-primary/10 text-center">
-              <p className="text-2xl font-medium text-primary whitespace-nowrap">1.250</p>
-              <p className="text-xs text-muted-foreground mt-1">Total na base eleitoral</p>
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      {/* BottomSheet — Ofícios protocolados */}
-      <Sheet open={protocoladosOpen} onOpenChange={setProtocoladosOpen}>
-        <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-lg font-medium">📄 Ofícios protocolados</SheetTitle>
-          </SheetHeader>
-          <div className="space-y-3">
-            {[
-              { numero: "OF-2026/048", titulo: "Solicitação de sinalização - Av. Principal", status: "Aguardando" },
-              { numero: "OF-2026/047", titulo: "Pedido de recapeamento - Vila Nova", status: "Em análise" },
-              { numero: "OF-2026/040", titulo: "Reforma da praça central", status: "Aprovado" },
-              { numero: "OF-2026/035", titulo: "Poda de árvores - Bairro Sul", status: "Concluído" },
-            ].map((item, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm font-medium text-foreground truncate">{item.titulo}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">Nº {item.numero}</p>
-                </div>
-                <Badge variant="outline" className="text-xs ml-2 shrink-0">{item.status}</Badge>
-              </div>
-            ))}
-          </div>
-        </SheetContent>
-      </Sheet>
+            ))
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
 
-/** Mock dashboard for Super Admin Level 4 simulation */
+/** Dashboard para Líder Político (Level 4) com dados reais */
 function DashboardSuperAdmin() {
+  const navigate = useNavigate();
   const [cidadesOpen, setCidadesOpen] = useState(false);
   const [eleitoresOpen, setEleitoresOpen] = useState(false);
-  const [alertasOpen, setAlertasOpen] = useState(false);
   const [gabineteOpen, setGabineteOpen] = useState(false);
 
-  const alertas = [
-    { cidade: "Cidade A", alerta: "Falta de água - Bairro Norte", severidade: "Alta" },
-    { cidade: "Cidade B", alerta: "Queda de energia recorrente - Centro", severidade: "Média" },
-    { cidade: "Cidade C", alerta: "Alagamento após chuvas - Vila Sul", severidade: "Alta" },
-  ];
+  const { data: gabinetes = [], isLoading } = useGabinetesCidade("__all__");
 
-  const cidades = [
-    { cidade: "Cidade A", eleitores: 3500, gabinetes: 2 },
-    { cidade: "Cidade B", eleitores: 2800, gabinetes: 2 },
-    { cidade: "Cidade C", eleitores: 2200, gabinetes: 1 },
-    { cidade: "Cidade D", eleitores: 1800, gabinetes: 2 },
-    { cidade: "Cidade E", eleitores: 1700, gabinetes: 1 },
-  ];
+  const totalEleitores = gabinetes.reduce((acc, g) => acc + (g.total_eleitores ?? 0), 0);
+  const totalGabinetes = gabinetes.length;
+  const totalPendentes = gabinetes.reduce((acc, g) => acc + (g.demandas_pendentes ?? 0), 0);
 
   return (
     <div className="p-4 md:p-6 space-y-5 pb-28 md:pb-6">
@@ -374,43 +304,50 @@ function DashboardSuperAdmin() {
       </div>
       <AniversariantesAlertCard />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-        <MockStatCard icon={<MapPin className="h-4 w-4" />} value="5" label="Cidades monitoradas" onClick={() => setCidadesOpen(true)} />
-        <MockStatCard icon={<Users className="h-4 w-4" />} value="12.000" label="Eleitores na rede" onClick={() => setEleitoresOpen(true)} />
-        <MockStatCard icon={<AlertTriangle className="h-4 w-4" />} value="3" label="Alertas de crise" highlight onClick={() => setAlertasOpen(true)} />
-        <MockStatCard icon={<Shield className="h-4 w-4" />} value="8" label="Gabinetes ativos" onClick={() => setGabineteOpen(true)} />
+        {isLoading ? (
+          <>
+            <Skeleton className="h-20 rounded-lg" />
+            <Skeleton className="h-20 rounded-lg" />
+            <Skeleton className="h-20 rounded-lg" />
+            <Skeleton className="h-20 rounded-lg" />
+          </>
+        ) : (
+          <>
+            <MockStatCard icon={<MapPin className="h-4 w-4" />} value={String(totalGabinetes)} label="Gabinetes ativos" onClick={() => setGabineteOpen(true)} />
+            <MockStatCard icon={<Users className="h-4 w-4" />} value={totalEleitores.toLocaleString("pt-BR")} label="Eleitores na rede" onClick={() => setEleitoresOpen(true)} />
+            <MockStatCard icon={<AlertTriangle className="h-4 w-4" />} value={String(totalPendentes)} label="Demandas pendentes" highlight={totalPendentes > 0} onClick={() => navigate("/demandas")} />
+            <MockStatCard icon={<Shield className="h-4 w-4" />} value={String(totalGabinetes)} label="Cidades cobertas" onClick={() => setCidadesOpen(true)} />
+          </>
+        )}
       </div>
+
+      {/* Performance por gabinete — dados reais */}
       <Card>
         <CardContent className="p-4 space-y-3">
           <h2 className="text-sm font-medium text-foreground flex items-center gap-2">
-            <AlertTriangle className="h-4 w-4 text-destructive" /> Alertas de crise regionais
+            <MapPin className="h-4 w-4 text-primary" /> Performance por gabinete
           </h2>
-          {alertas.map((a, i) => (
-            <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/50">
-              <div className="min-w-0 flex-1">
-                <p className="text-xs font-medium text-foreground">{a.alerta}</p>
-                <p className="text-[10px] text-muted-foreground">{a.cidade}</p>
-              </div>
-              <Badge variant={a.severidade === "Alta" ? "destructive" : "outline"} className="text-[9px]">
-                {a.severidade}
-              </Badge>
+          {isLoading ? (
+            <div className="space-y-2">
+              {[1, 2, 3].map((i) => <Skeleton key={i} className="h-12 rounded-lg" />)}
             </div>
-          ))}
-        </CardContent>
-      </Card>
-      <Card>
-        <CardContent className="p-4 space-y-3">
-          <h2 className="text-sm font-medium text-foreground flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-primary" /> Performance por cidade
-          </h2>
-          {cidades.map((c, i) => (
-            <div key={i} className="flex items-center justify-between p-2.5 rounded-lg bg-muted/50">
-              <div>
-                <p className="text-xs font-medium text-foreground">{c.cidade}</p>
-                <p className="text-[10px] text-muted-foreground">{c.gabinetes} gabinete{c.gabinetes > 1 ? "s" : ""}</p>
+          ) : gabinetes.length === 0 ? (
+            <p className="text-xs text-muted-foreground text-center py-4">Nenhum gabinete configurado</p>
+          ) : (
+            gabinetes.map((g) => (
+              <div
+                key={g.gabinete_id}
+                className="flex items-center justify-between p-2.5 rounded-lg bg-muted/50 cursor-pointer active:bg-muted transition-colors min-h-[44px]"
+                onClick={() => navigate("/mapa")}
+              >
+                <div>
+                  <p className="text-xs font-medium text-foreground">{g.nome_vereador}</p>
+                  <p className="text-[10px] text-muted-foreground">{g.cidade} • {g.demandas_pendentes ?? 0} pendentes</p>
+                </div>
+                <span className="text-xs font-medium text-primary whitespace-nowrap">{(g.total_eleitores ?? 0).toLocaleString("pt-BR")} el.</span>
               </div>
-              <span className="text-xs font-medium text-primary">{c.eleitores.toLocaleString("pt-BR")}</span>
-            </div>
-          ))}
+            ))
+          )}
         </CardContent>
       </Card>
 
@@ -418,16 +355,16 @@ function DashboardSuperAdmin() {
       <Sheet open={cidadesOpen} onOpenChange={setCidadesOpen}>
         <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
           <SheetHeader className="mb-4">
-            <SheetTitle className="text-lg font-medium">🗺️ Cidades monitoradas</SheetTitle>
+            <SheetTitle className="text-lg font-medium">🗺️ Gabinetes monitorados</SheetTitle>
           </SheetHeader>
           <div className="space-y-3">
-            {cidades.map((c, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
+            {gabinetes.map((g) => (
+              <div key={g.gabinete_id} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
                 <div>
-                  <p className="text-sm font-medium text-foreground">{c.cidade}</p>
-                  <p className="text-xs text-muted-foreground">{c.gabinetes} gabinete{c.gabinetes > 1 ? "s" : ""}</p>
+                  <p className="text-sm font-medium text-foreground">{g.nome_vereador}</p>
+                  <p className="text-xs text-muted-foreground">{g.cidade}</p>
                 </div>
-                <span className="text-sm font-medium text-primary whitespace-nowrap">{c.eleitores.toLocaleString("pt-BR")} eleitores</span>
+                <span className="text-sm font-medium text-primary whitespace-nowrap">{(g.total_eleitores ?? 0).toLocaleString("pt-BR")} eleitores</span>
               </div>
             ))}
           </div>
@@ -441,39 +378,16 @@ function DashboardSuperAdmin() {
             <SheetTitle className="text-lg font-medium">👥 Eleitores na rede</SheetTitle>
           </SheetHeader>
           <div className="space-y-3">
-            {cidades.map((c, i) => (
-              <div key={i} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
-                <span className="text-sm font-medium text-foreground">{c.cidade}</span>
-                <span className="text-sm font-medium text-primary whitespace-nowrap">{c.eleitores.toLocaleString("pt-BR")}</span>
+            {gabinetes.map((g) => (
+              <div key={g.gabinete_id} className="flex items-center justify-between p-3 rounded-xl bg-muted/50">
+                <span className="text-sm font-medium text-foreground">{g.nome_vereador}</span>
+                <span className="text-sm font-medium text-primary whitespace-nowrap">{(g.total_eleitores ?? 0).toLocaleString("pt-BR")}</span>
               </div>
             ))}
             <div className="p-3 rounded-xl bg-primary/10 text-center">
-              <p className="text-2xl font-medium text-primary whitespace-nowrap">12.000</p>
+              <p className="text-2xl font-medium text-primary whitespace-nowrap">{totalEleitores.toLocaleString("pt-BR")}</p>
               <p className="text-xs text-muted-foreground mt-1">Total na rede regional</p>
             </div>
-          </div>
-        </SheetContent>
-      </Sheet>
-
-      {/* BottomSheet — Alertas de crise */}
-      <Sheet open={alertasOpen} onOpenChange={setAlertasOpen}>
-        <SheetContent side="bottom" className="rounded-t-2xl max-h-[80vh] overflow-y-auto pb-safe">
-          <SheetHeader className="mb-4">
-            <SheetTitle className="text-lg font-medium">⚠️ Alertas de crise</SheetTitle>
-          </SheetHeader>
-          <div className="space-y-3">
-            {alertas.map((a, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
-                <AlertTriangle className={`h-5 w-5 shrink-0 ${a.severidade === "Alta" ? "text-destructive" : "text-amber-500"}`} />
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-foreground">{a.alerta}</p>
-                  <p className="text-xs text-muted-foreground mt-0.5">{a.cidade}</p>
-                </div>
-                <Badge variant={a.severidade === "Alta" ? "destructive" : "outline"} className="text-xs shrink-0">
-                  {a.severidade}
-                </Badge>
-              </div>
-            ))}
           </div>
         </SheetContent>
       </Sheet>
@@ -485,16 +399,11 @@ function DashboardSuperAdmin() {
             <SheetTitle className="text-lg font-medium">🏛️ Gabinetes ativos</SheetTitle>
           </SheetHeader>
           <div className="space-y-3">
-            {cidades.flatMap((c) =>
-              Array.from({ length: c.gabinetes }, (_, idx) => ({
-                nome: `Gabinete ${c.cidade} ${idx + 1}`,
-                cidade: c.cidade,
-              }))
-            ).map((g, i) => (
-              <div key={i} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
+            {gabinetes.map((g) => (
+              <div key={g.gabinete_id} className="flex items-center gap-3 p-3 rounded-xl bg-muted/50">
                 <div className="h-2 w-2 rounded-full bg-emerald-500 shrink-0" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-foreground">{g.nome}</p>
+                  <p className="text-sm font-medium text-foreground">{g.nome_vereador}</p>
                   <p className="text-xs text-muted-foreground">{g.cidade}</p>
                 </div>
                 <Badge variant="outline" className="text-xs text-emerald-600 border-emerald-500/30">Online</Badge>

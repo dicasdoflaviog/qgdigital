@@ -166,7 +166,12 @@ export default function Agenda() {
                       <Button size="sm" variant="default" className="h-7 text-xs flex-1 font-medium" onClick={() => handleApprove(r.id)}>
                         <Check className="h-3 w-3 mr-1" /> Aprovar
                       </Button>
-                      <Button size="sm" variant="outline" className="h-7 text-xs">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        className="h-7 text-xs"
+                        onClick={() => toast({ title: "Editar reunião", description: r.titulo })}
+                      >
                         <Pencil className="h-3 w-3" />
                       </Button>
                     </div>
