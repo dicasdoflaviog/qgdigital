@@ -407,6 +407,23 @@ export default function MapaCalor() {
     return map;
   }, [cityFilteredEleitores]);
 
+  // MAP-04: Voters WITH individual coords → rendered as individual pins at zoom >= 15
+  const eleitoresComCoords = useMemo(
+    () => cityFilteredEleitores.filter((e) => e.latitude != null && e.longitude != null),
+    [cityFilteredEleitores]
+  );
+
+  // Bairro circles only for voters WITHOUT individual coords (avoids double-counting)
+  const eleitoresBairroSemCoords = useMemo(() => {
+    const map: Record<string, { total: number }> = {};
+    cityFilteredEleitores.forEach((e) => {
+      if (!e.bairro || (e.latitude != null && e.longitude != null)) return;
+      if (!map[e.bairro]) map[e.bairro] = { total: 0 };
+      map[e.bairro].total++;
+    });
+    return map;
+  }, [cityFilteredEleitores]);
+
   // --- Auto-geocode unknown bairros (scoped by city to avoid cross-city collisions) ---
   useEffect(() => {
     const city = selectedCidade || "Teixeira de Freitas";
@@ -816,7 +833,29 @@ export default function MapaCalor() {
               showCoverageOnHover={false}
               disableClusteringAtZoom={15}
             >
-              {Object.entries(eleitoresBairroData).map(([bairro, data]) => {
+              {/* Individual pins for voters with GPS/geocoded coords (precise positions) */}
+              {eleitoresComCoords.map((eleitor) => {
+                const color = selectedGabineteId && gabineteColorMap[selectedGabineteId]
+                  ? gabineteColorMap[selectedGabineteId]
+                  : heatColorEleitores(0.5);
+                return (
+                  <CircleMarker
+                    key={eleitor.id}
+                    center={[eleitor.latitude!, eleitor.longitude!]}
+                    radius={6}
+                    pathOptions={{ color, fillColor: color, fillOpacity: 0.75, weight: 1.5 }}
+                  >
+                    <Popup>
+                      <div className="space-y-1 min-w-[140px]">
+                        <p className="text-xs">Bairro: <strong>{eleitor.bairro || "—"}</strong></p>
+                        <p className="text-xs">Situação: <strong>{eleitor.situacao || "—"}</strong></p>
+                      </div>
+                    </Popup>
+                  </CircleMarker>
+                );
+              })}
+              {/* Bairro circles for voters without individual coords (fallback) */}
+              {Object.entries(eleitoresBairroSemCoords).map(([bairro, data]) => {
                 const coords = getBairroCoords(bairro, currentCity, cidadesMap, geocodedCoords);
                 const ratio = data.total / maxEleitores;
                 const color = selectedGabineteId && gabineteColorMap[selectedGabineteId]
@@ -824,12 +863,13 @@ export default function MapaCalor() {
                   : heatColorEleitores(ratio);
                 const radius = 15 + ratio * 35;
                 return (
-                  <CircleMarker key={bairro} center={coords} radius={radius}
+                  <CircleMarker key={`bairro-${bairro}`} center={coords} radius={radius}
                     pathOptions={{ color, fillColor: color, fillOpacity: selectedGabineteId ? 0.6 : 0.45, weight: selectedGabineteId ? 3 : 2 }}>
                     <Popup>
                       <div className="space-y-1 min-w-[160px]">
                         <p className="font-medium text-sm">{bairro}</p>
                         <p className="text-xs">Total de Apoiadores: <strong>{data.total}</strong></p>
+                        <p className="text-xs text-muted-foreground">Sem coords individuais</p>
                       </div>
                     </Popup>
                   </CircleMarker>
