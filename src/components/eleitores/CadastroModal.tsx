@@ -32,6 +32,7 @@ import { PhotoCapture } from "./PhotoCapture";
 import { savePending } from "@/lib/offlineQueue";
 import { useOffline } from "@/contexts/OfflineContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { detectarSexoPorNome } from "@/lib/detectarSexo";
 
 function formatWhatsApp(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
@@ -64,6 +65,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
   const [bairro, setBairro] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
   const [sexo, setSexo] = useState<"M" | "F" | "O" | "">("");
+  const [sexoAutoDetectado, setSexoAutoDetectado] = useState(false);
   const [situacao, setSituacao] = useState("");
   const [isLeader, setIsLeader] = useState(false);
   const [processingVoice, setProcessingVoice] = useState(false);
@@ -129,6 +131,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
     setBairro("");
     setDataNascimento("");
     setSexo("");
+    setSexoAutoDetectado(false);
     setSituacao("");
     setIsLeader(false);
     setDuplicateMsg(null);
@@ -413,6 +416,16 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
               id="cad-nome"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
+              onBlur={(e) => {
+                // Detecta sexo automaticamente ao sair do campo — só se não foi preenchido manualmente
+                if (!sexo || sexoAutoDetectado) {
+                  const detectado = detectarSexoPorNome(e.target.value);
+                  if (detectado) {
+                    setSexo(detectado);
+                    setSexoAutoDetectado(true);
+                  }
+                }
+              }}
               placeholder="Nome Completo"
               autoComplete="name"
               inputMode="text"
@@ -538,10 +551,23 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
 
           {mode === "pf" && (
             <div className="space-y-1.5">
-              <Label className="label-ui">Sexo <span className="text-muted-foreground font-normal">(opcional)</span></Label>
-              <Select value={sexo} onValueChange={(v) => setSexo(v as "M" | "F" | "O" | "")}>
-                <SelectTrigger className="min-h-[44px]">
-                  <SelectValue placeholder="Selecionar..." />
+              <div className="flex items-center justify-between">
+                <Label className="label-ui">Sexo</Label>
+                {sexoAutoDetectado && sexo && (
+                  <span className="text-[10px] text-qg-blue-600 font-medium flex items-center gap-1">
+                    ✦ Detectado pelo nome
+                  </span>
+                )}
+              </div>
+              <Select
+                value={sexo}
+                onValueChange={(v) => {
+                  setSexo(v as "M" | "F" | "O" | "");
+                  setSexoAutoDetectado(false); // marcado como manual ao editar
+                }}
+              >
+                <SelectTrigger className={`min-h-[44px] ${sexoAutoDetectado && sexo ? "border-qg-blue-300 bg-qg-blue-50" : ""}`}>
+                  <SelectValue placeholder="Selecionar ou detectar pelo nome..." />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="M">Masculino</SelectItem>
