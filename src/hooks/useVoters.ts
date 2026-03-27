@@ -15,6 +15,7 @@ export interface Eleitor {
   situacao: string;
   is_leader: boolean;
   assessor_id: string | null;
+  created_by: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -38,11 +39,14 @@ export function useVoters(filters?: {
   bairro?: string;
   situacao?: string;
 }) {
-  const { role } = useAuth();
+  const { role, roleLevel } = useAuth();
 
   return useQuery({
     queryKey: ["eleitores", filters, role],
     queryFn: async () => {
+      // N4 (líder político) não acessa lista individual de eleitores
+      if (roleLevel === 4) return [] as Eleitor[];
+
       let query = supabase
         .from("eleitores")
         .select("*")
@@ -68,22 +72,27 @@ export function useVoters(filters?: {
 
 /**
  * Fetch ALL eleitores (up to 1000) for map heatmap rendering.
- * No pagination limit — needed so heatmap pins reflect the full dataset.
+ * N4 (líder político): retorna apenas campos não sensíveis (sem whatsapp, bairro, cidade, data_nascimento).
  */
 export function useVotersForMap() {
-  const { role } = useAuth();
+  const { role, roleLevel } = useAuth();
 
   return useQuery({
     queryKey: ["eleitores_map", role],
     queryFn: async () => {
+      // N4: seleciona apenas campos não sensíveis para o mapa
+      const columns = roleLevel === 4
+        ? "id, situacao, gabinete_id, is_leader, assessor_id, created_at, latitude, longitude"
+        : "id, bairro, cidade, gabinete_id, situacao, is_leader, assessor_id, created_at, latitude, longitude";
+
       const { data, error } = await supabase
         .from("eleitores")
-        .select("id, bairro, cidade, gabinete_id, situacao, is_leader, assessor_id, created_at, latitude, longitude")
+        .select(columns)
         .order("created_at", { ascending: false })
         .limit(1000);
 
       if (error) throw error;
-      return (data ?? []) as (Pick<Eleitor, "id" | "bairro" | "cidade" | "gabinete_id" | "situacao" | "is_leader" | "assessor_id" | "created_at"> & { latitude?: number; longitude?: number })[];
+      return (data ?? []) as (Pick<Eleitor, "id" | "situacao" | "gabinete_id" | "is_leader" | "assessor_id" | "created_at"> & { bairro?: string; cidade?: string | null; latitude?: number; longitude?: number })[];
     },
     staleTime: 60_000,
   });
@@ -94,13 +103,20 @@ export function useVotersPaginated(filters?: {
   bairro?: string;
   situacao?: string;
 }) {
-  const { role } = useAuth();
+  const { role, roleLevel } = useAuth();
   const [page, setPage] = useState(0);
   const [allData, setAllData] = useState<Eleitor[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const fetchPage = useCallback(async (pageNum: number, reset = false) => {
+    // N4 não acessa lista individual
+    if (roleLevel === 4) {
+      setAllData([]);
+      setHasMore(false);
+      return;
+    }
+
     setLoading(true);
     try {
       const from = pageNum * PAGE_SIZE;
@@ -132,14 +148,14 @@ export function useVotersPaginated(filters?: {
     } finally {
       setLoading(false);
     }
-  }, [filters?.bairro, filters?.situacao, filters?.search]);
+  }, [filters?.bairro, filters?.situacao, filters?.search, roleLevel]);
 
   // Reset when filters change
   useEffect(() => {
     setAllData([]);
     setHasMore(true);
     fetchPage(0, true);
-  }, [filters?.bairro, filters?.situacao, filters?.search]);
+  }, [filters?.bairro, filters?.situacao, filters?.search, roleLevel]);
 
   const loadMore = () => {
     if (!loading && hasMore) {

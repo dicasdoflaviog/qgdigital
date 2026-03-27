@@ -101,7 +101,9 @@ export default function Eleitores() {
     navigate(`/eleitores/${eleitor.id}`, { state: { eleitor: snapshot } });
   };
 
-  // L4 sees "Gabinetes da Rede" instead of individual eleitores
+  // Multitenancy — N4 (líder político) não acessa lista individual de eleitores.
+  // Regra: "Privacidade individual na base, visibilidade total no topo."
+  // N4 enxerga métricas agregadas via Perfil Eleitoral — nunca dados individuais.
   if (roleLevel === 4) {
     return <GabinetesRedePanel />;
   }

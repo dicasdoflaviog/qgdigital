@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 
 export type FaixaEtaria =
   | "Menor de 18"
@@ -63,13 +64,18 @@ export const FAIXAS_ETARIAS: FaixaEtaria[] = [
 
 export const FAIXAS_ETARIAS_FILTRO = FAIXAS_ETARIAS.filter((f) => f !== "Não informado");
 
-function useEleitorDemographics(gabineteId?: string | null) {
+// N4 (líder político): campos seguros apenas — dados sensíveis omitidos.
+// A view eleitores_n4_view mascara no DB; o frontend não seleciona colunas sensíveis.
+const N4_SAFE_COLUMNS = "id, sexo, situacao, gabinete_id, created_at" as const;
+const FULL_COLUMNS    = "id, sexo, data_nascimento, bairro, situacao, gabinete_id, cidade, created_at" as const;
+
+function useEleitorDemographics(gabineteId?: string | null, isN4 = false) {
   return useQuery({
-    queryKey: ["voter-demographics", gabineteId ?? "all"],
+    queryKey: ["voter-demographics", gabineteId ?? "all", isN4],
     queryFn: async () => {
       let query = supabase
         .from("eleitores")
-        .select("id, sexo, data_nascimento, bairro, situacao, gabinete_id, cidade, created_at")
+        .select(isN4 ? N4_SAFE_COLUMNS : FULL_COLUMNS)
         .eq("excluido", false);
 
       // gabineteId === null → todos os gabinetes (N4+), undefined → usa RLS
@@ -86,7 +92,9 @@ function useEleitorDemographics(gabineteId?: string | null) {
 }
 
 export function useVoterDemographics(filters: DemographicFilters = {}) {
-  const { data: raw = [], isLoading, error } = useEleitorDemographics(filters.gabineteId);
+  const { roleLevel } = useAuth();
+  const isN4 = roleLevel === 4;
+  const { data: raw = [], isLoading, error } = useEleitorDemographics(filters.gabineteId, isN4);
 
   const filtered = useMemo(() => {
     let data = raw;
