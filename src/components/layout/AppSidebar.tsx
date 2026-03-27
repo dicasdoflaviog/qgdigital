@@ -87,6 +87,7 @@ const saasSegurancaNavItems: NavItem[] = [
 const saasVisaoNavItems: NavItem[] = [
   { title: "Mapa Master", url: "/mapa", icon: MapPin, roles: ["super_admin"], exactLevels: [5], group: "saas_visao" },
   { title: "Observatório Master", url: "/observatorio-bi", icon: BarChart3, roles: ["super_admin"], exactLevels: [5], group: "saas_visao" },
+  { title: "Perfil eleitoral", url: "/perfil-eleitoral", icon: PieChart, roles: ["super_admin"], exactLevels: [5], group: "saas_visao" },
 ];
 
 export function AppSidebar() {
