@@ -14,11 +14,11 @@ interface Props {
 }
 
 const templates: Record<string, string> = {
-  "Apoiador Confirmado": "Olá, {nome}! Obrigado pelo apoio. Contamos com você para fortalecer nossa comunidade. Qualquer necessidade, estamos à disposição! 🤝",
-  "Indeciso": "Olá, {nome}! Gostaria de conversar sobre como nosso trabalho tem impactado positivamente a nossa cidade. Podemos marcar um café? ☕",
-  "Necessita Visita": "Olá, {nome}! Nosso assessor gostaria de agendar uma visita para entender melhor sua situação e como podemos ajudar. Qual o melhor horário para você? 📋",
-  "Demanda Específica": "Olá, {nome}! Recebemos sua demanda e já estamos trabalhando para encontrar uma solução. Em breve entraremos em contato com novidades. 💪",
   "Novo Cadastro": "Olá, {nome}! Seja bem-vindo(a)! Estamos aqui para ouvir suas necessidades e trabalhar juntos por melhorias na nossa comunidade. 🎉",
+  "Atendido": "Olá, {nome}! Que bom ter você conosco! Seu atendimento foi registrado e continuamos trabalhando para servir ainda melhor. Qualquer necessidade, estamos à disposição! 🤝",
+  "Líder Comunitário": "Olá, {nome}! Sua liderança é fundamental para o nosso trabalho. Contamos com você para fortalecer nossa comunidade e levar as demandas do bairro adiante. 💪",
+  "Apoiador Forte": "Olá, {nome}! Seu apoio faz toda a diferença! Juntos construímos uma Teixeira de Freitas melhor para todos. Obrigado pela confiança! 🌟",
+  "Eleitor Potencial": "Olá, {nome}! Gostaria de conversar sobre como nosso trabalho tem impactado positivamente a nossa cidade. Podemos marcar um café? ☕",
 };
 
 export function GerarMensagemIA({ nome, situacao }: Props) {

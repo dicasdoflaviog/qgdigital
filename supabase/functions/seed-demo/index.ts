@@ -110,29 +110,52 @@ const CITIES: CityDef[] = [
       { nome: "Nova Esperança", lat: -17.5990, lng: -40.3380 },
     ],
   },
+  {
+    nome: "Nova Viçosa", estado: "BA", lat: -17.8917, lng: -39.3719, zoom: 13,
+    bairros: [
+      { nome: "Centro", lat: -17.8917, lng: -39.3719 },
+      { nome: "Alto do Cipó", lat: -17.8870, lng: -39.3680 },
+      { nome: "São Francisco", lat: -17.8950, lng: -39.3750 },
+      { nome: "Novo Horizonte", lat: -17.8940, lng: -39.3660 },
+      { nome: "Santa Cruz", lat: -17.8880, lng: -39.3780 },
+      { nome: "Jardim das Acácias", lat: -17.8960, lng: -39.3700 },
+      { nome: "Bela Vista", lat: -17.8900, lng: -39.3650 },
+      { nome: "São José", lat: -17.8930, lng: -39.3760 },
+    ],
+  },
+  {
+    nome: "Posto da Mata", estado: "BA", lat: -17.8994, lng: -40.0878, zoom: 14,
+    bairros: [
+      { nome: "Centro", lat: -17.8994, lng: -40.0878 },
+      { nome: "Bairro Novo", lat: -17.9020, lng: -40.0850 },
+      { nome: "São Sebastião", lat: -17.8970, lng: -40.0910 },
+      { nome: "Alto da Boa Vista", lat: -17.8960, lng: -40.0840 },
+      { nome: "Vila União", lat: -17.9010, lng: -40.0900 },
+    ],
+  },
 ];
 
 const VEREADORES: VereadorDef[] = [
   // ── Teixeira de Freitas ──
   { nome: "Jonatas dos Santos", partido: "MDB", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/perfil-jonatas.jpg", cidade: "Teixeira de Freitas" },
-  { nome: "Tequinha Brito", partido: "PSD", foto: null, cidade: "Teixeira de Freitas" },
+  { nome: "Tequinha Brito", partido: "PSD", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/tequinha-brito-posse.jpg", cidade: "Teixeira de Freitas" },
   { nome: "Joris de Gel", partido: "União Brasil", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2021/01/joris-gel.jpg", cidade: "Teixeira de Freitas" },
   { nome: "Simara do Projeto Resgate", partido: "AVANTE", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/SIMARA-SITE.jpg", cidade: "Teixeira de Freitas" },
-  { nome: "Marcelo Teixeira", partido: "PRD", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2022/09/Marcelo-bandeira-447x470.jpg", cidade: "Teixeira de Freitas" },
-  { nome: "João Garçom", partido: "PCdoB", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/joao-filho-site.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Marcelo Teixeira", partido: "PRD", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/marcelo-posse.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "João Garçom", partido: "PCdoB", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/joao-garcom.jpg", cidade: "Teixeira de Freitas" },
   { nome: "Adriano Souza", partido: "PP", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/adriano.jpg", cidade: "Teixeira de Freitas" },
-  { nome: "Ailton Cruz", partido: "PL", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Bernardo Cabral", partido: "PSDB", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Bruno Barbosa", partido: "Republicanos", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Cláudio Novo Tempo", partido: "PDT", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Clemeson do Postinho", partido: "MDB", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Marquinhos Gomes", partido: "PP", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Jucelio Silva", partido: "PSD", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Ronaldo Baitakão", partido: "União Brasil", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Vanderley do Social", partido: "PT", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Wemerson Sales", partido: "PL", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Adalgiso Rodrigues Jardim", partido: "PSDB", foto: null, cidade: "Teixeira de Freitas" },
-  { nome: "Rose Assistente Social", partido: "PT", foto: null, cidade: "Teixeira de Freitas" },
+  { nome: "Ailton Cruz", partido: "PL", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/ailton-cruz-2025.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Bernardo Cabral", partido: "PSDB", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/cabral.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Bruno Barbosa", partido: "Republicanos", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2024/04/vereador-bruno-site.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Cláudio Novo Tempo", partido: "PDT", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/perfil-claudio.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Clemeson do Postinho", partido: "MDB", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/clemeson-posse.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Marquinhos Gomes", partido: "PP", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/marquinhos-posse.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Jucelio Silva", partido: "PSD", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/jucelio-posse.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Ronaldo Baitakão", partido: "União Brasil", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/Ronaldo-posse.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Vanderley do Social", partido: "PT", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/perfil-wanderley.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Wemerson Sales", partido: "PL", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/perfil-wemer-son.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Adalgiso Rodrigues Jardim", partido: "PSDB", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/paulao-posse.jpg", cidade: "Teixeira de Freitas" },
+  { nome: "Rose Assistente Social", partido: "PT", foto: "https://www.camaratf.ba.gov.br/wp-content/uploads/2025/01/perfil-rose.jpg", cidade: "Teixeira de Freitas" },
 
   // ── Itamaraju ──
   { nome: "Rose da Saúde", partido: "PSDB", foto: null, cidade: "Itamaraju" },
@@ -214,6 +237,26 @@ const VEREADORES: VereadorDef[] = [
   { nome: "Maisa Menezes", partido: "AVANTE", foto: null, cidade: "Lajedão" },
   { nome: "Marlon Soares", partido: "Republicanos", foto: null, cidade: "Lajedão" },
   { nome: "Rildo Dias", partido: "PT", foto: null, cidade: "Lajedão" },
+
+  // ── Nova Viçosa ──
+  { nome: "Magno Pinheiro", partido: "MDB", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Betânia Pinto", partido: "PSD", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Celio Fernandes", partido: "PP", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Toninho da Pesca", partido: "PT", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Cida Borges", partido: "União Brasil", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Jeovah Santos", partido: "PL", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Cristóvão Barros", partido: "PDT", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Eliana Mota", partido: "AVANTE", foto: null, cidade: "Nova Viçosa" },
+  { nome: "Sandro do Futebol", partido: "Republicanos", foto: null, cidade: "Nova Viçosa" },
+
+  // ── Posto da Mata ──
+  { nome: "Zé Pereira", partido: "MDB", foto: null, cidade: "Posto da Mata" },
+  { nome: "Fatinha Saúde", partido: "PSD", foto: null, cidade: "Posto da Mata" },
+  { nome: "Dedé Barros", partido: "PP", foto: null, cidade: "Posto da Mata" },
+  { nome: "Nilza Bezerra", partido: "PT", foto: null, cidade: "Posto da Mata" },
+  { nome: "Beto Caminhoneiro", partido: "PL", foto: null, cidade: "Posto da Mata" },
+  { nome: "Neto do Açougue", partido: "União Brasil", foto: null, cidade: "Posto da Mata" },
+  { nome: "Rute Professora", partido: "PDT", foto: null, cidade: "Posto da Mata" },
 ];
 
 const CATEGORIAS = [
@@ -234,14 +277,34 @@ const DESCRICOES: Record<string, string[]> = {
 };
 
 const NOMES_ELEITORES = [
-  "Maria Silva", "José Santos", "Ana Oliveira", "Carlos Souza", "Francisca Lima",
-  "Antônio Pereira", "Juliana Costa", "Pedro Almeida", "Luciana Ferreira", "Paulo Rodrigues",
-  "Mariana Nascimento", "Fernando Barbosa", "Camila Ribeiro", "Rafael Carvalho", "Patrícia Gomes",
-  "Ricardo Martins", "Beatriz Araújo", "Marcos Vieira", "Lúcia Monteiro", "Gustavo Moreira",
-  "Sandra Cardoso", "Anderson Dias", "Tatiana Mendes", "Roberto Nunes", "Cristiane Correia",
-  "Sérgio Rocha", "Vanessa Pinto", "Diego Teixeira", "Aline Castro", "Leandro Machado",
-  "Priscila Freitas", "Thiago Ramos", "Amanda Lopes", "Vinícius Moura", "Bianca Fonseca",
-  "Eduardo Cunha", "Isabela Duarte", "Bruno Campos", "Natália Melo", "Henrique Nogueira",
+  "Maria das Graças Silva", "João Batista Oliveira", "Antônio Carlos Ferreira", "Francisca Lima Santos",
+  "José Augusto Souza", "Josefa Alves Costa", "Raimundo Neto Barbosa", "Edilaine Santos Pereira",
+  "Cleonice Ferreira Rocha", "Hélio Barbosa Nunes", "Neuza Costa Almeida", "Geovani Souza Melo",
+  "Divaldina Rocha Brito", "Sineide Almeida Gomes", "Adailton Pereira Cruz", "Rosinete Gomes Cardoso",
+  "Valdinei Cruz Nascimento", "Janete Teixeira Moreira", "Osvaldo Borges Lima", "Conceição Silva Dias",
+  "Sebastião Nunes Ribeiro", "Iracema Fonseca Mendes", "Roney Carvalho Pinto", "Gilzete Martins Araujo",
+  "Ademar Santos Xavier", "Creusa Lima Vieira", "Waldivino Dias Castro", "Tereza Cardoso Monteiro",
+  "Nadson Moreira Ramos", "Lucelina Melo Freitas", "Maria Helena Santos", "João Pedro Oliveira",
+  "Antônia Ferreira Lima", "Francisco Almeida Souza", "Lucia Barbosa Costa", "Ricardo Mendes Nunes",
+  "Sandra Nunes Dias", "Paulo Henrique Dias Rocha", "Carla Moreira Alves", "José Roberto Cardoso",
+  "Mariana Lopes Silva", "Fernando Rocha Batista", "Beatriz Araújo Gonçalves", "Marcos Vinícius Pereira",
+  "Patrícia Gomes Nascimento", "Cláudio Nascimento Brito", "Rosangela Teixeira Matos", "Edson Luís Costa",
+  "Denise Rodrigues Vieira", "Ailton Souza Filho", "Ivone Pereira da Silva", "Reginaldo Batista Pinto",
+  "Aparecida Gonçalves Ramos", "Leandro Matos Freitas", "Sônia Maria Oliveira", "Valdecir Ribeiro Carvalho",
+  "Eliane Freitas Santos", "Geraldo Brito Lima", "Lúcia de Fátima Alves", "Sebastião Correia Neto",
+  "Adriana Melo Cardoso", "Ronaldo Xavier Mendes", "Tereza Cristina Araújo", "Josué Pinto Barbosa",
+  "Simone Andrade Costa", "Wellington Dias Silva", "Conceição Alves Rodrigues", "Nilton Pereira Gomes",
+  "Fabiana Ramos Ferreira", "Gilberto Carvalho Nascimento", "Vera Lúcia Moreira", "Manoel Santos Cruz",
+  "Eugênia Costa Brito", "Thiago Martins Lopes", "Raimunda Souza Vieira", "Cleverton Lima Teixeira",
+  "Joana D'Arc Silva", "Antônio Carlos Dias", "Margarete Vieira Cardoso", "Domingos Ferreira Melo",
+  "Célia Regina Batista", "Ubirajara Neto Santos", "Fátima Oliveira Ramos", "Davi Gonçalves Freitas",
+  "Neusa Maria Alves", "Jorge Luís Ribeiro", "Ilza Nascimento Pinto", "Valdir Moreira Barbosa",
+  "Ednalva Santos Mendes", "Rogério Almeida Cruz", "Dalva Pereira Araújo", "Ismael Costa Gomes",
+  "Zilda Barbosa Vieira", "Cícero Araújo Lima", "Graça Freitas Cardoso", "Osvaldo Matos Nascimento",
+  "Marlene Teixeira Brito", "Ademir Correia Santos", "Lindalva Brito Ferreira", "Josefa Rodrigues Lopes",
+  "Elizeu Gomes Carvalho", "Núbia Cardoso Moreira", "Roque Batista Silva", "Celina Mendes Dias",
+  "Laércio Nunes Costa", "Benedita Lopes Rocha", "Erivaldo Rocha Pinto", "Sueli Dias Almeida",
+  "Amaro Xavier Ribeiro", "Florentina Pinto Souza", "Geralda Cruz Nunes", "Norberto Silva Batista",
 ];
 
 const STATUS_OPTIONS = ["Pendente", "Em Andamento", "Resolvida", "Ofício Gerado"];
@@ -300,15 +363,19 @@ Deno.serve(async (req) => {
     // ── 2. Create vereador auth users + profiles + roles ──
     const vereadorMap: Map<string, { userId: string; cidade: string }[]> = new Map();
 
+    // Fetch all existing users ONCE to avoid repeated listUsers calls
+    const { data: allUsersData } = await admin.auth.admin.listUsers({ perPage: 1000 });
+    const existingUserEmails = new Map<string, string>(
+      (allUsersData?.users || []).map((u: any) => [u.email, u.id])
+    );
+
     for (const v of VEREADORES) {
       const email = makeEmail(v.nome, v.cidade);
-
-      const { data: existingUsers } = await admin.auth.admin.listUsers({ perPage: 1000 });
-      const existing = existingUsers?.users?.find((u: any) => u.email === email);
+      const existingId = existingUserEmails.get(email);
 
       let userId: string;
-      if (existing) {
-        userId = existing.id;
+      if (existingId) {
+        userId = existingId;
       } else {
         const { data: newUser, error: createErr } = await admin.auth.admin.createUser({
           email,
@@ -321,6 +388,7 @@ Deno.serve(async (req) => {
           continue;
         }
         userId = newUser.user.id;
+        existingUserEmails.set(email, userId);
       }
 
       // Track by city
@@ -356,19 +424,20 @@ Deno.serve(async (req) => {
     }
     results.push(`✅ ${VEREADORES.length} vereadores processados`);
 
-    // ── 3. Create eleitores per city ──
+    // ── 3. Create eleitores per city (batched inserts) ──
     let totalEleitores = 0;
     for (const city of CITIES) {
       const cityVereadores = vereadorMap.get(city.nome) || [];
       if (cityVereadores.length === 0) continue;
 
-      const qtdEleitores = city.nome === "Teixeira de Freitas" ? 40 : 20;
+      const qtdEleitores = city.nome === "Teixeira de Freitas" ? 200 : 50;
+      const batch: any[] = [];
 
       for (let i = 0; i < qtdEleitores; i++) {
         const bairro = city.bairros[i % city.bairros.length];
         const ver = cityVereadores[i % cityVereadores.length];
 
-        await admin.from("eleitores").insert({
+        batch.push({
           nome: `${randomItem(NOMES_ELEITORES)} ${i + 1}`,
           whatsapp: randomPhone(),
           bairro: bairro.nome,
@@ -377,23 +446,28 @@ Deno.serve(async (req) => {
           latitude: bairro.lat + (Math.random() - 0.5) * 0.005,
           longitude: bairro.lng + (Math.random() - 0.5) * 0.005,
           data_nascimento: randomBirthDate(),
-          situacao: randomItem(["Novo Cadastro", "Atendido", "Líder Comunitário"]),
-          is_leader: Math.random() > 0.85,
+          situacao: randomItem(["Novo Cadastro", "Atendido", "Líder Comunitário", "Apoiador Forte", "Eleitor Potencial"]),
+          is_leader: Math.random() > 0.92,
           gabinete_id: ver.userId,
           created_at: randomDate(90),
         });
         totalEleitores++;
       }
+      // Insert in chunks of 50
+      for (let c = 0; c < batch.length; c += 50) {
+        await admin.from("eleitores").insert(batch.slice(c, c + 50));
+      }
     }
     results.push(`✅ ${totalEleitores} eleitores criados`);
 
-    // ── 4. Create demandas per city ──
+    // ── 4. Create demandas per city (batched inserts) ──
     let totalDemandas = 0;
     for (const city of CITIES) {
       const cityVereadores = vereadorMap.get(city.nome) || [];
       if (cityVereadores.length === 0) continue;
 
       const qtdDemandas = city.nome === "Teixeira de Freitas" ? 30 : 15;
+      const demBatch: any[] = [];
 
       for (let i = 0; i < qtdDemandas; i++) {
         const bairro = city.bairros[i % city.bairros.length];
@@ -401,7 +475,7 @@ Deno.serve(async (req) => {
         const descricoes = DESCRICOES[categoria] || ["Demanda registrada"];
         const ver = cityVereadores[i % cityVereadores.length];
 
-        await admin.from("demandas").insert({
+        demBatch.push({
           descricao: randomItem(descricoes),
           bairro: bairro.nome,
           categoria,
@@ -413,6 +487,7 @@ Deno.serve(async (req) => {
         });
         totalDemandas++;
       }
+      await admin.from("demandas").insert(demBatch);
     }
     results.push(`✅ ${totalDemandas} demandas criadas`);
 

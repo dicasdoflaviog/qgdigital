@@ -3,7 +3,7 @@ import {
   LayoutDashboard, Users, MapPin, Trophy, CalendarDays, CalendarRange, FileText, Settings,
   Zap, Radio, BookOpen, CloudOff, Database, MessageSquarePlus, Building2, Landmark,
   Archive, Server, Scale, ShieldCheck, DollarSign, Lock, BarChart3, LogOut, Paintbrush,
-  CreditCard, PieChart,
+  CreditCard, PieChart, Cake,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -66,6 +66,7 @@ const operacionalNavItems: NavItem[] = [
 const estrategicoNavItems: NavItem[] = [
   { title: "Observatório", url: "/observatorio", icon: Scale, roles: ["lider_politico", "super_admin"], exactLevels: [4, 5], group: "estrategico" },
   { title: "Gestão de Base", url: "/gestao-base", icon: Database, roles: ["lider_politico", "super_admin"], exactLevels: [4, 5], group: "estrategico" },
+  { title: "Aniversariantes", url: "/aniversariantes-rede", icon: Cake, roles: ["lider_politico", "super_admin"], exactLevels: [4, 5], group: "estrategico" },
 ];
 
 // ── L5 EXCLUSIVE: Administração SaaS ──

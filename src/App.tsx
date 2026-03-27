@@ -37,6 +37,7 @@ import ObservatorioBi from "./pages/ObservatorioBi";
 import ConfiguracaoGabinete from "./pages/ConfiguracaoGabinete";
 import Plano from "./pages/Plano";
 import PerfilEleitoral from "./pages/PerfilEleitoral";
+import AniversariantesRede from "./pages/AniversariantesRede";
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,7 @@ const App = () => (
                         <Route path="/observatorio" element={<ObservatorioLegislativo />} />
                         <Route path="/observatorio-bi" element={<ObservatorioBi />} />
                         <Route path="/perfil-eleitoral" element={<PerfilEleitoral />} />
+                        <Route path="/aniversariantes-rede" element={<AniversariantesRede />} />
                         <Route path="/admin/system-master" element={<SystemMaster />} />
                         <Route path="/master/admin" element={<SystemMaster />} />
                         <Route path="/sistema" element={<Sistema />} />

@@ -176,3 +176,7 @@ export function detectarSexoPorNome(nomeCompleto: string): "M" | "F" | null {
 
   return null;
 }
+
+/** Alias — detecta sexo pelo primeiro nome (compatível com hook useAniversariantesRede) */
+export const detectarSexo = (primeiroNome: string): "M" | "F" | null =>
+  detectarSexoPorNome(primeiroNome);

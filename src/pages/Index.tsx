@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useSaasStats } from "@/hooks/useSaasStats";
+import { AniversariantesAlertCard } from "@/components/dashboard/AniversariantesAlertCard";
 import Dashboard from "./Dashboard";
 import DashboardAssessor from "./DashboardAssessor";
 import { Card, CardContent } from "@/components/ui/card";
@@ -371,6 +372,7 @@ function DashboardSuperAdmin() {
         <h1 className="text-2xl md:text-3xl font-medium text-primary-foreground">Observatório regional</h1>
         <p className="text-sm text-primary-foreground/70 mt-1">Dados consolidados da rede política</p>
       </div>
+      <AniversariantesAlertCard />
       <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
         <MockStatCard icon={<MapPin className="h-4 w-4" />} value="5" label="Cidades monitoradas" onClick={() => setCidadesOpen(true)} />
         <MockStatCard icon={<Users className="h-4 w-4" />} value="12.000" label="Eleitores na rede" onClick={() => setEleitoresOpen(true)} />

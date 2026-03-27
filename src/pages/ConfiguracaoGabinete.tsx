@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Upload, Save, Loader2, Palette, Building2, Users, Image, Camera, Brain, Handshake, Swords, Shield } from "lucide-react";
+import { Upload, Save, Loader2, Palette, Building2, Users, Image, Camera, Brain, Handshake, Swords, Shield, Mic } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { useAuth } from "@/contexts/AuthContext";
 import { useGabineteConfig } from "@/hooks/useGabineteConfig";
 import { supabase } from "@/integrations/supabase/client";
@@ -49,6 +51,14 @@ export default function ConfiguracaoGabinete() {
   const [memoryCount, setMemoryCount] = useState<number | null>(null);
   const [isClearingMemory, setIsClearingMemory] = useState(false);
 
+  // Voice IA state
+  const [voiceForm, setVoiceForm] = useState({
+    voice_clone_id: "",
+    voice_provider: "elevenlabs",
+  });
+  const [savingVoice, setSavingVoice] = useState(false);
+  const [uploadingVoice, setUploadingVoice] = useState(false);
+
   const [form, setForm] = useState({
     cor_primaria: "#1E40AF",
     nome_mandato: "",
@@ -86,6 +96,10 @@ export default function ConfiguracaoGabinete() {
         ia_rigor: (config as any).ia_rigor || "formal",
         ia_linguagem: (config as any).ia_linguagem || "institucional",
       });
+      setVoiceForm({
+        voice_clone_id: (config as any).voice_clone_id || "",
+        voice_provider: (config as any).voice_provider || "elevenlabs",
+      });
     }
   }, [config]);
 
@@ -119,6 +133,51 @@ export default function ConfiguracaoGabinete() {
       toast({ title: "Erro ao apagar memória", variant: "destructive" });
     } finally {
       setIsClearingMemory(false);
+    }
+  };
+
+  const handleVoiceSampleUpload = async (file: File) => {
+    const gabId = profile?.gabinete_id ?? user?.id;
+    if (!gabId) return;
+    setUploadingVoice(true);
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `${gabId}/sample-${Date.now()}.${ext}`;
+      const { error } = await supabase.storage.from("voice-samples").upload(path, file, { upsert: true });
+      if (error) throw error;
+      const { data: urlData } = supabase.storage.from("voice-samples").getPublicUrl(path);
+      await (supabase.from("gabinete_config") as any)
+        .update({ voice_sample_url: urlData.publicUrl })
+        .eq("gabinete_id", gabId);
+      toast({ title: "Sample de voz enviado!", description: "Agora configure o voice_clone_id." });
+    } catch (err: any) {
+      toast({ title: "Erro no upload", description: err.message, variant: "destructive" });
+    } finally {
+      setUploadingVoice(false);
+    }
+  };
+
+  const handleSaveVoice = async () => {
+    const gabId = profile?.gabinete_id ?? user?.id;
+    if (!gabId) {
+      toast({ title: "Usuário não identificado", variant: "destructive" });
+      return;
+    }
+    setSavingVoice(true);
+    try {
+      const { error } = await (supabase.from("gabinete_config") as any)
+        .update({
+          voice_clone_id: voiceForm.voice_clone_id || null,
+          voice_provider: voiceForm.voice_provider,
+          voice_configured_at: new Date().toISOString(),
+        })
+        .eq("gabinete_id", gabId);
+      if (error) throw error;
+      toast({ title: "✅ Voz IA salva!", description: "Configuração de voz atualizada com sucesso." });
+    } catch (err: any) {
+      toast({ title: "Erro ao salvar voz", description: err.message, variant: "destructive" });
+    } finally {
+      setSavingVoice(false);
     }
   };
 
@@ -160,9 +219,12 @@ export default function ConfiguracaoGabinete() {
       </div>
 
       <Tabs defaultValue="identidade" className="w-full">
-        <TabsList className="w-full grid grid-cols-1 h-11">
+        <TabsList className="w-full grid grid-cols-2 h-11">
           <TabsTrigger value="identidade" className="gap-1.5 text-xs font-medium min-h-[44px]">
             <Building2 className="h-3.5 w-3.5" /> Identidade
+          </TabsTrigger>
+          <TabsTrigger value="voz-ia" className="gap-1.5 text-xs font-medium min-h-[44px]">
+            <Mic className="h-3.5 w-3.5" /> Voz IA
           </TabsTrigger>
         </TabsList>
 
@@ -451,6 +513,109 @@ export default function ConfiguracaoGabinete() {
         </Button>
       </div>
 
+        </TabsContent>
+
+        {/* ── Voz IA tab ── */}
+        <TabsContent value="voz-ia" className="space-y-4 mt-4">
+          <Card>
+            <CardHeader className="pb-2">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-sm font-medium flex items-center gap-2">
+                  <Mic className="h-4 w-4 text-primary" /> Voz IA
+                </CardTitle>
+                {voiceForm.voice_clone_id ? (
+                  <Badge className="bg-green-100 text-green-800 border-green-200 text-xs font-medium">
+                    ✓ Voz configurada
+                  </Badge>
+                ) : (
+                  <Badge variant="outline" className="text-slate-500 text-xs font-medium">
+                    Voz não configurada
+                  </Badge>
+                )}
+              </div>
+              <p className="text-xs text-muted-foreground mt-1">
+                Configure a voz clonada do vereador para envio automático de mensagens personalizadas.
+              </p>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              {/* Step 1 */}
+              <div className="space-y-2">
+                <Label className="text-xs font-medium text-foreground">
+                  Passo 1 — Sample de voz (min. 30 segundos)
+                </Label>
+                <p className="text-[11px] text-muted-foreground">
+                  Grave ou envie um áudio limpo do vereador para uso na clonagem de voz.
+                </p>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="h-10 gap-2 text-xs font-medium relative overflow-hidden"
+                    disabled={uploadingVoice}
+                    asChild
+                  >
+                    <label>
+                      {uploadingVoice ? (
+                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      ) : (
+                        <Upload className="h-3.5 w-3.5" />
+                      )}
+                      {uploadingVoice ? "Enviando..." : "Selecionar áudio"}
+                      <input
+                        type="file"
+                        accept="audio/*"
+                        className="absolute inset-0 opacity-0 cursor-pointer"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) handleVoiceSampleUpload(file);
+                        }}
+                      />
+                    </label>
+                  </Button>
+                </div>
+              </div>
+
+              <Separator />
+
+              {/* Step 2 */}
+              <div className="space-y-3">
+                <Label className="text-xs font-medium text-foreground">
+                  Passo 2 — ID da voz clonada
+                </Label>
+                <Input
+                  className="font-mono text-xs h-10"
+                  placeholder="ex: pNInz6obpgDQGcFmaJgB"
+                  value={voiceForm.voice_clone_id}
+                  onChange={(e) => setVoiceForm((f) => ({ ...f, voice_clone_id: e.target.value }))}
+                />
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium text-foreground">Provedor de voz</Label>
+                  <Select
+                    value={voiceForm.voice_provider}
+                    onValueChange={(v) => setVoiceForm((f) => ({ ...f, voice_provider: v }))}
+                  >
+                    <SelectTrigger className="h-10 text-xs">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="elevenlabs">ElevenLabs</SelectItem>
+                      <SelectItem value="playht">PlayHT</SelectItem>
+                      <SelectItem value="cartesia">Cartesia</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <Button
+                onClick={handleSaveVoice}
+                disabled={savingVoice}
+                className="w-full min-h-[44px] gap-2 font-medium"
+              >
+                {savingVoice ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
+                Salvar configuração de voz
+              </Button>
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
 

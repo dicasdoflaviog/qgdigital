@@ -29,9 +29,9 @@ interface Props {
 
 const situacaoVariant = (s: string) => {
   switch (s) {
-    case "Apoiador Confirmado": return "default";
-    case "Indeciso": return "secondary";
-    case "Demanda Específica": return "destructive";
+    case "Atendido": return "default";
+    case "Líder Comunitário": return "secondary";
+    case "Apoiador Forte": return "destructive";
     default: return "outline";
   }
 };
