@@ -9,6 +9,7 @@ import {
   FileText,
 } from "lucide-react";
 import { generateIntelligenceReport } from "@/lib/intelligenceReportGenerator";
+import { PDFPreviewModal } from "@/components/pdf/PDFPreviewModal";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -44,6 +45,7 @@ export default function ObservatorioBi() {
   const [sendingDiretriz, setSendingDiretriz] = useState(false);
   const [generatingReport, setGeneratingReport] = useState(false);
   const [selectedGabineteId, setSelectedGabineteId] = useState<string | null>(null);
+  const [pdfPreview, setPdfPreview] = useState<{ blobUrl: string; fileName: string } | null>(null);
 
   // Fetch all cities from resumo view
   const { data: resumoGabinetes = [], isLoading: loadingResumo } = useQuery({
@@ -228,11 +230,12 @@ export default function ObservatorioBi() {
     setGeneratingReport(true);
     try {
       const profile = await supabase.from("profiles").select("full_name").eq("id", user?.id || "").single();
-      await generateIntelligenceReport({
+      const result = await generateIntelligenceReport({
         cidadeFoco: cidadeA || undefined,
         userId: user?.id || "",
         userName: profile.data?.full_name || user?.email || "Usuário",
       });
+      setPdfPreview({ blobUrl: result.blobUrl, fileName: result.fileName });
       toast({ title: "Relatório gerado com sucesso! 📄", description: `Região: ${cidadeA || "Todas"}` });
     } catch (err: any) {
       toast({ title: "Erro ao gerar relatório", description: err?.message, variant: "destructive" });
@@ -571,6 +574,14 @@ export default function ObservatorioBi() {
           </DialogContent>
         </Dialog>
       )}
+
+      <PDFPreviewModal
+        open={!!pdfPreview}
+        onClose={() => setPdfPreview(null)}
+        blobUrl={pdfPreview?.blobUrl ?? null}
+        title="Relatório de Inteligência"
+        fileName={pdfPreview?.fileName ?? ""}
+      />
     </div>
   );
 }

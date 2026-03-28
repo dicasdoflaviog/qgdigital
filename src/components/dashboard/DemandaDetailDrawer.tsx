@@ -19,6 +19,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { createNotification } from "@/hooks/useNotifications";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { PDFPreviewModal } from "@/components/pdf/PDFPreviewModal";
 
 export interface DemandaItem {
   id: string;
@@ -77,6 +78,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
   const [newStatus, setNewStatus] = useState<string | null>(null);
   const [auditEvents, setAuditEvents] = useState<TimelineEvent[]>([]);
   const [loadingTimeline, setLoadingTimeline] = useState(false);
+  const [pdfPreview, setPdfPreview] = useState<{ blobUrl: string; fileName: string } | null>(null);
 
   // Reset status when demanda changes
   useEffect(() => {
@@ -224,7 +226,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
   const handleGenerateOficio = async () => {
     try {
       toast.loading("Gerando ofício...", { id: "oficio" });
-      const { protocolo, blob } = await generateOficioPDF({
+      const result = await generateOficioPDF({
         categoria: demanda.categoria || "Geral",
         bairro: demanda.bairro || "",
         descricao: demanda.descricao || "",
@@ -232,18 +234,22 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
         status: currentStatus,
         criadoEm: demanda.created_at,
         daysOpen,
-        logoUrl: gabConfig?.logo_url || null,
-        nomeVereador: gabConfig?.nome_mandato || profile?.full_name || null,
-        cidadeEstado: gabConfig?.cidade_estado || null,
-        enderecoSede: gabConfig?.endereco_sede || null,
-        telefoneContato: gabConfig?.telefone_contato || null,
-        nomeMandato: gabConfig?.nome_mandato || null,
-        // Global config (L5)
-        logoInstitucionalUrl: globalConfig?.logo_institucional_url || null,
-        nomeInstituicao: globalConfig?.nome_instituicao || null,
-        enderecoRodapeGlobal: globalConfig?.endereco_rodape_global || null,
-        telefoneRodapeGlobal: globalConfig?.telefone_rodape_global || null,
+        gabConfig: {
+          corPrimaria: gabConfig?.cor_primaria ?? "#1E3A8A",
+          logoUrl: gabConfig?.logo_url || null,
+          fotoOficialUrl: gabConfig?.foto_oficial_url || null,
+          nomeVereador: gabConfig?.nome_mandato || profile?.full_name || null,
+          cidadeEstado: gabConfig?.cidade_estado || null,
+          enderecoSede: gabConfig?.endereco_sede || null,
+          telefoneContato: gabConfig?.telefone_contato || null,
+          nomeMandato: gabConfig?.nome_mandato || null,
+        },
       });
+
+      const { protocolo, blob, blobUrl, fileName } = result;
+
+      // Open preview modal
+      setPdfPreview({ blobUrl, fileName });
 
       // Upload to Supabase Storage
       const path = `oficios/${demanda.id}/${protocolo}.pdf`;
@@ -256,7 +262,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
 
       if (uploadError) {
         console.error("Upload error:", uploadError);
-        toast.warning("PDF baixado, mas falha ao salvar no servidor.", {
+        toast.warning("PDF gerado, mas falha ao salvar no servidor.", {
           id: "oficio",
           description: uploadError.message,
         });
@@ -302,6 +308,7 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
   const daysOpen = Math.floor((Date.now() - new Date(demanda.created_at).getTime()) / (1000 * 60 * 60 * 24));
 
   return (
+    <>
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent
         side="right"
@@ -527,5 +534,14 @@ export function DemandaDetailDrawer({ demanda, open, onOpenChange, onStatusChang
         </div>
       </SheetContent>
     </Sheet>
+
+    <PDFPreviewModal
+      open={!!pdfPreview}
+      onClose={() => setPdfPreview(null)}
+      blobUrl={pdfPreview?.blobUrl ?? null}
+      title="Ofício"
+      fileName={pdfPreview?.fileName ?? ""}
+    />
+    </>
   );
 }

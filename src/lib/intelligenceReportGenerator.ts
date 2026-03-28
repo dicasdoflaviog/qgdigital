@@ -1,11 +1,19 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  PDFGabineteConfig,
+  PDFResult,
+  drawPDFHeader,
+  addFooterToAllPages,
+  buildPDFResult,
+  loadImageAsBase64,
+} from "./pdfTemplateUtils";
+import { applyDocumentSecurity } from "./pdfSecurityUtils";
 
 const NAVY: [number, number, number] = [30, 41, 59];
 const PRIMARY: [number, number, number] = [124, 58, 237];
 const GRAY: [number, number, number] = [107, 114, 128];
-const DARK: [number, number, number] = [45, 45, 60];
 
 function getMesAno() {
   const now = new Date();
@@ -17,11 +25,17 @@ interface ReportFilters {
   cidadeFoco?: string;
   userId: string;
   userName?: string;
+  gabConfig?: PDFGabineteConfig;
 }
 
-export async function generateIntelligenceReport(filters: ReportFilters) {
+export async function generateIntelligenceReport(filters: ReportFilters): Promise<PDFResult> {
   const { periodo } = getMesAno();
   const regiao = filters.cidadeFoco || "Todas as Regiões";
+  const defaultConfig: PDFGabineteConfig = filters.gabConfig ?? {
+    corPrimaria: "#1E3A8A",
+    nomeVereador: "Gabinete",
+    cidadeEstado: "Teixeira de Freitas - BA",
+  };
 
   // 1. Fetch demandas (last 30 days, filtered by city if set)
   const thirtyDaysAgo = new Date(Date.now() - 30 * 86400000).toISOString();
@@ -82,27 +96,22 @@ export async function generateIntelligenceReport(filters: ReportFilters) {
   // ===== BUILD PDF =====
   const doc = new jsPDF("p", "mm", "a4");
   const pageW = doc.internal.pageSize.getWidth();
-  const pageH = doc.internal.pageSize.getHeight();
   const margin = 15;
-  let y = 0;
 
-  // --- Header with QG Digital letterhead ---
-  doc.setFillColor(...DARK);
-  doc.rect(0, 0, pageW, 36, "F");
-  doc.setFillColor(...PRIMARY);
-  doc.rect(0, 36, pageW, 2, "F");
+  // Load images
+  const [logoBase64, camaraLogoBase64] = await Promise.all([
+    defaultConfig.logoUrl ? loadImageAsBase64(defaultConfig.logoUrl) : Promise.resolve(null),
+    defaultConfig.camaraLogoUrl ? loadImageAsBase64(defaultConfig.camaraLogoUrl) : Promise.resolve(null),
+  ]);
 
-  doc.setTextColor(255, 255, 255);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(16);
-  doc.text("QG Digital — Relatório de Inteligência", margin, 15);
-  doc.setFontSize(10);
+  let y = drawPDFHeader(doc, defaultConfig, { logoBase64, camaraLogoBase64 });
+
+  // Região + período info
   doc.setFont("helvetica", "normal");
-  doc.text(`Região: ${regiao}  •  Período: ${periodo}`, margin, 23);
   doc.setFontSize(8);
-  doc.text(`Emitido em: ${new Date().toLocaleString("pt-BR")}  •  Por: ${filters.userName || "Usuário"}`, margin, 30);
-
-  y = 46;
+  doc.setTextColor(100, 116, 139);
+  doc.text(`Região: ${regiao}  •  Período: ${periodo}  •  Por: ${filters.userName || "Usuário"}`, margin, y);
+  y += 8;
 
   // --- Section: Temperatura Política (AI) ---
   doc.setFillColor(245, 243, 255);
@@ -211,36 +220,25 @@ export async function generateIntelligenceReport(filters: ReportFilters) {
     y += 6;
   });
 
-  // --- Confidential Footer on ALL pages ---
-  const addConfidentialFooter = (d: jsPDF) => {
-    const pages = d.getNumberOfPages();
-    for (let i = 1; i <= pages; i++) {
-      d.setPage(i);
-      const pH = d.internal.pageSize.getHeight();
+  // --- Security: watermark + QR + hash + registro ---
+  const intSeqId = Date.now().toString(36).toUpperCase().slice(-6);
+  const intProtocolo = `RI-${intSeqId}`;
+  await applyDocumentSecurity(doc, intProtocolo, {
+    tipo_doc: "relatorio_inteligencia",
+    gabinete_id: filters.userId,
+    nome_vereador: defaultConfig.nomeVereador,
+    cidade_estado: defaultConfig.cidadeEstado ?? regiao,
+    gerado_por: filters.userId,
+    dados_resumo: {
+      regiao,
+      periodo,
+      total_demandas: demandas.length,
+      total_eleitores: eleitores.length,
+    },
+  }, defaultConfig.nomeVereador || "RELATÓRIO DE INTELIGÊNCIA");
 
-      // Footer bar
-      d.setFillColor(...DARK);
-      d.rect(0, pH - 14, pageW, 14, "F");
-
-      // Confidential watermark text
-      d.setTextColor(255, 255, 255);
-      d.setFontSize(7);
-      d.setFont("helvetica", "bold");
-      d.text(
-        "Documento Confidencial — Uso Exclusivo de Inteligência Estratégica",
-        pageW / 2,
-        pH - 7,
-        { align: "center" }
-      );
-
-      // Page number
-      d.setFont("helvetica", "normal");
-      d.setFontSize(6);
-      d.text(`Pág ${i}/${pages}  •  QG Digital`, pageW - margin, pH - 4, { align: "right" });
-    }
-  };
-
-  addConfidentialFooter(doc);
+  // --- Footer on ALL pages ---
+  addFooterToAllPages(doc, defaultConfig);
 
   // 5. Audit log (fire and forget)
   supabase.from("audit_logs").insert({
@@ -257,9 +255,6 @@ export async function generateIntelligenceReport(filters: ReportFilters) {
     },
   } as any).then(() => {});
 
-  // Save
   const filename = `relatorio_inteligencia_${regiao.replace(/\s+/g, "_")}_${periodo.replace("/", "_")}.pdf`;
-  doc.save(filename);
-
-  return filename;
+  return buildPDFResult(doc, filename);
 }

@@ -14,19 +14,36 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { generateStrategicReport, generatePublicReport } from "@/lib/reportGenerators";
+import { PDFPreviewModal } from "@/components/pdf/PDFPreviewModal";
+import { useGabineteConfig } from "@/hooks/useGabineteConfig";
+import { PDFGabineteConfig } from "@/lib/pdfTemplateUtils";
 
 export default function CentralRecuperacao() {
   const { role } = useAuth();
   const { toast } = useToast();
+  const { config } = useGabineteConfig();
 
   const isSuperAdmin = role === "super_admin";
   const [generatingStrategic, setGeneratingStrategic] = useState(false);
   const [generatingPublic, setGeneratingPublic] = useState(false);
+  const [pdfPreview, setPdfPreview] = useState<{ blobUrl: string; fileName: string; title: string } | null>(null);
+
+  const pdfGabConfig: PDFGabineteConfig = {
+    corPrimaria: config?.cor_primaria ?? "#1E3A8A",
+    logoUrl: config?.logo_url,
+    fotoOficialUrl: config?.foto_oficial_url,
+    nomeVereador: config?.nome_mandato?.split(" - ")[0],
+    nomeMandato: config?.nome_mandato,
+    cidadeEstado: config?.cidade_estado,
+    enderecoSede: config?.endereco_sede,
+    telefoneContato: config?.telefone_contato,
+  };
 
   const handleStrategicReport = async () => {
     setGeneratingStrategic(true);
     try {
-      await generateStrategicReport();
+      const result = await generateStrategicReport(pdfGabConfig);
+      setPdfPreview({ blobUrl: result.blobUrl, fileName: result.fileName, title: "Relatório Estratégico" });
       toast({ title: "Relatório estratégico gerado!" });
     } catch (err: any) {
       toast({ title: "Erro ao gerar relatório", description: err.message, variant: "destructive" });
@@ -38,7 +55,8 @@ export default function CentralRecuperacao() {
   const handlePublicReport = async () => {
     setGeneratingPublic(true);
     try {
-      await generatePublicReport();
+      const result = await generatePublicReport(pdfGabConfig);
+      setPdfPreview({ blobUrl: result.blobUrl, fileName: result.fileName, title: "Prestação de Contas" });
       toast({ title: "Prestação de contas gerada!" });
     } catch (err: any) {
       toast({ title: "Erro ao gerar relatório", description: err.message, variant: "destructive" });
@@ -150,6 +168,7 @@ export default function CentralRecuperacao() {
     new Date(d).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" });
 
   return (
+    <>
     <div className="p-4 md:p-6 space-y-6 pb-28 md:pb-6">
       {/* Header - Purple/Gray system area */}
       <div className="animate-fade-in">
@@ -392,5 +411,14 @@ export default function CentralRecuperacao() {
         </CardContent>
       </Card>
     </div>
+
+    <PDFPreviewModal
+      open={!!pdfPreview}
+      onClose={() => setPdfPreview(null)}
+      blobUrl={pdfPreview?.blobUrl ?? null}
+      title={pdfPreview?.title ?? "Relatório"}
+      fileName={pdfPreview?.fileName ?? ""}
+    />
+    </>
   );
 }

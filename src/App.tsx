@@ -38,6 +38,7 @@ import ConfiguracaoGabinete from "./pages/ConfiguracaoGabinete";
 import Plano from "./pages/Plano";
 import PerfilEleitoral from "./pages/PerfilEleitoral";
 import AniversariantesRede from "./pages/AniversariantesRede";
+import VerificarDocumento from "./pages/VerificarDocumento";
 
 const queryClient = new QueryClient();
 
@@ -57,6 +58,7 @@ const App = () => (
               <Route path="/setup" element={<Setup />} />
               <Route path="/signup" element={<Navigate to="/login" replace />} />
               <Route path="/register" element={<Navigate to="/login" replace />} />
+              <Route path="/verificar/:protocolo" element={<VerificarDocumento />} />
 
               {/* Protected routes */}
               <Route

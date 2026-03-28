@@ -21,6 +21,17 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import {
+  drawPDFHeader,
+  addFooterToAllPages,
+  buildPDFResult,
+  loadImageAsBase64,
+  PDFGabineteConfig,
+  hexToRgb,
+} from "@/lib/pdfTemplateUtils";
+import { applyDocumentSecurity } from "@/lib/pdfSecurityUtils";
+import { PDFPreviewModal } from "@/components/pdf/PDFPreviewModal";
+import { useGabineteConfig } from "@/hooks/useGabineteConfig";
 
 const MESES = [
   { value: "0", label: "Janeiro" },
@@ -38,7 +49,6 @@ const MESES = [
 ];
 
 // Official colors
-const NAVY: [number, number, number] = [15, 30, 61];
 const GRAY_DARK: [number, number, number] = [55, 65, 81];
 const GRAY_MED: [number, number, number] = [107, 114, 128];
 const BLUE_ACCENT: [number, number, number] = [37, 99, 235];
@@ -52,9 +62,11 @@ interface ReportProgress {
 }
 
 export function TransparencyReportModal() {
+  const { config } = useGabineteConfig();
   const [open, setOpen] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [progress, setProgress] = useState<ReportProgress>({ percent: 0, label: "" });
+  const [pdfPreview, setPdfPreview] = useState<{ blobUrl: string; fileName: string } | null>(null);
 
   const now = new Date();
   const [selectedMonth, setSelectedMonth] = useState(String(now.getMonth()));
@@ -136,50 +148,45 @@ export function TransparencyReportModal() {
       setProgress({ percent: 60, label: "Gerando PDF..." });
       await new Promise((r) => setTimeout(r, 100));
 
+      // Build gabConfig from hook data
+      const pdfGabConfig: PDFGabineteConfig = {
+        corPrimaria: config?.cor_primaria ?? "#1E3A8A",
+        logoUrl: config?.logo_url,
+        fotoOficialUrl: config?.foto_oficial_url,
+        nomeVereador: config?.nome_mandato?.split(" - ")[0],
+        nomeMandato: config?.nome_mandato,
+        cidadeEstado: config?.cidade_estado,
+        enderecoSede: config?.endereco_sede,
+        telefoneContato: config?.telefone_contato,
+      };
+
+      const [r, g, b] = hexToRgb(pdfGabConfig.corPrimaria ?? "#1E3A8A");
+
+      // Load images
+      const [logoBase64, camaraLogoBase64] = await Promise.all([
+        pdfGabConfig.logoUrl ? loadImageAsBase64(pdfGabConfig.logoUrl) : Promise.resolve(null),
+        pdfGabConfig.camaraLogoUrl ? loadImageAsBase64(pdfGabConfig.camaraLogoUrl) : Promise.resolve(null),
+      ]);
+
       // ========== PDF GENERATION ==========
       const doc = new jsPDF("p", "mm", "a4");
       const pageW = doc.internal.pageSize.getWidth();
-      const pageH = doc.internal.pageSize.getHeight();
       const margin = 15;
-      let y = 0;
 
-      // --- HEADER ---
-      // Navy bar
-      doc.setFillColor(...NAVY);
-      doc.rect(0, 0, pageW, 38, "F");
+      let y = drawPDFHeader(doc, pdfGabConfig, { logoBase64, camaraLogoBase64 });
 
-      // Title
-      doc.setTextColor(255, 255, 255);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(18);
-      doc.text("RELATÓRIO DE TRANSPARÊNCIA", margin, 16);
-
-      // Subtitle
-      doc.setFontSize(11);
-      doc.setFont("helvetica", "normal");
-      doc.text("Prestação de Contas do Mandato Parlamentar", margin, 24);
-
-      // Period badge
-      doc.setFillColor(...BLUE_ACCENT);
+      // Period info
       const periodText = `${mesLabel} ${selectedYear}`;
-      const periodW = doc.getTextWidth(periodText) + 12;
-      doc.roundedRect(pageW - margin - periodW, 10, periodW, 10, 2, 2, "F");
-      doc.setFontSize(10);
-      doc.setFont("helvetica", "bold");
-      doc.setTextColor(255, 255, 255);
-      doc.text(periodText, pageW - margin - periodW + 6, 17);
-
-      // Shield icon text
-      doc.setFontSize(8);
       doc.setFont("helvetica", "normal");
-      doc.text("Documento Oficial • QG Digital", pageW - margin - periodW, 30);
-
-      y = 48;
+      doc.setFontSize(9);
+      doc.setTextColor(100, 116, 139);
+      doc.text(`Relatório de Transparência — ${periodText}`, margin, y);
+      y += 10;
 
       // --- RESUMO EXECUTIVO ---
       doc.setFillColor(240, 244, 248);
       doc.roundedRect(margin, y, pageW - 2 * margin, 8, 1, 1, "F");
-      doc.setTextColor(...NAVY);
+      doc.setTextColor(r, g, b);
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
       doc.text("RESUMO EXECUTIVO", margin + 4, y + 6);
@@ -252,7 +259,7 @@ export function TransparencyReportModal() {
       // --- MAPA DE ATUAÇÃO (Top 5 Bairros) ---
       doc.setFillColor(240, 244, 248);
       doc.roundedRect(margin, y, pageW - 2 * margin, 8, 1, 1, "F");
-      doc.setTextColor(...NAVY);
+      doc.setTextColor(r, g, b);
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
       doc.text("MAPA DE ATUAÇÃO — TOP 5 BAIRROS", margin + 4, y + 6);
@@ -295,7 +302,7 @@ export function TransparencyReportModal() {
       // --- GRÁFICO DE CATEGORIAS (simulated pie chart as colored bars) ---
       doc.setFillColor(240, 244, 248);
       doc.roundedRect(margin, y, pageW - 2 * margin, 8, 1, 1, "F");
-      doc.setTextColor(...NAVY);
+      doc.setTextColor(r, g, b);
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
       doc.text("DISTRIBUIÇÃO POR CATEGORIA", margin + 4, y + 6);
@@ -335,14 +342,14 @@ export function TransparencyReportModal() {
 
       // --- TABELA DE DEMANDAS ---
       // Check if we need a new page
-      if (y > pageH - 80) {
+      if (y > 220) {
         doc.addPage();
         y = 20;
       }
 
       doc.setFillColor(240, 244, 248);
       doc.roundedRect(margin, y, pageW - 2 * margin, 8, 1, 1, "F");
-      doc.setTextColor(...NAVY);
+      doc.setTextColor(r, g, b);
       doc.setFontSize(12);
       doc.setFont("helvetica", "bold");
       doc.text("TABELA DE DEMANDAS", margin + 4, y + 6);
@@ -375,7 +382,7 @@ export function TransparencyReportModal() {
           lineWidth: 0.3,
         },
         headStyles: {
-          fillColor: [...NAVY],
+          fillColor: [r, g, b],
           textColor: [255, 255, 255],
           fontStyle: "bold",
           fontSize: 8,
@@ -393,46 +400,30 @@ export function TransparencyReportModal() {
         },
       });
 
+      // --- Security: watermark + QR + hash + registro ---
+      const trSeqId = Date.now().toString(36).toUpperCase().slice(-6);
+      const trProtocolo = `RT-${trSeqId}`;
+      await applyDocumentSecurity(doc, trProtocolo, {
+        tipo_doc: "relatorio_transparencia",
+        nome_vereador: pdfGabConfig.nomeVereador,
+        cidade_estado: pdfGabConfig.cidadeEstado,
+        dados_resumo: { mes: mesLabel, ano: selectedYear },
+      }, pdfGabConfig.nomeVereador || "RELATÓRIO DE TRANSPARÊNCIA");
+
       // --- FOOTER on every page ---
-      const totalPages = doc.getNumberOfPages();
-      for (let p = 1; p <= totalPages; p++) {
-        doc.setPage(p);
-
-        // Footer line
-        doc.setDrawColor(...NAVY);
-        doc.setLineWidth(0.5);
-        doc.line(margin, pageH - 18, pageW - margin, pageH - 18);
-
-        // Footer text
-        doc.setTextColor(...GRAY_MED);
-        doc.setFontSize(7);
-        doc.setFont("helvetica", "normal");
-        doc.text(
-          "Gerado automaticamente pelo Sistema QG Digital — Gestão e Transparência",
-          margin,
-          pageH - 13
-        );
-        doc.text(
-          `Documento gerado em ${new Date().toLocaleDateString("pt-BR")} às ${new Date().toLocaleTimeString("pt-BR")}`,
-          margin,
-          pageH - 9
-        );
-
-        // Page number
-        doc.setFont("helvetica", "bold");
-        doc.text(`Página ${p} de ${totalPages}`, pageW - margin, pageH - 13, { align: "right" });
-      }
+      addFooterToAllPages(doc, pdfGabConfig);
 
       setProgress({ percent: 95, label: "Finalizando..." });
-      await new Promise((r) => setTimeout(r, 200));
+      await new Promise((resolve) => setTimeout(resolve, 200));
 
       const filename = `QG_Digital_Transparencia_${mesLabel}_${selectedYear}.pdf`;
-      doc.save(filename);
+      const result = buildPDFResult(doc, filename);
+      setPdfPreview({ blobUrl: result.blobUrl, fileName: result.fileName });
 
       setProgress({ percent: 100, label: "Concluído!" });
-      await new Promise((r) => setTimeout(r, 500));
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
-      toast.success(`Relatório de Transparência exportado: ${filename}`);
+      toast.success(`Relatório de Transparência gerado!`);
       setOpen(false);
     } catch (err: any) {
       toast.error(`Erro ao gerar relatório: ${err.message}`);
@@ -512,5 +503,13 @@ export function TransparencyReportModal() {
         )}
       </DialogContent>
     </Dialog>
+
+    <PDFPreviewModal
+      open={!!pdfPreview}
+      onClose={() => setPdfPreview(null)}
+      blobUrl={pdfPreview?.blobUrl ?? null}
+      title="Relatório de Transparência"
+      fileName={pdfPreview?.fileName ?? ""}
+    />
   );
 }

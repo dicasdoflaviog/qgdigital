@@ -1,6 +1,15 @@
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { supabase } from "@/integrations/supabase/client";
+import {
+  PDFGabineteConfig,
+  PDFResult,
+  drawPDFHeader,
+  addFooterToAllPages,
+  buildPDFResult,
+  loadImageAsBase64,
+} from "./pdfTemplateUtils";
+import { applyDocumentSecurity } from "./pdfSecurityUtils";
 
 const NAVY: [number, number, number] = [30, 41, 59];
 const PURPLE: [number, number, number] = [124, 58, 237];
@@ -14,8 +23,13 @@ function getMesAno() {
   return { mes: meses[now.getMonth()], ano: now.getFullYear(), periodo: `${meses[now.getMonth()]}/${now.getFullYear()}` };
 }
 
-export async function generateStrategicReport() {
+export async function generateStrategicReport(gabConfig?: PDFGabineteConfig): Promise<PDFResult> {
   const { periodo } = getMesAno();
+  const defaultConfig: PDFGabineteConfig = gabConfig ?? {
+    corPrimaria: "#1E3A8A",
+    nomeVereador: "Gabinete",
+    cidadeEstado: "Teixeira de Freitas - BA",
+  };
 
   // Fetch data
   const [eleitoresRes, assessoresRes] = await Promise.all([
@@ -26,26 +40,17 @@ export async function generateStrategicReport() {
   const eleitores = eleitoresRes.data ?? [];
   const assessores = assessoresRes.data ?? [];
 
+  // Load images
+  const [logoBase64, camaraLogoBase64] = await Promise.all([
+    defaultConfig.logoUrl ? loadImageAsBase64(defaultConfig.logoUrl) : Promise.resolve(null),
+    defaultConfig.camaraLogoUrl ? loadImageAsBase64(defaultConfig.camaraLogoUrl) : Promise.resolve(null),
+  ]);
+
   const doc = new jsPDF("p", "mm", "a4");
   const pageW = doc.internal.pageSize.getWidth();
   const margin = 15;
-  let y = 0;
 
-  // Header bar - dark gray/purple
-  doc.setFillColor(45, 45, 60);
-  doc.rect(0, 0, pageW, 32, "F");
-  doc.setTextColor(255, 255, 255);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(14);
-  doc.text("RE - Relatório Estratégico de Gestão", margin, 14);
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Período: ${periodo} | Documento Interno • QG Digital`, margin, 22);
-
-  // Purple accent line
-  doc.setFillColor(...PURPLE);
-  doc.rect(0, 32, pageW, 2, "F");
-  y = 42;
+  let y = drawPDFHeader(doc, defaultConfig, { logoBase64, camaraLogoBase64 });
 
   // ===== Section 1: Produtividade por Assessor =====
   doc.setFillColor(245, 243, 255);
@@ -141,25 +146,30 @@ export async function generateStrategicReport() {
     y += 10;
   });
 
-  // Footer
-  const addFooter = (d: jsPDF) => {
-    const pages = d.getNumberOfPages();
-    for (let i = 1; i <= pages; i++) {
-      d.setPage(i);
-      d.setFillColor(245, 243, 255);
-      d.rect(0, d.internal.pageSize.getHeight() - 12, pageW, 12, "F");
-      d.setTextColor(...GRAY);
-      d.setFontSize(7);
-      d.text(`Documento confidencial • QG Digital • Pág ${i}/${pages}`, margin, d.internal.pageSize.getHeight() - 4);
-    }
-  };
-  addFooter(doc);
+  // Security: watermark + QR + hash + registro
+  const strSeqId = Date.now().toString(36).toUpperCase().slice(-6);
+  const strProtocolo = `RE-${strSeqId}`;
+  await applyDocumentSecurity(doc, strProtocolo, {
+    tipo_doc: "relatorio_estrategico",
+    nome_vereador: defaultConfig.nomeVereador,
+    cidade_estado: defaultConfig.cidadeEstado,
+    dados_resumo: { periodo },
+  }, defaultConfig.nomeVereador || "RELATÓRIO ESTRATÉGICO");
 
-  doc.save(`relatorio_estrategico_${periodo.replace("/", "_")}.pdf`);
+  // Footer
+  addFooterToAllPages(doc, defaultConfig);
+
+  const fileName = `relatorio_estrategico_${periodo.replace("/", "_")}.pdf`;
+  return buildPDFResult(doc, fileName);
 }
 
-export async function generatePublicReport() {
+export async function generatePublicReport(gabConfig?: PDFGabineteConfig): Promise<PDFResult> {
   const { periodo, mes, ano } = getMesAno();
+  const defaultConfig: PDFGabineteConfig = gabConfig ?? {
+    corPrimaria: "#1E3A8A",
+    nomeVereador: "Gabinete",
+    cidadeEstado: "Teixeira de Freitas - BA",
+  };
 
   const [eleitoresRes] = await Promise.all([
     supabase.from("eleitores").select("*").order("created_at", { ascending: false }),
@@ -167,42 +177,17 @@ export async function generatePublicReport() {
 
   const eleitores = eleitoresRes.data ?? [];
 
+  // Load images
+  const [logoBase64, camaraLogoBase64] = await Promise.all([
+    defaultConfig.logoUrl ? loadImageAsBase64(defaultConfig.logoUrl) : Promise.resolve(null),
+    defaultConfig.camaraLogoUrl ? loadImageAsBase64(defaultConfig.camaraLogoUrl) : Promise.resolve(null),
+  ]);
+
   const doc = new jsPDF("p", "mm", "a4");
   const pageW = doc.internal.pageSize.getWidth();
   const margin = 15;
-  let y = 0;
 
-  // Elegant header with blue
-  doc.setFillColor(30, 64, 175);
-  doc.rect(0, 0, pageW, 45, "F");
-
-  // Photo placeholder circle
-  doc.setFillColor(255, 255, 255);
-  doc.circle(margin + 15, 22, 12, "F");
-  doc.setTextColor(180, 180, 180);
-  doc.setFontSize(7);
-  doc.text("FOTO", margin + 11, 24);
-
-  // Title
-  doc.setTextColor(255, 255, 255);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(16);
-  doc.text("PRESTAÇÃO DE CONTAS", margin + 35, 18);
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "normal");
-  doc.text(`Mandato Parlamentar • ${periodo}`, margin + 35, 26);
-
-  // Logo placeholder
-  doc.setFillColor(255, 255, 255, 0.2);
-  doc.roundedRect(pageW - margin - 30, 10, 28, 25, 2, 2, "F");
-  doc.setTextColor(200, 210, 255);
-  doc.setFontSize(7);
-  doc.text("LOGOMARCA", pageW - margin - 26, 24);
-
-  // Blue accent
-  doc.setFillColor(59, 130, 246);
-  doc.rect(0, 45, pageW, 2, "F");
-  y = 55;
+  let y = drawPDFHeader(doc, defaultConfig, { logoBase64, camaraLogoBase64 });
 
   // ===== Resumo de Conquistas =====
   doc.setFillColor(239, 246, 255);
@@ -292,17 +277,19 @@ export async function generatePublicReport() {
     y += photoH + 5;
   }
 
-  // Footer
-  const pages = doc.getNumberOfPages();
-  for (let i = 1; i <= pages; i++) {
-    doc.setPage(i);
-    doc.setFillColor(30, 64, 175);
-    doc.rect(0, doc.internal.pageSize.getHeight() - 14, pageW, 14, "F");
-    doc.setTextColor(255, 255, 255);
-    doc.setFontSize(7);
-    doc.setFont("helvetica", "normal");
-    doc.text(`Prestação de Contas • Mandato Parlamentar • ${periodo} • Pág ${i}/${pages}`, margin, doc.internal.pageSize.getHeight() - 5);
-  }
+  // Security: watermark + QR + hash + registro
+  const pubSeqId = Date.now().toString(36).toUpperCase().slice(-6);
+  const pubProtocolo = `PC-${pubSeqId}`;
+  await applyDocumentSecurity(doc, pubProtocolo, {
+    tipo_doc: "prestacao_contas",
+    nome_vereador: defaultConfig.nomeVereador,
+    cidade_estado: defaultConfig.cidadeEstado,
+    dados_resumo: { periodo, total_eleitores: eleitores.length },
+  }, defaultConfig.nomeVereador || "PRESTAÇÃO DE CONTAS");
 
-  doc.save(`prestacao_contas_${periodo.replace("/", "_")}.pdf`);
+  // Footer
+  addFooterToAllPages(doc, defaultConfig);
+
+  const fileName = `prestacao_contas_${periodo.replace("/", "_")}.pdf`;
+  return buildPDFResult(doc, fileName);
 }

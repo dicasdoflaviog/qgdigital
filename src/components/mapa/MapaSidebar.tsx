@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { Demanda } from "@/hooks/useDemandas";
 import { GabineteCidade } from "@/hooks/useGabinetesCidade";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,14 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { BarChart3, TrendingUp, MapPin, Building2, Users, Target, FileText, AlertCircle, AlertTriangle, Eye, X } from "lucide-react";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
+import {
+  PDFGabineteConfig,
+  drawPDFHeader,
+  addFooterToAllPages,
+  buildPDFResult,
+  PDFResult,
+} from "@/lib/pdfTemplateUtils";
+import { PDFPreviewModal } from "@/components/pdf/PDFPreviewModal";
 
 // Unique colors per gabinete index (used for map markers too)
 export const GABINETE_COLORS = [
@@ -37,39 +45,55 @@ interface Props {
   isMobile?: boolean;
 }
 
-function gerarRelatorioCidade(cidade: string, gabinetes: GabineteCidade[], demandas: Demanda[], totalEleitores: number) {
+function gerarRelatorioCidade(cidade: string, gabinetes: GabineteCidade[], demandas: Demanda[], totalEleitores: number, gabConfig?: PDFGabineteConfig): PDFResult {
   const doc = new jsPDF();
+  const pageW = doc.internal.pageSize.getWidth();
+  const margin = 14;
   const now = new Date().toLocaleDateString("pt-BR");
 
-  // Header
-  doc.setFontSize(18);
+  const config: PDFGabineteConfig = gabConfig ?? { corPrimaria: "#1E3A8A" };
+
+  let y = drawPDFHeader(doc, config, {});
+
+  // City title
+  doc.setFontSize(14);
   doc.setFont("helvetica", "bold");
-  doc.text(`Relatório — ${cidade}`, 14, 22);
-  doc.setFontSize(10);
+  doc.setTextColor(30, 41, 59);
+  doc.text(`Relatório — ${cidade}`, margin, y);
+  y += 7;
+  doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
-  doc.setTextColor(100);
-  doc.text(`Gerado em ${now} | QG Digital`, 14, 30);
-  doc.setTextColor(0);
+  doc.setTextColor(100, 116, 139);
+  doc.text(`Gerado em ${now}`, margin, y);
+  y += 10;
 
   // Summary
-  doc.setFontSize(12);
+  doc.setFontSize(11);
   doc.setFont("helvetica", "bold");
-  doc.text("Resumo da Cidade", 14, 44);
+  doc.setTextColor(30, 41, 59);
+  doc.text("Resumo da Cidade", margin, y);
+  y += 7;
   doc.setFont("helvetica", "normal");
-  doc.setFontSize(10);
-  doc.text(`Total de Eleitores: ${totalEleitores}`, 14, 52);
-  doc.text(`Gabinetes ativos: ${gabinetes.length}`, 14, 58);
+  doc.setFontSize(9);
+  doc.setTextColor(51, 65, 85);
+  doc.text(`Total de Eleitores: ${totalEleitores}`, margin, y);
+  y += 6;
+  doc.text(`Gabinetes ativos: ${gabinetes.length}`, margin, y);
+  y += 6;
   const totalPendentes = demandas.filter((d) => d.status === "Pendente").length;
-  doc.text(`Demandas pendentes: ${totalPendentes}`, 14, 64);
+  doc.text(`Demandas pendentes: ${totalPendentes}`, margin, y);
+  y += 10;
 
   // Gabinetes table
   if (gabinetes.length > 0) {
-    doc.setFontSize(12);
+    doc.setFontSize(11);
     doc.setFont("helvetica", "bold");
-    doc.text("Gabinetes", 14, 78);
+    doc.setTextColor(30, 41, 59);
+    doc.text("Gabinetes", margin, y);
+    y += 5;
 
     autoTable(doc, {
-      startY: 82,
+      startY: y,
       head: [["Vereador", "Eleitores", "Demandas", "Pendentes", "Resolvidas", "Taxa"]],
       body: gabinetes.map((g) => {
         const taxa = g.total_demandas > 0 ? Math.round((g.demandas_resolvidas / g.total_demandas) * 100) : 0;
@@ -87,7 +111,10 @@ function gerarRelatorioCidade(cidade: string, gabinetes: GabineteCidade[], deman
     });
   }
 
-  doc.save(`relatorio-${cidade.toLowerCase().replace(/\s+/g, "-")}-${now.replace(/\//g, "-")}.pdf`);
+  addFooterToAllPages(doc, config);
+
+  const filename = `relatorio-${cidade.toLowerCase().replace(/\s+/g, "-")}-${now.replace(/\//g, "-")}.pdf`;
+  return buildPDFResult(doc, filename);
 }
 
 export function MapaSidebar({
@@ -105,6 +132,7 @@ export function MapaSidebar({
   isLoading,
   isMobile,
 }: Props) {
+  const [pdfPreview, setPdfPreview] = useState<{ blobUrl: string; fileName: string } | null>(null);
   const stats = useMemo(() => {
     const pendentes = demandas.filter((d) => d.status === "Pendente");
 
@@ -129,6 +157,7 @@ export function MapaSidebar({
   }, [demandas]);
 
   return (
+    <>
     <div className={`w-72 shrink-0 bg-card border-r border-border flex-col h-full z-intel-panel ${isMobile ? "flex w-full border-r-0" : "flex"}`}>
       {/* Sticky header with close button */}
       <div className="p-4 border-b border-border shrink-0 flex items-center justify-between gap-2">
@@ -318,7 +347,10 @@ export function MapaSidebar({
               size="sm"
               variant="outline"
               className="w-full mt-3 h-8 text-[10px] font-medium gap-1.5"
-              onClick={() => gerarRelatorioCidade(selectedCidade, gabinetesCidade, demandas, eleitoresCount)}
+              onClick={() => {
+                const result = gerarRelatorioCidade(selectedCidade, gabinetesCidade, demandas, eleitoresCount);
+                setPdfPreview({ blobUrl: result.blobUrl, fileName: result.fileName });
+              }}
             >
               <FileText className="h-3 w-3" /> Gerar Relatório da Cidade
             </Button>
@@ -383,5 +415,14 @@ export function MapaSidebar({
       )}
       </div>
     </div>
+
+    <PDFPreviewModal
+      open={!!pdfPreview}
+      onClose={() => setPdfPreview(null)}
+      blobUrl={pdfPreview?.blobUrl ?? null}
+      title="Relatório da Cidade"
+      fileName={pdfPreview?.fileName ?? ""}
+    />
+    </>
   );
 }
