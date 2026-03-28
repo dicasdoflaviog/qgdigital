@@ -48,8 +48,15 @@ export function useGabinetesCidade(cidade?: string | null) {
         });
       }
 
-      // Normaliza nome ignorando sufixo " - PARTIDO" (ex: "Jonatas - MDB" → "jonatas")
-      const normalizeName = (n: string) => n.split(" - ")[0].trim().toLowerCase();
+      // Normaliza nome para deduplicação:
+      // Remove prefixos "Gabinete " / "Vereador " e sufixos " - PARTIDO"
+      // Ex: "Gabinete Vereador Jonatas - MDB" → "jonatas"
+      const normalizeName = (n: string) =>
+        n.split(" - ")[0]
+          .replace(/^gabinete\s+/i, "")
+          .replace(/^vereador\s+/i, "")
+          .trim()
+          .toLowerCase();
 
       // Deduplicate by nome base + cidade, keeping the entry with avatar_url
       const deduplicated = gabinetes.reduce((acc, g) => {
@@ -59,6 +66,7 @@ export function useGabinetesCidade(cidade?: string | null) {
         if (!existing) {
           acc.push(g);
         } else if (g.avatar_url && !existing.avatar_url) {
+          // Substitui pelo que tem foto
           const idx = acc.indexOf(existing);
           acc[idx] = g;
         }
