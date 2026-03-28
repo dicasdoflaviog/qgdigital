@@ -48,10 +48,13 @@ export function useGabinetesCidade(cidade?: string | null) {
         });
       }
 
-      // Deduplicate by nome_vereador + cidade, keeping the entry with avatar_url when available
+      // Normaliza nome ignorando sufixo " - PARTIDO" (ex: "Jonatas - MDB" → "jonatas")
+      const normalizeName = (n: string) => n.split(" - ")[0].trim().toLowerCase();
+
+      // Deduplicate by nome base + cidade, keeping the entry with avatar_url
       const deduplicated = gabinetes.reduce((acc, g) => {
         const existing = acc.find(
-          (x) => x.nome_vereador === g.nome_vereador && x.cidade === g.cidade
+          (x) => normalizeName(x.nome_vereador) === normalizeName(g.nome_vereador) && x.cidade === g.cidade
         );
         if (!existing) {
           acc.push(g);

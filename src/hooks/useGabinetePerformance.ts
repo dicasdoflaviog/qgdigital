@@ -18,6 +18,8 @@ export interface GabinetePerformance {
   categoriaTop: string | null;
   isActive: boolean; // had cadastros in last 7 days
   eleitoresPorBairro: Record<string, number>; // for mini-heatmap
+  /** Centroide dinâmico por bairro — média das lat/lng dos eleitores reais */
+  bairroCentroidsMap: Record<string, [number, number]>;
 }
 
 export function useGabinetePerformance(gabineteId?: string | null, cidade?: string | null) {
@@ -54,7 +56,7 @@ export function useGabinetePerformance(gabineteId?: string | null, cidade?: stri
       const sevenDaysAgo = new Date(Date.now() - 7 * 86400000).toISOString();
       const [demandasRes, eleitoresRes, recentRes] = await Promise.all([
         supabase.from("demandas").select("categoria, bairro").eq("gabinete_id", gabineteId),
-        supabase.from("eleitores").select("bairro").eq("gabinete_id", gabineteId),
+        supabase.from("eleitores").select("bairro, latitude, longitude").eq("gabinete_id", gabineteId),
         supabase.from("eleitores").select("id").eq("gabinete_id", gabineteId).gte("created_at", sevenDaysAgo).limit(1),
       ]);
 
@@ -72,7 +74,27 @@ export function useGabinetePerformance(gabineteId?: string | null, cidade?: stri
 
       // Bairro map (for both top list and mini-heatmap)
       const bairroMap: Record<string, number> = {};
-      eleitores.forEach((e) => { if (e.bairro) bairroMap[e.bairro] = (bairroMap[e.bairro] || 0) + 1; });
+      const bairroCoordsAcc: Record<string, { lats: number[]; lngs: number[] }> = {};
+      eleitores.forEach((e) => {
+        if (e.bairro) {
+          bairroMap[e.bairro] = (bairroMap[e.bairro] || 0) + 1;
+          if (e.latitude != null && e.longitude != null) {
+            if (!bairroCoordsAcc[e.bairro]) bairroCoordsAcc[e.bairro] = { lats: [], lngs: [] };
+            bairroCoordsAcc[e.bairro].lats.push(e.latitude);
+            bairroCoordsAcc[e.bairro].lngs.push(e.longitude);
+          }
+        }
+      });
+      // Centroide dinâmico por bairro
+      const bairroCentroidsMap: Record<string, [number, number]> = {};
+      Object.entries(bairroCoordsAcc).forEach(([bairro, { lats, lngs }]) => {
+        if (lats.length > 0) {
+          bairroCentroidsMap[bairro] = [
+            lats.reduce((a, b) => a + b, 0) / lats.length,
+            lngs.reduce((a, b) => a + b, 0) / lngs.length,
+          ];
+        }
+      });
       const topBairros = Object.entries(bairroMap)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5)
@@ -106,6 +128,7 @@ export function useGabinetePerformance(gabineteId?: string | null, cidade?: stri
         categoriaTop: stats.categoria_top ?? null,
         isActive,
         eleitoresPorBairro: bairroMap,
+        bairroCentroidsMap,
       };
 
       // If all data is zero (seed not linked or ID mismatch), use deterministic mock fallback
@@ -161,6 +184,7 @@ export function useGabinetePerformance(gabineteId?: string | null, cidade?: stri
           penetracaoPct: 25 + (seed % 40),
           isActive: true,
           eleitoresPorBairro: mockBairroMap,
+          bairroCentroidsMap: {},
         };
       }
 

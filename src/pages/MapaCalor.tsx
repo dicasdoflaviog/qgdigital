@@ -62,23 +62,25 @@ function getBairroCoordsFallback(bairro: string, cityBase: [number, number]): [n
 }
 
 /**
- * Get bairro coords scoped by city to avoid cross-city name collisions.
- * geocoded keys must use format "cityName:bairroName".
- * TDF_BAIRRO_COORDS only applied when cityName === "Teixeira de Freitas".
+ * Opção C — Centroide dinâmico.
+ * Calcula o centro real do bairro como média das lat/lng dos próprios eleitores/demandas.
+ * Elimina a dependência de coords hardcoded (TDF_BAIRRO_COORDS) e funciona em qualquer cidade.
+ * Se não houver coords individuais, cai para o fallback hash ao redor do centro da cidade.
  */
-function getBairroCoords(
-  bairro: string,
-  cityName: string,
-  cidadesMap: Record<string, [number, number]>,
-  geocoded: Record<string, [number, number]>
+function getBairroCentroid(
+  lats: number[],
+  lngs: number[],
+  fallbackBairro: string,
+  cityBase: [number, number]
 ): [number, number] {
-  if (cityName === "Teixeira de Freitas" && TDF_BAIRRO_COORDS[bairro]) {
-    return TDF_BAIRRO_COORDS[bairro];
+  if (lats.length > 0) {
+    const lat = lats.reduce((a, b) => a + b, 0) / lats.length;
+    const lng = lngs.reduce((a, b) => a + b, 0) / lngs.length;
+    return [lat, lng];
   }
-  const key = `${cityName}:${bairro}`;
-  if (geocoded[key]) return geocoded[key];
-  const cityBase = cidadesMap[cityName] ?? [-17.5393, -39.7436];
-  return getBairroCoordsFallback(bairro, cityBase);
+  // TDF_BAIRRO_COORDS como segundo fallback (antes do hash)
+  if (TDF_BAIRRO_COORDS[fallbackBairro]) return TDF_BAIRRO_COORDS[fallbackBairro];
+  return getBairroCoordsFallback(fallbackBairro, cityBase);
 }
 
 const ESTADO_COORDS: Record<string, { coords: [number, number]; nome: string }> = {
@@ -396,13 +398,17 @@ export default function MapaCalor() {
     return data;
   }, [demandas, eleitoresData, selectedCidade, selectedGabineteId, categoriaFilter, statusFilter]);
 
-  // --- Eleitores by bairro (city-filtered) ---
+  // --- Eleitores by bairro (city-filtered) — acumula coords para centroide dinâmico ---
   const eleitoresBairroData = useMemo(() => {
-    const map: Record<string, { total: number }> = {};
+    const map: Record<string, { total: number; lats: number[]; lngs: number[] }> = {};
     cityFilteredEleitores.forEach((e) => {
       if (!e.bairro) return;
-      if (!map[e.bairro]) map[e.bairro] = { total: 0 };
+      if (!map[e.bairro]) map[e.bairro] = { total: 0, lats: [], lngs: [] };
       map[e.bairro].total++;
+      if (e.latitude != null && e.longitude != null) {
+        map[e.bairro].lats.push(e.latitude);
+        map[e.bairro].lngs.push(e.longitude);
+      }
     });
     return map;
   }, [cityFilteredEleitores]);
@@ -414,6 +420,7 @@ export default function MapaCalor() {
   );
 
   // Bairro circles only for voters WITHOUT individual coords (avoids double-counting)
+  // O centroide é derivado dos eleitores COM coords no mesmo bairro (eleitoresBairroData)
   const eleitoresBairroSemCoords = useMemo(() => {
     const map: Record<string, { total: number }> = {};
     cityFilteredEleitores.forEach((e) => {
@@ -456,13 +463,17 @@ export default function MapaCalor() {
   }, [eleitoresBairroData, geocodedCoords, selectedCidade, selectedEstado]);
 
   const demandasBairroData = useMemo(() => {
-    const map: Record<string, { total: number; pendentes: number; categorias: Record<string, number> }> = {};
+    const map: Record<string, { total: number; pendentes: number; categorias: Record<string, number>; lats: number[]; lngs: number[] }> = {};
     cityFilteredDemandas.forEach((d) => {
       const b = d.bairro || "Sem bairro";
-      if (!map[b]) map[b] = { total: 0, pendentes: 0, categorias: {} };
+      if (!map[b]) map[b] = { total: 0, pendentes: 0, categorias: {}, lats: [], lngs: [] };
       map[b].total++;
       if (d.status === "Pendente") map[b].pendentes++;
       if (d.categoria) map[b].categorias[d.categoria] = (map[b].categorias[d.categoria] || 0) + 1;
+      if (d.latitude != null && d.longitude != null) {
+        map[b].lats.push(d.latitude);
+        map[b].lngs.push(d.longitude);
+      }
     });
     return map;
   }, [cityFilteredDemandas]);
@@ -856,7 +867,10 @@ export default function MapaCalor() {
               })}
               {/* Bairro circles for voters without individual coords (fallback) */}
               {Object.entries(eleitoresBairroSemCoords).map(([bairro, data]) => {
-                const coords = getBairroCoords(bairro, currentCity, cidadesMap, geocodedCoords);
+                const cityBase = cidadesMap[currentCity] ?? [-17.5393, -39.7436] as [number, number];
+                // Usa centroide dos eleitores COM coords no mesmo bairro; fallback se não houver
+                const bairroFull = eleitoresBairroData[bairro];
+                const coords = getBairroCentroid(bairroFull?.lats ?? [], bairroFull?.lngs ?? [], bairro, cityBase);
                 const ratio = data.total / maxEleitores;
                 const color = selectedGabineteId && gabineteColorMap[selectedGabineteId]
                   ? gabineteColorMap[selectedGabineteId]
@@ -887,7 +901,8 @@ export default function MapaCalor() {
               disableClusteringAtZoom={15}
             >
               {Object.entries(demandasBairroData).map(([bairro, data]) => {
-                const coords = getBairroCoords(bairro, currentCity, cidadesMap, geocodedCoords);
+                const cityBase = cidadesMap[currentCity] ?? [-17.5393, -39.7436] as [number, number];
+                const coords = getBairroCentroid(data.lats, data.lngs, bairro, cityBase);
                 const hasPending = data.pendentes > 0;
                 const ratio = data.total / maxDemandas;
                 const color = selectedGabineteId && gabineteColorMap[selectedGabineteId]

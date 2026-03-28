@@ -32,18 +32,7 @@ const CATEGORY_ICONS: Record<string, React.ElementType> = {
   "Cultura": BookOpen,
 };
 
-// BAIRRO_COORDS duplicated here for mini-map (same source as MapaCalor)
-const BAIRRO_COORDS: Record<string, [number, number]> = {
-  "Centro": [-17.5393, -39.7436], "Bela Vista": [-17.5370, -39.7410], "Recanto do Lago": [-17.5355, -39.7460],
-  "Jardim Caraípe": [-17.5410, -39.7400], "Castelinho": [-17.5420, -39.7320], "Vila Vargas": [-17.5450, -39.7280],
-  "Jerusalém": [-17.5470, -39.7250], "Nova Teixeira": [-17.5440, -39.7350], "Ouro Verde": [-17.5490, -39.7300],
-  "Ulisses Guimarães": [-17.5380, -39.7520], "Colina Verde": [-17.5340, -39.7550], "Teixeirinha": [-17.5360, -39.7580],
-  "Liberdade": [-17.5420, -39.7500], "Santa Rita": [-17.5400, -39.7560], "Kaikan": [-17.5280, -39.7400],
-  "Kaikan Sul": [-17.5300, -39.7420], "Bonadiman": [-17.5260, -39.7450], "Vila Caraípe": [-17.5240, -39.7380],
-  "Estância Biquíni": [-17.5220, -39.7350], "Tancredo Neves": [-17.5500, -39.7450], "São Lourenço": [-17.5520, -39.7400],
-  "Duque de Caxias": [-17.5540, -39.7480], "Monte Castelo": [-17.5560, -39.7430], "Santo Antônio": [-17.5580, -39.7350],
-  "Jardim Novo": [-17.5320, -39.7300],
-};
+// BAIRRO_COORDS removido — mini-map agora usa centroide dinâmico de useGabinetePerformance.bairroCentroidsMap
 
 interface Props {
   open: boolean;
@@ -79,12 +68,12 @@ export function GabineteRaioXModal({ open, onOpenChange, gabinete, gabineteIndex
   const [sending, setSending] = useState(false);
   const { data: perf, isLoading } = useGabinetePerformance(gabinete?.gabinete_id, cidade);
 
-  // Mini-map markers
+  // Mini-map markers — usa centroide dinâmico dos próprios eleitores do gabinete
   const miniMapMarkers = useMemo(() => {
     if (!perf) return [];
     return Object.entries(perf.eleitoresPorBairro)
       .map(([bairro, count]) => {
-        const coords = BAIRRO_COORDS[bairro];
+        const coords = perf.bairroCentroidsMap[bairro];
         if (!coords) return null;
         return { bairro, count, coords };
       })
