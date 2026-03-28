@@ -327,6 +327,27 @@ function randomBirthDate(): string {
   return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
+// For profiles: spread upcoming birthdays so aniversariantes list is populated
+const PROFILE_DAYS_AHEAD = [0, 1, 2, 3, 5, 7, 10, 14, 20, 25, 30, 45, 60, 90, 120, 180, 270, 365, 400, 450];
+function profileBirthDate(index: number): string {
+  const today = new Date();
+  const daysAhead = index < PROFILE_DAYS_AHEAD.length ? PROFILE_DAYS_AHEAD[index] : Math.floor(Math.random() * 365);
+  const target = new Date(today);
+  target.setDate(today.getDate() + daysAhead);
+  const birthYear = 1960 + Math.floor(Math.random() * 35);
+  return `${birthYear}-${String(target.getMonth() + 1).padStart(2, "0")}-${String(target.getDate()).padStart(2, "0")}`;
+}
+
+function detectGeneroSimples(nome: string): "M" | "F" {
+  const femininos = ["Ana","Maria","Joana","Sandra","Cláudia","Adriana","Lúcia","Rita","Fernanda","Paula","Juliana","Carla","Rosa","Vera","Márcia","Cristina","Eliane","Simone","Patrícia","Renata"];
+  const primeiro = nome.split(" ")[0];
+  return femininos.some((f) => primeiro.toLowerCase().includes(f.toLowerCase())) ? "F" : "M";
+}
+
+function randomWhatsapp(): string {
+  return `73${String(Math.floor(Math.random() * 900000000) + 100000000)}`;
+}
+
 function makeEmail(nome: string, cidade: string): string {
   const slug = cidade.toLowerCase().replace(/\s+/g, "").normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   const user = nome.toLowerCase().replace(/\s+/g, ".").normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9.]/g, "");
@@ -369,7 +390,7 @@ Deno.serve(async (req) => {
       (allUsersData?.users || []).map((u: any) => [u.email, u.id])
     );
 
-    for (const v of VEREADORES) {
+    for (const [vereadorIndex, v] of VEREADORES.entries()) {
       const email = makeEmail(v.nome, v.cidade);
       const existingId = existingUserEmails.get(email);
 
@@ -404,6 +425,9 @@ Deno.serve(async (req) => {
         gabinete_id: userId,
         is_active: true,
         first_login: false,
+        birth_date: profileBirthDate(vereadorIndex),
+        whatsapp: randomWhatsapp(),
+        genero: detectGeneroSimples(v.nome),
       }, { onConflict: "id" });
 
       // Set role to admin (L3)
@@ -420,6 +444,8 @@ Deno.serve(async (req) => {
         cor_primaria: randomItem(cores),
         cidade_estado: `${v.cidade} - BA`,
         foto_oficial_url: v.foto,
+        voice_clone_id: "demo",
+        voice_provider: "demo",
       }, { onConflict: "gabinete_id" });
     }
     results.push(`✅ ${VEREADORES.length} vereadores processados`);

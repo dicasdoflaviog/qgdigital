@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Navigate, Link } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import {
-  Cake, MessageCircle, Mic, Lock, ChevronDown, ChevronUp, Filter,
+  Cake, MessageCircle, Mic, Lock, ChevronDown, ChevronUp, Filter, Copy, Loader2, Info,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,6 +12,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from "@/components/ui/select";
+import {
+  Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription,
+} from "@/components/ui/sheet";
+import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { useAniversariantesRede, type AniversarianteRede } from "@/hooks/useAniversariantesRede";
 
 const ROLE_LABELS: Record<string, string> = {
@@ -49,9 +54,13 @@ function gerarMensagem(p: AniversarianteRede, vereadorNome = "seu vereador"): st
 function AniversarianteCard({
   p,
   vereadorNome,
+  onVozIA,
+  vozLoading,
 }: {
   p: AniversarianteRede;
   vereadorNome: string;
+  onVozIA: (p: AniversarianteRede) => void;
+  vozLoading: string | null;
 }) {
   const group = getGroup(p.diasParaAniversario);
   const daysBadge =
@@ -116,9 +125,12 @@ function AniversarianteCard({
             size="sm"
             variant="outline"
             className="flex-1 h-10 text-xs font-medium gap-1.5"
-            disabled={!p.voice_configured}
+            disabled={!p.voice_configured || vozLoading === p.id}
+            onClick={() => onVozIA(p)}
           >
-            {p.voice_configured ? (
+            {vozLoading === p.id ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            ) : p.voice_configured ? (
               <Mic className="w-3.5 h-3.5 text-primary" />
             ) : (
               <Lock className="w-3.5 h-3.5 text-muted-foreground" />
@@ -135,10 +147,14 @@ function GroupSection({
   label,
   items,
   vereadorNome,
+  onVozIA,
+  vozLoading,
 }: {
   label: string;
   items: AniversarianteRede[];
   vereadorNome: string;
+  onVozIA: (p: AniversarianteRede) => void;
+  vozLoading: string | null;
 }) {
   if (items.length === 0) return null;
   return (
@@ -148,7 +164,7 @@ function GroupSection({
       </p>
       <div className="space-y-3">
         {items.map((p) => (
-          <AniversarianteCard key={p.id} p={p} vereadorNome={vereadorNome} />
+          <AniversarianteCard key={p.id} p={p} vereadorNome={vereadorNome} onVozIA={onVozIA} vozLoading={vozLoading} />
         ))}
       </div>
     </div>
@@ -157,6 +173,7 @@ function GroupSection({
 
 export default function AniversariantesRede() {
   const { roleLevel, profile } = useAuth();
+  const { toast } = useToast();
 
   if (roleLevel < 4) return <Navigate to="/" replace />;
 
@@ -166,6 +183,32 @@ export default function AniversariantesRede() {
   const [cargo, setCargo] = useState("all");
   const [genero, setGenero] = useState("all");
   const [periodo, setPeriodo] = useState("30");
+
+  // Voice IA state
+  const [vozLoading, setVozLoading] = useState<string | null>(null);
+  const [vozSheet, setVozSheet] = useState<{ open: boolean; person: AniversarianteRede | null; texto: string; demo: boolean }>({
+    open: false, person: null, texto: "", demo: false,
+  });
+
+  async function handleVozIA(p: AniversarianteRede) {
+    if (!p.gabinete_id) return;
+    setVozLoading(p.id);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-birthday-voice", {
+        body: {
+          gabinete_id: p.gabinete_id,
+          recipient_name: p.full_name,
+          recipient_genero: p.genero ?? "M",
+        },
+      });
+      if (error) throw error;
+      setVozSheet({ open: true, person: p, texto: data.texto ?? "", demo: Boolean(data.demo) });
+    } catch (err: any) {
+      toast({ title: "Erro ao gerar mensagem", description: err?.message ?? "Tente novamente.", variant: "destructive" });
+    } finally {
+      setVozLoading(null);
+    }
+  }
 
   const { data = [], isLoading } = useAniversariantesRede({
     cargo: cargo as any,
@@ -271,13 +314,58 @@ export default function AniversariantesRede() {
           </div>
         ) : (
           <>
-            <GroupSection label="Hoje" items={hoje} vereadorNome={vereadorNome} />
-            <GroupSection label="Amanhã" items={amanha} vereadorNome={vereadorNome} />
-            <GroupSection label="Esta semana" items={semana} vereadorNome={vereadorNome} />
-            <GroupSection label="Este mês" items={mes} vereadorNome={vereadorNome} />
+            <GroupSection label="Hoje" items={hoje} vereadorNome={vereadorNome} onVozIA={handleVozIA} vozLoading={vozLoading} />
+            <GroupSection label="Amanhã" items={amanha} vereadorNome={vereadorNome} onVozIA={handleVozIA} vozLoading={vozLoading} />
+            <GroupSection label="Esta semana" items={semana} vereadorNome={vereadorNome} onVozIA={handleVozIA} vozLoading={vozLoading} />
+            <GroupSection label="Este mês" items={mes} vereadorNome={vereadorNome} onVozIA={handleVozIA} vozLoading={vozLoading} />
           </>
         )}
       </div>
+
+      {/* Voice IA result sheet */}
+      <Sheet open={vozSheet.open} onOpenChange={(o) => setVozSheet((s) => ({ ...s, open: o }))}>
+        <SheetContent side="bottom" className="rounded-t-2xl px-4 pb-8 pt-6 max-h-[80vh]">
+          <SheetHeader className="mb-4">
+            <div className="flex items-center gap-2">
+              <SheetTitle className="text-base font-medium">Mensagem de aniversário</SheetTitle>
+              {vozSheet.demo && (
+                <Badge variant="outline" className="text-[10px] px-1.5 text-amber-700 border-amber-300 bg-amber-50">
+                  Modo demo
+                </Badge>
+              )}
+            </div>
+            {vozSheet.person && (
+              <SheetDescription className="text-xs text-muted-foreground">
+                Para {vozSheet.person.full_name}
+              </SheetDescription>
+            )}
+          </SheetHeader>
+
+          <div className="bg-slate-50 rounded-xl p-4 text-sm text-foreground leading-relaxed mb-4">
+            {vozSheet.texto}
+          </div>
+
+          {vozSheet.demo && (
+            <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4">
+              <Info className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+              <p className="text-xs text-amber-800">
+                Modo demo — configure o ElevenLabs em <strong>Configurações → Voz IA</strong> para gerar áudio com a voz clonada do vereador.
+              </p>
+            </div>
+          )}
+
+          <Button
+            className="w-full h-12 font-medium gap-2"
+            onClick={() => {
+              navigator.clipboard.writeText(vozSheet.texto);
+              toast({ title: "Copiado!", description: "Mensagem copiada para a área de transferência." });
+            }}
+          >
+            <Copy className="w-4 h-4" />
+            Copiar mensagem
+          </Button>
+        </SheetContent>
+      </Sheet>
     </div>
   );
 }

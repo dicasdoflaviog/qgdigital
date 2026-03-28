@@ -69,6 +69,18 @@ serve(async (req) => {
       ? `Olá ${primeiroNome}! Quero te desejar um feliz aniversário! Que você tenha um dia incrível e cheio de realizações. Um carinhoso abraço de ${nomeVereador}!`
       : `Olá ${primeiroNome}! Quero te desejar um feliz aniversário! Que você tenha um dia incrível e cheio de realizações. Um forte abraço de ${nomeVereador}!`;
 
+    // Demo mode: voice_clone_id === "demo" → return script without audio
+    if ((config as any).voice_clone_id === "demo") {
+      return new Response(
+        JSON.stringify({
+          demo: true,
+          texto,
+          message: "Modo demo ativo. Configure ElevenLabs para gerar áudio real da voz do vereador.",
+        }),
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     // ================================================================
     // SCAFFOLD — Integração com ElevenLabs (descomentar na Fase 2)
     // Requer: supabase secrets set ELEVENLABS_API_KEY=sk_...
