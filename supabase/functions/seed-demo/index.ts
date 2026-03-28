@@ -424,7 +424,15 @@ Deno.serve(async (req) => {
     }
     results.push(`✅ ${VEREADORES.length} vereadores processados`);
 
-    // ── 3. Create eleitores per city (batched inserts) ──
+    // ── 3. Delete existing eleitores/demandas for all gabinete_ids being re-seeded ──
+    const allGabineteIds = Array.from(vereadorMap.values()).flat().map((v) => v.userId);
+    if (allGabineteIds.length > 0) {
+      await admin.from("eleitores").delete().in("gabinete_id", allGabineteIds);
+      await admin.from("demandas").delete().in("gabinete_id", allGabineteIds);
+      results.push(`🧹 Eleitores e demandas anteriores removidos para ${allGabineteIds.length} gabinetes`);
+    }
+
+    // ── 4. Create eleitores per city (batched inserts) ──
     let totalEleitores = 0;
     for (const city of CITIES) {
       const cityVereadores = vereadorMap.get(city.nome) || [];
@@ -460,7 +468,7 @@ Deno.serve(async (req) => {
     }
     results.push(`✅ ${totalEleitores} eleitores criados`);
 
-    // ── 4. Create demandas per city (batched inserts) ──
+    // ── 5. Create demandas per city (batched inserts) ──
     let totalDemandas = 0;
     for (const city of CITIES) {
       const cityVereadores = vereadorMap.get(city.nome) || [];
@@ -491,13 +499,13 @@ Deno.serve(async (req) => {
     }
     results.push(`✅ ${totalDemandas} demandas criadas`);
 
-    // ── 5. Global config ──
+    // ── 6. Global config ──
     await admin.from("global_config").update({ value: "Câmara Municipal - Extremo Sul da Bahia" }).eq("key", "nome_instituicao");
     await admin.from("global_config").update({ value: "Extremo Sul da Bahia" }).eq("key", "endereco_rodape_global");
     await admin.from("global_config").update({ value: "(73) 3011-5700" }).eq("key", "telefone_rodape_global");
     results.push("✅ Global config atualizado");
 
-    // ── 6. Ensure Flávio stays L5 ──
+    // ── 7. Ensure Flávio stays L5 ──
     await admin.from("user_roles").upsert({
       user_id: "b7bdcf07-060a-49a1-88b5-0437abf64d95",
       role: "super_admin",

@@ -48,7 +48,21 @@ export function useGabinetesCidade(cidade?: string | null) {
         });
       }
 
-      return gabinetes;
+      // Deduplicate by nome_vereador + cidade, keeping the entry with avatar_url when available
+      const deduplicated = gabinetes.reduce((acc, g) => {
+        const existing = acc.find(
+          (x) => x.nome_vereador === g.nome_vereador && x.cidade === g.cidade
+        );
+        if (!existing) {
+          acc.push(g);
+        } else if (g.avatar_url && !existing.avatar_url) {
+          const idx = acc.indexOf(existing);
+          acc[idx] = g;
+        }
+        return acc;
+      }, [] as typeof gabinetes);
+
+      return deduplicated;
     },
     enabled: !!cidade,
   });
