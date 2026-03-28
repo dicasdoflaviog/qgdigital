@@ -1,6 +1,4 @@
 import { jsPDF } from "jspdf";
-import { BRAND } from "@/lib/brand";
-
 export interface PDFGabineteConfig {
   corPrimaria?: string | null;  // hex, e.g. "#1E3A8A"
   logoUrl?: string | null;
@@ -49,34 +47,15 @@ function getInitials(name?: string | null): string {
   return name.split(" ").filter(w => w.length > 2).slice(0, 2).map(w => w[0].toUpperCase()).join("") || "VR";
 }
 
-function drawLogoBox(
-  doc: jsPDF,
-  text: string,
-  x: number, y: number, size: number,
-  rgb: [number, number, number]
-) {
-  doc.setFillColor(240, 245, 255);
-  doc.roundedRect(x, y, size, size, 2, 2, "F");
-  doc.setDrawColor(rgb[0], rgb[1], rgb[2]);
-  doc.setLineWidth(0.4);
-  doc.roundedRect(x, y, size, size, 2, 2, "S");
-  doc.setTextColor(rgb[0], rgb[1], rgb[2]);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(text.length > 2 ? 6 : 8);
-  doc.text(text.slice(0, 3), x + size / 2, y + size / 2 + 2.5, { align: "center" });
-}
-
 /**
- * Draws the institutional PDF header.
+ * Draws the minimal institutional PDF header.
  * Returns the Y coordinate where body content should start.
  *
- * Layout:
- *  ┌──────────────────────────────────────────┐ ← 4mm cor_primaria bar
- *  │ [câmara logo] Câmara Municipal de TF   [gabinete logo/foto] │
- *  │               Gabinete do Vereador                           │
- *  │               Nome do Vereador                               │
- *  │               Teixeira de Freitas - BA                       │
- *  ├──────────────────────────────────────────┤ ← 1.5mm divider
+ * Layout (minimal):
+ *  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  ← 2.5mm brand accent line
+ *  [logo 16×16]  Nome do Vereador (12pt, dark)
+ *                Câmara Municipal de X • Cargo  (8pt, gray)
+ *  ─────────────────────────────────────────── ← 0.3pt gray separator
  */
 export function drawPDFHeader(
   doc: jsPDF,
@@ -92,88 +71,61 @@ export function drawPDFHeader(
   const marginL = 15;
   const marginR = 15;
 
-  // 1. Top color bar (4mm)
+  // 1. Thin brand accent line at top (2.5mm)
   doc.setFillColor(r, g, b);
-  doc.rect(0, 0, pageW, 4, "F");
+  doc.rect(0, 0, pageW, 2.5, "F");
 
-  // 2. White header background (38mm)
-  const headerH = 38;
-  doc.setFillColor(255, 255, 255);
-  doc.rect(0, 4, pageW, headerH, "F");
+  // 2. Logo on left — small, no box/border
+  const logoSize = 16;
+  const logoY = 2.5 + 6;
 
-  // 3. Câmara logo — left side
-  const camaraLogoSize = 22;
-  const logoY = 4 + (headerH - camaraLogoSize) / 2;
-  if (opts.camaraLogoBase64) {
+  const rightImg = opts.logoBase64 || opts.fotoBase64 || opts.camaraLogoBase64;
+  if (rightImg) {
     try {
-      doc.addImage(opts.camaraLogoBase64, "PNG", marginL, logoY, camaraLogoSize, camaraLogoSize);
+      doc.addImage(rightImg, "PNG", marginL, logoY, logoSize, logoSize);
     } catch {
-      drawLogoBox(doc, "CM", marginL, logoY, camaraLogoSize, [r, g, b]);
+      // fallback: monogram text only
     }
-  } else {
-    drawLogoBox(doc, "CM", marginL, logoY, camaraLogoSize, [r, g, b]);
   }
 
-  // 4. Center text block
-  const textX = marginL + camaraLogoSize + 8;
-  const rightLogoSize = 24;
-  const textMaxW = pageW - textX - rightLogoSize - marginR - 10;
+  // 3. Text block — right of logo (or from left if no logo)
+  const textX = rightImg ? marginL + logoSize + 6 : marginL;
+  const textMaxW = pageW - textX - marginR;
 
+  // Vereador name — primary text
+  const nome = gabConfig.nomeVereador || gabConfig.nomeMandato?.split(" - ")[0] || "Vereador";
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(11);
+  doc.setTextColor(15, 23, 42); // near-black
+  doc.text(nome, textX, 2.5 + 10);
+
+  // Subtitle: câmara + city — secondary text
   const camaraNome = gabConfig.camaraNome ||
     (gabConfig.cidadeEstado
       ? `Câmara Municipal de ${gabConfig.cidadeEstado.split(" - ")[0]}`
       : "Câmara Municipal");
-
-  doc.setTextColor(r, g, b);
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(10);
-  doc.text(camaraNome, textX, 4 + 9);
+  const subtitleParts = [camaraNome];
+  if (gabConfig.cidadeEstado) subtitleParts.push(gabConfig.cidadeEstado);
 
   doc.setFont("helvetica", "normal");
   doc.setFontSize(8);
-  doc.setTextColor(71, 85, 105); // slate-600
-  doc.text("Gabinete do Vereador", textX, 4 + 16);
+  doc.setTextColor(100, 116, 139); // slate-500
+  const subtitle = doc.splitTextToSize(subtitleParts.join(" · "), textMaxW);
+  doc.text(subtitle[0], textX, 2.5 + 18);
 
-  doc.setFont("helvetica", "bold");
-  doc.setFontSize(11);
-  doc.setTextColor(15, 23, 42); // slate-900
-  const nomeText = gabConfig.nomeVereador || gabConfig.nomeMandato || "Vereador";
-  const nomeLines = doc.splitTextToSize(nomeText, textMaxW);
-  doc.text(nomeLines[0], textX, 4 + 24);
+  // 4. Thin gray separator line
+  const headerH = 30;
+  const divY = 2.5 + headerH;
+  doc.setDrawColor(226, 232, 240); // slate-200
+  doc.setLineWidth(0.3);
+  doc.line(marginL, divY, pageW - marginR, divY);
 
-  if (gabConfig.cidadeEstado) {
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(8);
-    doc.setTextColor(100, 116, 139); // slate-500
-    doc.text(gabConfig.cidadeEstado, textX, 4 + 31);
-  }
-
-  // 5. Right: gabinete logo or foto_oficial
-  const rightLogoX = pageW - marginR - rightLogoSize;
-  const rightLogoY = 4 + (headerH - rightLogoSize) / 2;
-  const rightImg = opts.logoBase64 || opts.fotoBase64;
-
-  if (rightImg) {
-    try {
-      doc.addImage(rightImg, "PNG", rightLogoX, rightLogoY, rightLogoSize, rightLogoSize);
-    } catch {
-      drawLogoBox(doc, getInitials(gabConfig.nomeVereador), rightLogoX, rightLogoY, rightLogoSize, [r, g, b]);
-    }
-  } else {
-    drawLogoBox(doc, getInitials(gabConfig.nomeVereador), rightLogoX, rightLogoY, rightLogoSize, [r, g, b]);
-  }
-
-  // 6. Bottom divider
-  const divY = 4 + headerH;
-  doc.setFillColor(r, g, b);
-  doc.rect(0, divY, pageW, 1.5, "F");
-
-  return divY + 8;
+  return divY + 7;
 }
 
 /**
- * Adds a unified footer to all pages.
- * Call AFTER all content has been added to the doc.
+ * Adds a minimal footer to all pages.
+ * Single line: protocol • date • page
  */
 export function addFooterToAllPages(
   doc: jsPDF,
@@ -192,41 +144,24 @@ export function addFooterToAllPages(
 
   for (let i = 1; i <= totalPages; i++) {
     doc.setPage(i);
-    const footerY = pageH - 15;
+    const footerY = pageH - 12;
 
-    // Thin top divider
+    // Thin brand accent line above footer
     doc.setFillColor(r, g, b);
-    doc.rect(marginL, footerY - 2, pageW - 2 * marginL, 0.4, "F");
+    doc.rect(marginL, footerY - 3, pageW - 2 * marginL, 0.4, "F");
 
-    // Line 1: gabinete info
-    const infoParts: string[] = [];
-    if (gabConfig.nomeMandato) infoParts.push(gabConfig.nomeMandato);
-    if (gabConfig.cidadeEstado) infoParts.push(gabConfig.cidadeEstado);
-    if (gabConfig.enderecoSede) infoParts.push(gabConfig.enderecoSede);
-    if (gabConfig.telefoneContato) infoParts.push(`Tel: ${gabConfig.telefoneContato}`);
+    // Single footer line: gabinete • protocol • date • page
+    const parts: string[] = [];
+    const gabNome = gabConfig.nomeMandato || gabConfig.nomeVereador;
+    if (gabNome) parts.push(gabNome);
+    if (opts.protocolo) parts.push(`Protocolo ${opts.protocolo}`);
+    parts.push(today);
+    parts.push(`${i} / ${totalPages}`);
 
-    doc.setFontSize(7);
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(100, 116, 139);
-
-    if (infoParts.length > 0) {
-      doc.text(infoParts.join(" • "), pageW / 2, footerY + 1.5, { align: "center" });
-    }
-
-    // Line 2: doc info + page
-    const docParts: string[] = [];
-    docParts.push(`Documento gerado em ${today}`);
-    if (opts.protocolo) docParts.push(`Protocolo: ${opts.protocolo}`);
-    docParts.push(`Pág. ${i}/${totalPages}`);
-
     doc.setFontSize(6.5);
-    doc.setTextColor(148, 163, 184);
-    doc.text(docParts.join("  •  "), pageW / 2, footerY + 6, { align: "center" });
-
-    // Brand credit
-    doc.setFontSize(6);
-    doc.setTextColor(203, 213, 225);
-    doc.text(BRAND.footerCredit, pageW / 2, footerY + 10, { align: "center" });
+    doc.setTextColor(148, 163, 184); // slate-400
+    doc.text(parts.join("  ·  "), pageW / 2, footerY + 2, { align: "center" });
   }
 }
 
