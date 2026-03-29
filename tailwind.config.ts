@@ -13,7 +13,10 @@ const config: Config = {
       // ============================================
       colors: {
         // Tokens shadcn/ui — mapeados para CSS vars do src/index.css
-        border:     "hsl(var(--border))",
+        border: {
+          DEFAULT:    "hsl(var(--border))",
+          subtle:     "hsl(var(--border-subtle))",  /* 2A — borda 0.5px suave */
+        },
         input:      "hsl(var(--input))",
         ring:       "hsl(var(--ring))",
         background: "hsl(var(--background))",
@@ -55,6 +58,15 @@ const config: Config = {
           "accent-foreground":  "hsl(var(--sidebar-accent-foreground))",
           border:             "hsl(var(--sidebar-border))",
           ring:               "hsl(var(--sidebar-ring))",
+        },
+        // 2A — Surface semântico
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          muted:   "hsl(var(--surface-muted))",
+        },
+        // 2D — Fundo de página
+        page: {
+          bg: "#F7F8FA",
         },
         // Azul QG Digital - Cor primária
         qg: {
@@ -150,6 +162,10 @@ const config: Config = {
         "xl": "0.75rem",    // 12px - inputs
         "2xl": "1rem",      // 16px - cards mobile
         "3xl": "1.5rem",    // 24px - bottom sheets
+      },
+      // 2C — Borda ultra-fina
+      borderWidth: {
+        "0.5": "0.5px",
       },
       boxShadow: {
         // Sombras sutis
