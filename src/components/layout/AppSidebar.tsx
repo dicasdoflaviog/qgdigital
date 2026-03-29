@@ -12,7 +12,7 @@ import { FeedbackModal } from "@/components/feedback/FeedbackModal";
 import { BRAND } from "@/lib/brand";
 import { usePendingFeedbacks } from "@/hooks/usePendingFeedbacks";
 import { NavLink } from "@/components/NavLink";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useOffline } from "@/contexts/OfflineContext";
 import { useSkillsMatrix, ROUTE_TO_SKILL } from "@/hooks/useSkillsMatrix";
@@ -98,6 +98,7 @@ export function AppSidebar() {
   const [lockedFeature, setLockedFeature] = useState("");
   const collapsed = state === "collapsed";
   const location = useLocation();
+  const navigate = useNavigate();
   const { role, roleLevel, realRole, user, profile, isImpersonating, signOut, loading } = useAuth();
   const { pendingCount } = useOffline();
   const pendingFeedbacks = usePendingFeedbacks();
@@ -174,7 +175,7 @@ export function AppSidebar() {
           end={itemHref === "/"}
           className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all overflow-hidden ${
             collapsed ? "justify-center px-0" : ""
-          } ${active ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium" : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-white"}`}
+          } ${active ? "bg-[#eff6ff] text-[#1d4ed8] font-medium" : "text-slate-500 hover:bg-[#f8fafc] hover:text-slate-700"}`}
           activeClassName=""
         >
           <item.icon className="h-4 w-4 shrink-0" />
@@ -241,7 +242,7 @@ export function AppSidebar() {
         end={url === "/"}
         className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all overflow-hidden ${
           collapsed ? "justify-center px-0" : ""
-        } ${active ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium" : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-white"}`}
+        } ${active ? "bg-[#eff6ff] text-[#1d4ed8] font-medium" : "text-slate-500 hover:bg-[#f8fafc] hover:text-slate-700"}`}
         activeClassName=""
       >
         <Icon className="h-4 w-4 shrink-0" />
@@ -337,6 +338,20 @@ export function AppSidebar() {
             </div>
           )}
 
+          {/* Upgrade card — visible for non-L5, hidden when collapsed */}
+          {!isL5 && !collapsed && (
+            <div className="mx-2 mb-3 rounded-xl bg-[#1e293b] p-3">
+              <p className="text-[11.5px] font-medium text-white leading-tight">Plano Básico</p>
+              <p className="text-[10px] text-white/45 leading-relaxed mt-1">Relatórios avançados e IA no Pro.</p>
+              <button
+                className="mt-2.5 w-full rounded-lg bg-[#2563eb] py-1.5 text-[11px] font-medium text-white transition-colors hover:bg-[#1d4ed8] active:bg-[#1e40af]"
+                onClick={() => navigate("/plano")}
+              >
+                Fazer upgrade
+              </button>
+            </div>
+          )}
+
           {/* ═══════════════════════════════════════════════ */}
           {/* ── RODAPÉ: Configurações, Perfil, Sair       ── */}
           {/* ═══════════════════════════════════════════════ */}
@@ -379,7 +394,7 @@ export function AppSidebar() {
                     to="/meu-perfil"
                     className={`flex items-center gap-3 px-3 py-2 rounded-lg transition-all overflow-hidden ${
                       collapsed ? "justify-center px-0" : ""
-                    } ${active ? "bg-sidebar-primary text-sidebar-primary-foreground font-medium" : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-white"}`}
+                    } ${active ? "bg-[#eff6ff] text-[#1d4ed8] font-medium" : "text-slate-500 hover:bg-[#f8fafc] hover:text-slate-700"}`}
                     activeClassName=""
                   >
                     <Avatar className={`shrink-0 ${collapsed ? "h-7 w-7" : "h-8 w-8"}`}>
@@ -413,7 +428,7 @@ export function AppSidebar() {
             {!isL5 && (
               <button
                 onClick={() => setFeedbackOpen(true)}
-                className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-sidebar-foreground hover:bg-sidebar-accent hover:text-white transition-all ${collapsed ? "justify-center px-0" : ""}`}
+                className={`flex items-center gap-3 w-full px-3 py-2 rounded-lg text-slate-500 hover:bg-[#f8fafc] hover:text-slate-700 transition-all ${collapsed ? "justify-center px-0" : ""}`}
               >
                 <MessageSquarePlus className="h-4 w-4 shrink-0" />
                 {!collapsed && <span className="text-xs font-medium whitespace-nowrap">Sugerir Melhoria</span>}

@@ -239,68 +239,39 @@ export default function Dashboard() {
           <div className="grid gap-4 grid-cols-2">
             {/* Eleitores Card → /eleitores */}
             <Card
-              className="bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700/50 text-white overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+              className="bg-[#2563eb] border-0 overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
               onClick={() => navigate("/eleitores")}
             >
-              <CardContent className="p-4 md:p-6">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="flex items-center gap-1.5 md:gap-2 mb-1">
-                      <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-xl bg-white/10">
-                        <Users className="h-4 w-4 md:h-5 md:w-5 text-white" />
-                      </div>
-                      <span className="text-[9px] md:text-xs font-medium text-slate-400">Total da base</span>
-                    </div>
-                    <p className="text-2xl md:text-4xl font-medium mt-2 md:mt-3 tabular-nums whitespace-nowrap">{totalBase}</p>
-                    {novos7d > 0 && (
-                      <div className="flex items-center gap-1 mt-1.5 md:mt-2">
-                        <TrendingUp className="h-3 w-3 md:h-3.5 md:w-3.5 text-emerald-400" />
-                        <span className="text-[10px] md:text-sm font-medium text-emerald-400">+{novos7d} semana</span>
-                      </div>
-                    )}
-                    <p className="text-[9px] md:text-xs text-slate-400 mt-0.5 md:mt-1 hidden md:block">
-                      {novos7d > 0
-                        ? `+${Math.round((novos7d / Math.max(totalBase - novos7d, 1)) * 100)}% crescimento`
-                        : "Base estável"
-                      }
-                    </p>
-                  </div>
-                  <div className="absolute top-4 right-4 opacity-5">
-                    <Users className="h-16 w-16 md:h-24 md:w-24" />
-                  </div>
+              <CardContent className="p-4 flex flex-col justify-between min-h-[108px]">
+                {novos7d > 0 && (
+                  <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-[#16a34a] text-white text-[10px] font-medium px-2 py-1 rounded-[5px] whitespace-nowrap z-10">
+                    <TrendingUp className="h-2.5 w-2.5" />
+                    +{novos7d} semana
+                  </span>
+                )}
+                <div>
+                  <p className="text-[10.5px] text-white/60 pr-20 leading-snug whitespace-nowrap overflow-hidden text-ellipsis">Total da base</p>
+                  <p className="text-[28px] font-medium text-white tracking-tight leading-none mt-1.5 whitespace-nowrap tabular-nums">{totalBase}</p>
                 </div>
+                <p className="text-[10px] text-white/40 whitespace-nowrap overflow-hidden text-ellipsis">eleitores cadastrados</p>
               </CardContent>
             </Card>
 
             {/* Pendentes Card → /oficios */}
             <Card
-              className="bg-gradient-to-br from-slate-800 to-slate-900 border-slate-700/50 text-white overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+              className="bg-[#2563eb] border-0 overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
               onClick={() => navigate("/oficios")}
             >
-              <CardContent className="p-4 md:p-6">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <div className="flex items-center gap-1.5 md:gap-2 mb-1">
-                      <div className="flex h-8 w-8 md:h-10 md:w-10 items-center justify-center rounded-xl bg-orange-500/20">
-                        <AlertTriangle className="h-4 w-4 md:h-5 md:w-5 text-orange-400" />
-                      </div>
-                      <span className="text-[9px] md:text-xs font-medium text-slate-400">Pendentes</span>
-                    </div>
-                    <p className="text-2xl md:text-4xl font-medium mt-2 md:mt-3 tabular-nums whitespace-nowrap">{pendingCount}</p>
-                    <div className="flex items-center gap-1 mt-1.5 md:mt-2">
-                      <Activity className="h-3 w-3 md:h-3.5 md:w-3.5 text-orange-400" />
-                      <span className="text-[10px] md:text-sm font-medium text-orange-400">
-                        {pendingCount > 5 ? "Atenção" : "Sob controle"}
-                      </span>
-                    </div>
-                    <p className="text-[9px] md:text-xs text-slate-400 mt-0.5 md:mt-1 hidden md:block">
-                      {useMock ? "3 com mais de 5 dias" : `${(demandas ?? []).filter(d => d.status === "Em Andamento").length} em andamento`}
-                    </p>
-                  </div>
-                  <div className="absolute top-4 right-4 opacity-5">
-                    <FileText className="h-16 w-16 md:h-24 md:w-24" />
-                  </div>
+              <CardContent className="p-4 flex flex-col justify-between min-h-[108px]">
+                <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-[#dc2626] text-white text-[10px] font-medium px-2 py-1 rounded-[5px] whitespace-nowrap z-10">
+                  <AlertTriangle className="h-2.5 w-2.5" />
+                  {pendingCount > 5 ? "Atenção" : "Sob controle"}
+                </span>
+                <div>
+                  <p className="text-[10.5px] text-white/60 pr-24 leading-snug whitespace-nowrap overflow-hidden text-ellipsis">Demandas pendentes</p>
+                  <p className="text-[28px] font-medium text-white tracking-tight leading-none mt-1.5 whitespace-nowrap tabular-nums">{pendingCount}</p>
                 </div>
+                <p className="text-[10px] text-white/40 whitespace-nowrap overflow-hidden text-ellipsis">aguardando resolução</p>
               </CardContent>
             </Card>
           </div>
@@ -309,34 +280,47 @@ export default function Dashboard() {
           <div className="grid gap-4 grid-cols-2">
             {/* Aniversariantes → BottomSheet */}
             <Card
-              className="cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+              className="overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none bg-white border-[0.5px] border-slate-200"
               onClick={() => setAniversariantesSheetOpen(true)}
             >
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary"><Cake className="h-4 w-4" /></div>
-                  {(useMock ? aniversariantes.length : aniversariantesReais.length) > 0 && (
-                    <Badge variant="destructive" className="text-[10px] px-1.5 py-0">Ação</Badge>
-                  )}
+              <CardContent className="p-4 flex flex-col justify-between min-h-[108px]">
+                {(useMock ? aniversariantes.length : aniversariantesReais.length) > 0 && (
+                  <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-[#ffedd5] text-[#ea580c] text-[10px] font-medium px-2 py-1 rounded-[5px] whitespace-nowrap z-10">hoje</span>
+                )}
+                <div>
+                  <div className="w-[22px] h-[22px] rounded-[6px] bg-[#fff7ed] flex items-center justify-center mb-1.5">
+                    <Cake className="h-3 w-3 text-[#ea580c]" />
+                  </div>
+                  <p className="text-[10.5px] text-slate-400 pr-16 leading-snug whitespace-nowrap overflow-hidden text-ellipsis">Aniversariantes</p>
+                  <p className="text-[28px] font-medium text-slate-900 tracking-tight leading-none mt-1 whitespace-nowrap tabular-nums">
+                    {useMock ? aniversariantes.length : aniversariantesReais.length}
+                  </p>
                 </div>
-                <p className="text-2xl font-medium text-foreground whitespace-nowrap">{useMock ? aniversariantes.length : aniversariantesReais.length}</p>
-                <p className="text-[10px] font-medium text-muted-foreground mt-0.5">Aniversariantes</p>
+                <p className="text-[10px] text-slate-400 whitespace-nowrap overflow-hidden text-ellipsis">contatar hoje</p>
               </CardContent>
             </Card>
 
             {/* Bairro mais ativo → BottomSheet */}
             <Card
-              className="cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+              className="overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none bg-white border-[0.5px] border-slate-200"
               onClick={() => setBairroSheetOpen(true)}
             >
-              <CardContent className="p-4">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 text-primary"><MapPin className="h-4 w-4" /></div>
-                  {topBairro.total > 0 && <Activity className="h-3.5 w-3.5 text-primary" />}
+              <CardContent className="p-4 flex flex-col justify-between min-h-[108px]">
+                {topBairro.total > 0 && (
+                  <span className="absolute top-3 right-3 inline-flex items-center gap-1 bg-[#dcfce7] text-[#16a34a] text-[10px] font-medium px-2 py-1 rounded-[5px] whitespace-nowrap z-10">
+                    +{Math.round((topBairro.total / Math.max(totalBase, 1)) * 100)}%
+                  </span>
+                )}
+                <div>
+                  <div className="w-[22px] h-[22px] rounded-[6px] bg-[#eff6ff] flex items-center justify-center mb-1.5">
+                    <MapPin className="h-3 w-3 text-[#2563eb]" />
+                  </div>
+                  <p className="text-[10.5px] text-slate-400 pr-16 leading-snug whitespace-nowrap overflow-hidden text-ellipsis">Bairro mais ativo</p>
+                  <p className="text-[15px] font-medium text-slate-900 leading-tight mt-1 whitespace-nowrap overflow-hidden text-ellipsis">{topBairro.bairro}</p>
                 </div>
-                <p className="text-base leading-tight font-medium text-foreground truncate">{topBairro.bairro}</p>
-                <p className="text-[10px] font-medium text-muted-foreground mt-0.5">Bairro mais ativo</p>
-                {topBairro.total > 0 && <p className="text-[10px] text-primary font-medium mt-1 whitespace-nowrap">{topBairro.total} eleitores</p>}
+                <p className="text-[10px] text-slate-400 whitespace-nowrap overflow-hidden text-ellipsis">
+                  {topBairro.total > 0 ? `${topBairro.total} eleitores` : "sem dados"}
+                </p>
               </CardContent>
             </Card>
           </div>
@@ -533,7 +517,7 @@ export default function Dashboard() {
               ).map((d: any) => (
                 <div
                   key={d.id}
-                  className="flex items-center justify-between p-3 min-h-[48px] rounded-lg border cursor-pointer hover:border-primary/30 transition-colors"
+                  className="flex items-center gap-2.5 p-3 min-h-[44px] rounded-lg border-[0.5px] border-slate-200 cursor-pointer hover:border-[#2563eb]/30 hover:bg-slate-50 transition-colors"
                   onClick={() => { setSelectedDemanda(d); setDemandaDrawerOpen(true); }}
                 >
                   <div className="min-w-0 flex-1">
@@ -544,9 +528,13 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center gap-2 shrink-0 ml-2">
                     <UrgencyBadge createdAt={d.created_at} />
-                    <Badge variant={d.status === "Resolvida" ? "default" : "destructive"} className="text-[10px]">
+                    <span className={`text-[9.5px] font-medium px-2 py-0.5 rounded-[4px] whitespace-nowrap flex-shrink-0 ${
+                      d.status === "Resolvida"
+                        ? "bg-[#f0fdf4] text-[#16a34a] border-[0.5px] border-[#bbf7d0]"
+                        : "bg-[#fef2f2] text-[#dc2626] border-[0.5px] border-[#fecaca]"
+                    }`}>
                       {d.status || "Pendente"}
-                    </Badge>
+                    </span>
                   </div>
                 </div>
               ))}
@@ -570,7 +558,7 @@ export default function Dashboard() {
                 return (
                   <div
                     key={o.id}
-                    className="flex items-center justify-between p-3 rounded-lg border cursor-pointer hover:border-primary/30 active:bg-accent/50 transition-colors touch-manipulation"
+                    className="flex items-center gap-2.5 p-3 min-h-[44px] rounded-lg border-[0.5px] border-slate-200 cursor-pointer hover:border-[#2563eb]/30 hover:bg-slate-50 transition-colors touch-manipulation"
                     onClick={() => navigate("/oficios")}
                   >
                     <div className="min-w-0 flex-1">
@@ -634,7 +622,7 @@ export default function Dashboard() {
               {(useMock ? mockEleitores.slice(0, 5) : []).map((e: any) => (
                 <div
                   key={e.id}
-                  className="flex items-center justify-between p-3 min-h-[48px] rounded-lg border cursor-pointer hover:border-primary/30 transition-colors"
+                  className="flex items-center gap-2.5 p-3 min-h-[44px] rounded-lg border-[0.5px] border-slate-200 cursor-pointer hover:border-[#2563eb]/30 hover:bg-slate-50 transition-colors"
                   onClick={() => { setSelectedEleitor(e); setEleitorDrawerOpen(true); }}
                 >
                   <div className="min-w-0 flex-1">

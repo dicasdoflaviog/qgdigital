@@ -602,15 +602,21 @@ function MockStatCard({ icon, value, label, highlight, isText, onClick }: {
   return (
     <Card
       onClick={onClick}
-      className={onClick ? "cursor-pointer active:scale-95 transition-transform touch-manipulation select-none" : ""}
+      className={`bg-white border-[0.5px] overflow-hidden relative ${
+        highlight ? "border-[#fecaca]" : "border-slate-200"
+      } rounded-xl ${onClick ? "cursor-pointer active:scale-95 transition-transform touch-manipulation select-none" : ""}`}
     >
-      <CardContent className="p-3 flex items-center gap-3">
-        <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${highlight ? "bg-destructive text-destructive-foreground" : "bg-primary text-primary-foreground"}`}>
-          {icon}
+      <CardContent className="p-4 flex flex-col justify-between min-h-[96px]">
+        <div className={`flex h-[22px] w-[22px] items-center justify-center rounded-[6px] ${
+          highlight ? "bg-[#fef2f2]" : "bg-[#eff6ff]"
+        }`}>
+          <span className={highlight ? "text-[#dc2626]" : "text-[#2563eb]"}>{icon}</span>
         </div>
         <div>
-          <p className={`${isText ? "text-sm" : "text-lg"} font-medium text-foreground whitespace-nowrap`}>{value}</p>
-          <p className="text-[10px] text-muted-foreground">{label}</p>
+          <p className={`${isText ? "text-[14px]" : "text-[26px]"} font-medium tracking-tight leading-none whitespace-nowrap tabular-nums ${
+            highlight ? "text-[#dc2626]" : "text-slate-900"
+          }`}>{value}</p>
+          <p className="text-[10px] text-slate-400 mt-1 whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
         </div>
       </CardContent>
     </Card>

@@ -30,10 +30,10 @@ function NavItem({ item, active }: { item: BottomItem; active: boolean }) {
       className="flex flex-col items-center gap-0.5 py-1 transition-colors flex-1 min-w-0"
       activeClassName=""
     >
-      <div className={`flex items-center justify-center w-11 h-11 rounded-xl transition-colors ${active ? "bg-primary/10" : ""}`}>
-        <item.icon className={`h-5 w-5 ${active ? "text-primary" : "text-muted-foreground"}`} />
+      <div className={`flex items-center justify-center w-11 h-11 rounded-xl transition-colors ${active ? "bg-[#eff6ff]" : ""}`}>
+        <item.icon className={`h-5 w-5 ${active ? "text-[#2563eb]" : "text-slate-400"}`} />
       </div>
-      <span className={`text-[10px] font-medium ${active ? "text-primary" : "text-muted-foreground"}`}>
+      <span className={`text-[10px] font-medium ${active ? "text-[#2563eb]" : "text-slate-400"}`}>
         {item.title}
       </span>
     </NavLink>
@@ -68,7 +68,7 @@ export function BottomBar() {
         <div className="flex flex-col items-center justify-end flex-1 min-w-0 py-1">
           <button
             onClick={() => setCadastroOpen(true)}
-            className="flex items-center justify-center h-14 w-14 -mt-4 rounded-2xl bg-primary text-primary-foreground shadow-lg shadow-primary/25 active:scale-95 transition-transform"
+            className="flex items-center justify-center h-14 w-14 -mt-4 rounded-2xl bg-[#2563eb] text-white shadow-lg shadow-blue-600/25 active:scale-95 transition-transform touch-manipulation"
             aria-label="Novo Cadastro"
           >
             <Plus className="h-7 w-7" strokeWidth={2.5} />

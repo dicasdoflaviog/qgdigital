@@ -182,21 +182,21 @@ export default function DashboardAssessor() {
       {/* ── MÉTRICAS ── */}
       <div className="grid grid-cols-3 gap-3 animate-fade-up" style={{ animationDelay: "400ms" }}>
         {[
-          { value: meusEleitores.length, label: "Meus Cadastros", route: "/eleitores" },
-          { value: pendencias, label: "Pendências", alert: pendencias > 0, route: "/oficios" },
-          { value: oficiosGerados, label: "Ofícios Gerados", route: "/oficios" },
-        ].map(({ value, label, alert, route }) => (
+          { value: meusEleitores.length, label: "Meus cadastros", route: "/eleitores", badgeBg: "bg-[#dcfce7]", badgeText: "text-[#16a34a]", badgeLabel: "Total" },
+          { value: pendencias, label: "Pendências", route: "/oficios", badgeBg: pendencias > 0 ? "bg-[#fef2f2]" : "bg-[#dcfce7]", badgeText: pendencias > 0 ? "text-[#dc2626]" : "text-[#16a34a]", badgeLabel: pendencias > 0 ? "Atenção" : "OK" },
+          { value: oficiosGerados, label: "Ofícios gerados", route: "/oficios", badgeBg: "bg-[#eff6ff]", badgeText: "text-[#2563eb]", badgeLabel: "Total" },
+        ].map(({ value, label, route, badgeBg, badgeText, badgeLabel }) => (
           <Card
             key={label}
-            className="bg-card rounded-2xl shadow-sm border-0 cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+            className="bg-white border-[0.5px] border-slate-200 rounded-xl overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
             onClick={() => navigate(route)}
           >
-            <CardContent className="p-4 text-center">
-              <p className="text-2xl font-medium text-primary">{value}</p>
-              <p className="text-[9px] font-medium uppercase tracking-wider text-muted-foreground mt-1">{label}</p>
-              {alert && (
-                <span className="text-[8px] font-medium text-destructive mt-1 block">Atenção</span>
-              )}
+            <CardContent className="p-4 flex flex-col justify-between min-h-[96px]">
+              <span className={`absolute top-2.5 right-2.5 text-[10px] font-medium px-2 py-0.5 rounded-[4px] whitespace-nowrap ${badgeBg} ${badgeText}`}>
+                {badgeLabel}
+              </span>
+              <p className="text-[10.5px] text-slate-400 pr-16 leading-snug whitespace-nowrap overflow-hidden text-ellipsis">{label}</p>
+              <p className="text-[26px] font-medium text-slate-900 tracking-tight leading-none whitespace-nowrap tabular-nums">{value}</p>
             </CardContent>
           </Card>
         ))}
@@ -205,20 +205,20 @@ export default function DashboardAssessor() {
       {/* ── ANIVERSARIANTES ── */}
       {aniversariantes.length > 0 && (
         <Card
-          className="animate-fade-up rounded-2xl shadow-sm border-0 bg-card cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+          className="animate-fade-up bg-white border-[0.5px] border-[#fed7aa] rounded-xl overflow-hidden cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
           onClick={() => navigate("/eleitores")}
         >
-          <CardContent className="p-4 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 shrink-0">
-              <Cake className="h-5 w-5 text-primary" />
+          <CardContent className="p-3.5 flex items-center gap-3">
+            <div className="flex h-9 w-9 min-w-9 items-center justify-center rounded-xl bg-[#fff7ed] shrink-0">
+              <Cake className="h-4 w-4 text-[#ea580c]" />
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-xs font-medium text-foreground">
-                {aniversariantes.length} aniversariante{aniversariantes.length > 1 ? "s" : ""} hoje!
+              <p className="text-[11.5px] font-medium text-slate-900 whitespace-nowrap overflow-hidden text-ellipsis">
+                {aniversariantes.length} aniversariante{aniversariantes.length > 1 ? "s" : ""} hoje
               </p>
-              <p className="text-[10px] text-muted-foreground">Envie uma mensagem de parabéns 🎂</p>
+              <p className="text-[10px] text-slate-400 whitespace-nowrap overflow-hidden text-ellipsis">Envie uma mensagem de parabéns</p>
             </div>
-            <span className="text-[10px] font-medium text-primary">Hoje</span>
+            <span className="text-[10px] font-medium text-[#ea580c] whitespace-nowrap flex-shrink-0 bg-[#ffedd5] px-2 py-0.5 rounded-[4px]">Hoje</span>
           </CardContent>
         </Card>
       )}
@@ -236,7 +236,7 @@ export default function DashboardAssessor() {
             return (
               <Card
                 key={o.id}
-                className="rounded-2xl shadow-sm border-0 bg-card cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+                className="bg-white border-[0.5px] border-slate-200 rounded-xl overflow-hidden relative cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
                 onClick={() => navigate("/oficios")}
               >
                 <CardContent className="p-4">
@@ -244,11 +244,17 @@ export default function DashboardAssessor() {
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
                         <p className="text-xs font-medium truncate text-foreground">{o.titulo}</p>
-                        <Badge className="text-[8px] font-medium rounded-full bg-primary/10 text-primary border-0 px-2 py-0.5 shrink-0">
-                          {atrasado && <AlertTriangle className="h-2 w-2 mr-0.5" />}
-                          {o.status === "resolvido" && <CheckCircle2 className="h-2 w-2 mr-0.5" />}
+                        <span className={`text-[9.5px] font-medium px-2 py-0.5 rounded-[4px] whitespace-nowrap flex-shrink-0 ${
+                          o.status === "resolvido"
+                            ? "bg-[#f0fdf4] text-[#16a34a] border-[0.5px] border-[#bbf7d0]"
+                            : atrasado
+                            ? "bg-[#fef2f2] text-[#dc2626] border-[0.5px] border-[#fecaca]"
+                            : "bg-[#eff6ff] text-[#2563eb] border-[0.5px] border-[#bfdbfe]"
+                        }`}>
+                          {atrasado && o.status !== "resolvido" && <AlertTriangle className="h-2 w-2 mr-0.5 inline" />}
+                          {o.status === "resolvido" && <CheckCircle2 className="h-2 w-2 mr-0.5 inline" />}
                           {statusConf?.label || o.status}
-                        </Badge>
+                        </span>
                       </div>
                       <p className="text-[10px] text-muted-foreground flex items-center gap-1 mt-1">
                         <Clock className="h-2.5 w-2.5" />
@@ -256,7 +262,9 @@ export default function DashboardAssessor() {
                       </p>
                     </div>
                   </div>
-                  <Progress value={demandaProgress} className="h-1.5 rounded-full" />
+                  <div className="mt-2.5 h-1 bg-slate-100 rounded-full overflow-hidden">
+                    <div className="h-full bg-[#2563eb] rounded-full" style={{ width: `${demandaProgress}%` }} />
+                  </div>
                 </CardContent>
               </Card>
             );
@@ -340,7 +348,7 @@ export default function DashboardAssessor() {
           {meusEleitores.slice(0, 5).map((e: any) => (
             <Card
               key={e.id}
-              className="rounded-2xl shadow-sm border-0 bg-card cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
+              className="bg-white border-[0.5px] border-slate-200 rounded-xl overflow-hidden cursor-pointer active:scale-95 transition-transform touch-manipulation select-none"
               onClick={() => navigate(`/eleitores/${e.id}`)}
             >
               <CardContent className="p-3.5 flex items-center justify-between">

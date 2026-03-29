@@ -7,7 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FeedbackModal } from "@/components/feedback/FeedbackModal";
 import { usePendingFeedbacks } from "@/hooks/usePendingFeedbacks";
 import { NavLink } from "@/components/NavLink";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
@@ -33,6 +33,7 @@ interface MobileDrawerProps { open: boolean; onOpenChange: (open: boolean) => vo
 
 export function MobileDrawer({ open, onOpenChange }: MobileDrawerProps) {
   const location = useLocation();
+  const navigate = useNavigate();
   const { role, roleLevel, profile, signOut } = useAuth();
   const [feedbackOpen, setFeedbackOpen] = useState(false);
   const pendingFeedbacks = usePendingFeedbacks();
@@ -106,7 +107,7 @@ export function MobileDrawer({ open, onOpenChange }: MobileDrawerProps) {
                   to={item.url}
                   end={item.url === "/"}
                   className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors min-h-[44px] ${
-                    active ? "bg-primary text-primary-foreground font-medium" : "text-muted-foreground hover:bg-accent hover:text-foreground"
+                    active ? "bg-[#eff6ff] text-[#1d4ed8] font-medium" : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
                   }`}
                   activeClassName=""
                   onClick={() => onOpenChange(false)}
@@ -123,6 +124,18 @@ export function MobileDrawer({ open, onOpenChange }: MobileDrawerProps) {
             })}
           </div>
         </nav>
+
+        {/* Upgrade card mobile */}
+        <div className="mx-3 mb-3 rounded-xl bg-[#1e293b] p-3">
+          <p className="text-[11.5px] font-medium text-white">Plano Básico</p>
+          <p className="text-[10px] text-white/45 leading-relaxed mt-1">Relatórios avançados e IA no Pro.</p>
+          <button
+            className="mt-2.5 w-full rounded-lg bg-[#2563eb] py-2 text-[11px] font-medium text-white active:bg-[#1e40af]"
+            onClick={() => { onOpenChange(false); navigate("/plano"); }}
+          >
+            Fazer upgrade
+          </button>
+        </div>
 
         <Separator />
         <div className="px-3 pt-2">
