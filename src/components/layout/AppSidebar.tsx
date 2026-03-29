@@ -338,8 +338,8 @@ export function AppSidebar() {
             </div>
           )}
 
-          {/* Upgrade card — visible for non-L5, hidden when collapsed */}
-          {!isL5 && !collapsed && (
+          {/* Upgrade card — apenas para o vereador (N3), dono do gabinete */}
+          {roleLevel === 3 && !collapsed && (
             <div className="mx-2 mb-3 rounded-xl bg-[#1e293b] p-3">
               <p className="text-[11.5px] font-medium text-white leading-tight">Plano Básico</p>
               <p className="text-[10px] text-white/45 leading-relaxed mt-1">Relatórios avançados e IA no Pro.</p>

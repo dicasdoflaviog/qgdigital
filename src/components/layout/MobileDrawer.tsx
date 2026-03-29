@@ -125,7 +125,8 @@ export function MobileDrawer({ open, onOpenChange }: MobileDrawerProps) {
           </div>
         </nav>
 
-        {/* Upgrade card mobile */}
+        {/* Upgrade card mobile — apenas para o vereador (N3), dono do gabinete */}
+        {roleLevel === 3 && (
         <div className="mx-3 mb-3 rounded-xl bg-[#1e293b] p-3">
           <p className="text-[11.5px] font-medium text-white">Plano Básico</p>
           <p className="text-[10px] text-white/45 leading-relaxed mt-1">Relatórios avançados e IA no Pro.</p>
@@ -136,6 +137,7 @@ export function MobileDrawer({ open, onOpenChange }: MobileDrawerProps) {
             Fazer upgrade
           </button>
         </div>
+        )}
 
         <Separator />
         <div className="px-3 pt-2">
