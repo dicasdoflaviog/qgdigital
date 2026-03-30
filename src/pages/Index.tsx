@@ -236,7 +236,7 @@ function DashboardVereador() {
               icon={<CheckCircle2 className="h-4 w-4" />}
               value={String(demandasResolvidas)}
               label="Demandas resolvidas"
-              onClick={() => navigate("/demandas")}
+              onClick={() => navigate("/oficios")}
             />
             <MockStatCard
               icon={<FileText className="h-4 w-4" />}
@@ -315,7 +315,7 @@ function DashboardSuperAdmin() {
           <>
             <MockStatCard icon={<MapPin className="h-4 w-4" />} value={String(totalGabinetes)} label="Gabinetes ativos" onClick={() => setGabineteOpen(true)} />
             <MockStatCard icon={<Users className="h-4 w-4" />} value={totalEleitores.toLocaleString("pt-BR")} label="Eleitores na rede" onClick={() => setEleitoresOpen(true)} />
-            <MockStatCard icon={<AlertTriangle className="h-4 w-4" />} value={String(totalPendentes)} label="Demandas pendentes" highlight={totalPendentes > 0} onClick={() => navigate("/demandas")} />
+            <MockStatCard icon={<AlertTriangle className="h-4 w-4" />} value={String(totalPendentes)} label="Demandas pendentes" highlight={totalPendentes > 0} onClick={() => navigate("/oficios")} />
             <MockStatCard icon={<Shield className="h-4 w-4" />} value={String(totalGabinetes)} label="Cidades cobertas" onClick={() => setCidadesOpen(true)} />
           </>
         )}

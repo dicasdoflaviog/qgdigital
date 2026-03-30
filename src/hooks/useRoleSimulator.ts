@@ -29,20 +29,19 @@ export function useRoleSimulator() {
   const currentLevel = simulatedLevel ?? 5;
 
   const simulateLevel = (nivel: SimulatorLevel) => {
-    queryClient.clear();
     impersonateRole(nivel.role, nivel.levelArg);
-    // Use setTimeout to ensure state updates before navigation
+    queryClient.clear();
     setTimeout(() => {
       navigate("/", { replace: true });
-    }, 0);
+    }, 50);
   };
 
   const stopSimulation = () => {
-    queryClient.clear();
     impersonateRole(null, null);
+    queryClient.clear();
     setTimeout(() => {
       navigate("/", { replace: true });
-    }, 0);
+    }, 50);
   };
 
   return {

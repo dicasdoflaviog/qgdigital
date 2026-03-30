@@ -8,6 +8,7 @@ import { OfflineProvider } from "@/contexts/OfflineContext";
 
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { AppLayout } from "@/components/layout/AppLayout";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import Index from "./pages/Index";
 import Eleitores from "./pages/Eleitores";
 import PerfilEleitor from "./pages/PerfilEleitor";
@@ -66,34 +67,36 @@ const App = () => (
                 element={
                   <ProtectedRoute>
                     <AppLayout>
-                      <Routes>
-                        <Route path="/" element={<Index />} />
-                        <Route path="/eleitores" element={<Eleitores />} />
-                        <Route path="/eleitores/:id" element={<PerfilEleitor />} />
-                        <Route path="/mapa" element={<MapaCalor />} />
-                        <Route path="/equipe" element={<Equipe />} />
-                        <Route path="/agenda" element={<Agenda />} />
-                        <Route path="/calendario" element={<Calendario />} />
-                        <Route path="/oficios" element={<Oficios />} />
-                        <Route path="/guia" element={<GuiaSolucoes />} />
-                        <Route path="/configuracoes" element={<Configuracoes />} />
-                        <Route path="/configuracao-gabinete" element={<ConfiguracaoGabinete />} />
-                        <Route path="/gestao-base" element={<GestaoBase />} />
-                        <Route path="/sugestoes" element={<LogSugestoes />} />
-                        <Route path="/instituicoes" element={<Instituicoes />} />
-                        <Route path="/emendas" element={<Emendas />} />
-                        <Route path="/meu-perfil" element={<MeuPerfil />} />
-                        <Route path="/central-recuperacao" element={<CentralRecuperacao />} />
-                        <Route path="/observatorio" element={<ObservatorioLegislativo />} />
-                        <Route path="/observatorio-bi" element={<ObservatorioBi />} />
-                        <Route path="/perfil-eleitoral" element={<PerfilEleitoral />} />
-                        <Route path="/aniversariantes-rede" element={<AniversariantesRede />} />
-                        <Route path="/admin/system-master" element={<SystemMaster />} />
-                        <Route path="/master/admin" element={<SystemMaster />} />
-                        <Route path="/sistema" element={<Sistema />} />
-                        <Route path="/plano" element={<Plano />} />
-                        <Route path="*" element={<NotFound />} />
-                      </Routes>
+                      <ErrorBoundary>
+                        <Routes>
+                          <Route path="/" element={<Index />} />
+                          <Route path="/eleitores" element={<Eleitores />} />
+                          <Route path="/eleitores/:id" element={<PerfilEleitor />} />
+                          <Route path="/mapa" element={<MapaCalor />} />
+                          <Route path="/equipe" element={<Equipe />} />
+                          <Route path="/agenda" element={<Agenda />} />
+                          <Route path="/calendario" element={<Calendario />} />
+                          <Route path="/oficios" element={<Oficios />} />
+                          <Route path="/guia" element={<GuiaSolucoes />} />
+                          <Route path="/configuracoes" element={<Configuracoes />} />
+                          <Route path="/configuracao-gabinete" element={<ConfiguracaoGabinete />} />
+                          <Route path="/gestao-base" element={<GestaoBase />} />
+                          <Route path="/sugestoes" element={<LogSugestoes />} />
+                          <Route path="/instituicoes" element={<Instituicoes />} />
+                          <Route path="/emendas" element={<Emendas />} />
+                          <Route path="/meu-perfil" element={<MeuPerfil />} />
+                          <Route path="/central-recuperacao" element={<CentralRecuperacao />} />
+                          <Route path="/observatorio" element={<ObservatorioLegislativo />} />
+                          <Route path="/observatorio-bi" element={<ObservatorioBi />} />
+                          <Route path="/perfil-eleitoral" element={<PerfilEleitoral />} />
+                          <Route path="/aniversariantes-rede" element={<AniversariantesRede />} />
+                          <Route path="/admin/system-master" element={<SystemMaster />} />
+                          <Route path="/master/admin" element={<SystemMaster />} />
+                          <Route path="/sistema" element={<Sistema />} />
+                          <Route path="/plano" element={<Plano />} />
+                          <Route path="*" element={<NotFound />} />
+                        </Routes>
+                      </ErrorBoundary>
                     </AppLayout>
                   </ProtectedRoute>
                 }
