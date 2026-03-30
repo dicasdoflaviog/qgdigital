@@ -66,7 +66,9 @@ REGRAS:
 - Justificativa: embasamento legal e social objetivo, máximo 200 palavras
 - Assunto: máximo 80 caracteres, direto ao ponto
 - Não inventar dados — use apenas o que foi fornecido
-- Responda APENAS com a chamada da função, sem texto adicional`;
+
+RESPONDA APENAS com JSON válido, sem markdown, sem explicações, exatamente neste formato:
+{"assunto":"...","corpo":"...","justificativa":"..."}`;
 
     const response = await fetch(
       "https://ai.gateway.lovable.dev/v1/chat/completions",
@@ -90,35 +92,6 @@ Demanda: ${demanda_descricao}
 Vereador: ${vereador_nome || "Vereador"}`,
             },
           ],
-          tools: [
-            {
-              type: "function",
-              function: {
-                name: "redigir_documento",
-                description: "Redige documento legislativo formal",
-                parameters: {
-                  type: "object",
-                  properties: {
-                    assunto: {
-                      type: "string",
-                      description: "Assunto do documento — máximo 80 caracteres",
-                    },
-                    corpo: {
-                      type: "string",
-                      description: "Texto principal do documento, formal e legislativo",
-                    },
-                    justificativa: {
-                      type: "string",
-                      description: "Justificativa formal com embasamento legal e social",
-                    },
-                  },
-                  required: ["assunto", "corpo", "justificativa"],
-                  additionalProperties: false,
-                },
-              },
-            },
-          ],
-          tool_choice: { type: "function", function: { name: "redigir_documento" } },
         }),
       }
     );
@@ -136,13 +109,22 @@ Vereador: ${vereador_nome || "Vereador"}`,
     }
 
     const data = await response.json();
-    const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
-    if (!toolCall) {
-      console.error("No tool call in response:", JSON.stringify(data));
-      return new Response(JSON.stringify({ error: "IA não retornou dados estruturados." }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    const content = data.choices?.[0]?.message?.content;
+    if (!content) {
+      console.error("No content in response:", JSON.stringify(data));
+      return new Response(JSON.stringify({ error: "IA não retornou conteúdo." }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    const extracted = JSON.parse(toolCall.function.arguments);
+    // Remove markdown code fences if present
+    const clean = content.replace(/```json\s*/gi, "").replace(/```\s*/g, "").trim();
+    let extracted: { assunto: string; corpo: string; justificativa: string };
+    try {
+      extracted = JSON.parse(clean);
+    } catch {
+      console.error("JSON parse error. Raw content:", clean);
+      return new Response(JSON.stringify({ error: "IA retornou formato inválido. Tente novamente." }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
     return new Response(JSON.stringify(extracted), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
