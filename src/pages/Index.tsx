@@ -646,7 +646,7 @@ const Index = () => {
   if (simulatedLevel !== null) {
     switch (simulatedLevel) {
       case 1: return <DashboardAssessor />;
-      case 2: return <Dashboard />;
+      case 2: return <DashboardSecretaria />;
       case 3: return <DashboardVereador />;
       case 4: return <DashboardSuperAdmin />;
       case 5: return <DashboardDeus />;
@@ -655,7 +655,7 @@ const Index = () => {
   }
 
   if (role === "assessor") return <DashboardAssessor />;
-  if (role === "secretaria") return <Dashboard />;
+  if (role === "secretaria") return <DashboardSecretaria />;
   if (role === "lider_politico") return <DashboardSuperAdmin />;
   if (role === "super_admin") return <DashboardDeus />;
   return <Dashboard />;
