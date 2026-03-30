@@ -70,7 +70,12 @@ export function useGerarOficio() {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        // FunctionsHttpError — tenta extrair mensagem do corpo da resposta
+        const funcErr = error as { context?: { json?: { error?: string } }; message?: string };
+        const msg = funcErr?.context?.json?.error || funcErr?.message || "Erro na função de IA";
+        throw new Error(msg);
+      }
       if (data?.error) throw new Error(data.error);
 
       const numero = formatNumero(params.tipo, params.numero_sequencial ?? 1);
@@ -98,8 +103,9 @@ export function useGerarOficio() {
       setTemplateData(td);
       toast({ title: "Rascunho gerado ✨", description: "Revise o documento antes de exportar." });
       return td;
-    } catch (err: any) {
-      toast({ title: "Erro ao gerar", description: err?.message || "Tente novamente.", variant: "destructive" });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : "Tente novamente.";
+      toast({ title: "Erro ao gerar", description: msg, variant: "destructive" });
       return null;
     } finally {
       setLoading(false);
@@ -107,6 +113,7 @@ export function useGerarOficio() {
   };
 
   const exportarPDF = async (td: OficioTemplateData) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const html2pdf = (window as any).html2pdf;
     if (!html2pdf) {
       toast({ title: "Exportador não carregado", description: "Recarregue a página e tente novamente.", variant: "destructive" });
@@ -127,8 +134,9 @@ export function useGerarOficio() {
     try {
       await html2pdf().set(opt).from(element).save();
       toast({ title: "PDF exportado! 📄", description: `${td.numero} baixado com sucesso.` });
-    } catch (err: any) {
-      toast({ title: "Erro ao exportar PDF", description: err?.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : undefined;
+      toast({ title: "Erro ao exportar PDF", description: msg, variant: "destructive" });
     }
   };
 
