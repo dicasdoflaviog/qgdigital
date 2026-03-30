@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
-import { Plus, FileText, Upload, Sparkles, Loader2, X, FileUp } from "lucide-react";
+import { Plus, FileText, Upload, Sparkles, Loader2, X, FileUp, Eye, Download, FileEdit } from "lucide-react";
+import { useGerarOficio } from "@/hooks/useGerarOficio";
+import { OficioTemplate } from "./OficioTemplate";
 import {
   Sheet,
   SheetContent,
@@ -59,11 +61,26 @@ export function NovoOficioModal({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
 
+  // Modo do modal: IA ou upload existente
+  const [modalMode, setModalMode] = useState<"ia" | "upload">("ia");
+
+  // Campos do modo IA
+  const [tipoDoc, setTipoDoc] = useState("oficio");
+  const [destinatario, setDestinatario] = useState("Exmº Sr. Prefeito Municipal");
+  const [orgao, setOrgao] = useState("");
+  const [demandaDescricao, setDemandaDescricao] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+
+  const { loading: gerandoIA, templateData, setTemplateData, gerarRascunho, exportarPDF } = useGerarOficio();
+
   // Pré-preenche campos quando modal abre com dados do Radar de Rua
   useEffect(() => {
     if (!open) { resetForm(); return; }
     if (initialBairro) setBairro(initialBairro);
-    if (initialPauta) setPauta(initialPauta);
+    if (initialPauta) {
+      setPauta(initialPauta);
+      setDemandaDescricao(initialPauta);
+    }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, initialBairro, initialPauta]);
 
@@ -75,6 +92,10 @@ export function NovoOficioModal({
     setAssessorId("");
     setFile(null);
     setAiResumo("");
+    setDemandaDescricao("");
+    setTemplateData(null);
+    setShowPreview(false);
+    setModalMode("ia");
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -231,184 +252,373 @@ export function NovoOficioModal({
             <div className="flex h-6 w-6 items-center justify-center bg-primary text-primary-foreground">
               <FileText className="h-3.5 w-3.5" />
             </div>
-            Novo Ofício
+            Novo ofício
           </SheetTitle>
           <SheetDescription className="text-xs">
-            Preencha os dados ou envie um documento para extração automática via IA.
+            Crie com IA ou envie um documento existente.
           </SheetDescription>
         </SheetHeader>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Banner de origem quando vier do Radar de Rua */}
-          {initialEleitorNome && (
-            <div className="flex items-start gap-2 bg-emerald-50 border border-emerald-200 rounded-lg p-3">
-              <span className="text-emerald-600 text-sm">📡</span>
-              <p className="text-xs text-emerald-700 leading-relaxed">
-                Demanda originada pelo <span className="font-medium">Radar de Rua</span>
-                {initialEleitorNome && <> — eleitor: <span className="font-medium">{initialEleitorNome}</span></>}
-              </p>
+        {/* Seletor de modo */}
+        <div className="flex gap-2 p-1 bg-slate-100 rounded-xl mb-4">
+          <button
+            onClick={() => setModalMode("ia")}
+            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors ${
+              modalMode === "ia" ? "bg-white text-[#2563eb] shadow-sm" : "text-slate-500"
+            }`}
+          >
+            <Sparkles className="h-4 w-4" /> Criar com IA
+          </button>
+          <button
+            onClick={() => setModalMode("upload")}
+            className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-lg text-sm font-medium transition-colors ${
+              modalMode === "upload" ? "bg-white text-[#2563eb] shadow-sm" : "text-slate-500"
+            }`}
+          >
+            <FileEdit className="h-4 w-4" /> Upload existente
+          </button>
+        </div>
+
+        {/* Banner de origem quando vier do Radar de Rua */}
+        {initialEleitorNome && (
+          <div className="flex items-start gap-2 bg-emerald-50 border border-emerald-200 rounded-lg p-3 mb-4">
+            <span className="text-emerald-600 text-sm">📡</span>
+            <p className="text-xs text-emerald-700 leading-relaxed">
+              Demanda originada pelo <span className="font-medium">Radar de Rua</span>
+              {initialEleitorNome && <> — eleitor: <span className="font-medium">{initialEleitorNome}</span></>}
+            </p>
+          </div>
+        )}
+
+        {/* MODO IA */}
+        {modalMode === "ia" && (
+          <div className="space-y-4">
+            {/* Tipo do documento */}
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium text-slate-500">Tipo de documento</Label>
+              <Select value={tipoDoc} onValueChange={setTipoDoc}>
+                <SelectTrigger className="min-h-[44px]"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="oficio">Ofício</SelectItem>
+                  <SelectItem value="pedido_providencia">Pedido de Providência</SelectItem>
+                  <SelectItem value="indicacao">Indicação</SelectItem>
+                  <SelectItem value="requerimento">Requerimento</SelectItem>
+                  <SelectItem value="mocao">Moção</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
-          )}
-          {/* File Upload Section */}
-          <div className="space-y-2">
-            <Label className="label-ui flex items-center gap-1.5">
-              <Upload className="h-3 w-3" />
-              Upload de Documento (PDF, DOC, DOCX)
-            </Label>
-            <div className="border border-dashed border-border p-4 text-center space-y-2">
-              {!file ? (
-                <>
-                  <FileUp className="h-8 w-8 mx-auto text-muted-foreground" />
-                  <p className="text-xs text-muted-foreground">
-                    Arraste um arquivo ou clique para selecionar
-                  </p>
+
+            {/* Destinatário */}
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium text-slate-500">Destinatário</Label>
+              <Select value={destinatario} onValueChange={setDestinatario}>
+                <SelectTrigger className="min-h-[44px]"><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Exmº Sr. Prefeito Municipal">Prefeito Municipal</SelectItem>
+                  <SelectItem value="Exmº Sr. Presidente da Câmara Municipal">Presidente da Câmara</SelectItem>
+                  <SelectItem value="Ilmº Sr. Secretário Municipal de Obras">Secretaria de Obras</SelectItem>
+                  <SelectItem value="Ilmº Sr. Secretário Municipal de Saúde">Secretaria de Saúde</SelectItem>
+                  <SelectItem value="Ilmº Sr. Secretário Municipal de Educação">Secretaria de Educação</SelectItem>
+                  <SelectItem value="Embasa — Empresa Baiana de Águas e Saneamento">Embasa</SelectItem>
+                  <SelectItem value="Coelba — Companhia de Eletricidade da Bahia">Coelba</SelectItem>
+                  <SelectItem value="Ministério Público do Estado da Bahia">Ministério Público</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Descrição da demanda */}
+            <div className="space-y-1.5">
+              <Label className="text-xs font-medium text-slate-500">Descrição da demanda *</Label>
+              <Textarea
+                value={demandaDescricao}
+                onChange={(e) => setDemandaDescricao(e.target.value)}
+                placeholder="Descreva a situação: o que acontece, onde, quem é afetado..."
+                rows={4}
+                className="min-h-[96px] resize-none"
+              />
+              {initialEleitorNome && (
+                <p className="text-[10px] text-[#2563eb] flex items-center gap-1">
+                  <span>★</span> Originado de: {initialEleitorNome} — {initialBairro}
+                </p>
+              )}
+            </div>
+
+            {/* Botão gerar */}
+            {!templateData && (
+              <Button
+                type="button"
+                className="w-full min-h-[48px] gap-2 bg-[#2563eb] hover:bg-[#1d4ed8]"
+                onClick={() => gerarRascunho({
+                  tipo: tipoDoc,
+                  destinatario,
+                  orgao: orgao || destinatario,
+                  demanda_descricao: demandaDescricao,
+                  bairro: initialBairro || bairro || "",
+                  vereador_nome: "Cláudio Pereira de Oliveira",
+                  numero_sequencial: 1,
+                })}
+                disabled={gerandoIA || !demandaDescricao.trim()}
+              >
+                {gerandoIA
+                  ? <><Loader2 className="h-4 w-4 animate-spin" /> Gerando rascunho...</>
+                  : <><Sparkles className="h-4 w-4" /> Gerar com IA</>
+                }
+              </Button>
+            )}
+
+            {/* Preview e edição do rascunho */}
+            {templateData && (
+              <div className="space-y-3">
+                <div className="rounded-xl border-[0.5px] border-[#2563eb]/30 bg-[#eff6ff] p-3">
+                  <p className="text-[11px] font-medium text-[#1d4ed8] mb-1">✨ Rascunho gerado pela IA</p>
+                  <p className="text-[11px] text-[#2563eb] font-medium truncate">{templateData.assunto}</p>
+                </div>
+
+                {/* Editar assunto */}
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium text-slate-500">Assunto (editável)</Label>
+                  <Input
+                    value={templateData.assunto}
+                    onChange={(e) => setTemplateData({ ...templateData, assunto: e.target.value })}
+                    className="min-h-[44px]"
+                  />
+                </div>
+
+                {/* Editar corpo */}
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium text-slate-500">Corpo do documento (editável)</Label>
+                  <Textarea
+                    value={templateData.corpo}
+                    onChange={(e) => setTemplateData({ ...templateData, corpo: e.target.value })}
+                    rows={6}
+                    className="min-h-[140px] resize-none text-sm"
+                  />
+                </div>
+
+                {/* Editar justificativa */}
+                <div className="space-y-1.5">
+                  <Label className="text-xs font-medium text-slate-500">Justificativa (editável)</Label>
+                  <Textarea
+                    value={templateData.justificativa}
+                    onChange={(e) => setTemplateData({ ...templateData, justificativa: e.target.value })}
+                    rows={4}
+                    className="min-h-[100px] resize-none text-sm"
+                  />
+                </div>
+
+                {/* Botões de ação */}
+                <div className="flex gap-2">
                   <Button
                     type="button"
                     variant="outline"
-                    size="sm"
-                    className="text-xs font-medium"
-                    onClick={() => fileInputRef.current?.click()}
+                    className="flex-1 min-h-[44px] gap-2 border-[#2563eb]/30 text-[#2563eb]"
+                    onClick={() => setShowPreview(!showPreview)}
                   >
-                    Selecionar Arquivo
+                    <Eye className="h-4 w-4" />
+                    {showPreview ? "Ocultar" : "Visualizar"}
                   </Button>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept={ACCEPTED_EXTENSIONS}
-                    onChange={handleFileChange}
-                    className="hidden"
-                  />
-                </>
-              ) : (
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between bg-muted p-2">
-                    <div className="flex items-center gap-2 min-w-0">
-                      <FileText className="h-4 w-4 text-primary shrink-0" />
-                      <span className="text-xs font-medium truncate">{file.name}</span>
-                      <span className="text-[10px] text-muted-foreground shrink-0">
-                        ({(file.size / 1024).toFixed(0)} KB)
-                      </span>
+                  <Button
+                    type="button"
+                    className="flex-1 min-h-[44px] gap-2 bg-[#2563eb] hover:bg-[#1d4ed8]"
+                    onClick={() => exportarPDF(templateData)}
+                  >
+                    <Download className="h-4 w-4" />
+                    Exportar PDF
+                  </Button>
+                </div>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="w-full text-slate-400 text-xs"
+                  onClick={() => setTemplateData(null)}
+                >
+                  ↺ Gerar novo rascunho
+                </Button>
+              </div>
+            )}
+
+            {/* Template oculto para export */}
+            {templateData && (
+              <div style={{ position: "absolute", left: "-9999px", top: 0, zIndex: -1 }}>
+                <OficioTemplate data={templateData} />
+              </div>
+            )}
+
+            {/* Preview inline */}
+            {showPreview && templateData && (
+              <div className="mt-4 rounded-xl border overflow-hidden" style={{ transform: "scale(0.45)", transformOrigin: "top left", height: "140mm", width: "210mm" }}>
+                <OficioTemplate data={templateData} />
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* MODO UPLOAD (formulário original) */}
+        {modalMode === "upload" && (
+          <form onSubmit={handleSubmit} className="space-y-4">
+            {/* File Upload Section */}
+            <div className="space-y-2">
+              <Label className="label-ui flex items-center gap-1.5">
+                <Upload className="h-3 w-3" />
+                Upload de documento (PDF, DOC, DOCX)
+              </Label>
+              <div className="border border-dashed border-border p-4 text-center space-y-2">
+                {!file ? (
+                  <>
+                    <FileUp className="h-8 w-8 mx-auto text-muted-foreground" />
+                    <p className="text-xs text-muted-foreground">
+                      Arraste um arquivo ou clique para selecionar
+                    </p>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      className="text-xs font-medium"
+                      onClick={() => fileInputRef.current?.click()}
+                    >
+                      Selecionar arquivo
+                    </Button>
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept={ACCEPTED_EXTENSIONS}
+                      onChange={handleFileChange}
+                      className="hidden"
+                    />
+                  </>
+                ) : (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between bg-muted p-2">
+                      <div className="flex items-center gap-2 min-w-0">
+                        <FileText className="h-4 w-4 text-primary shrink-0" />
+                        <span className="text-xs font-medium truncate">{file.name}</span>
+                        <span className="text-[10px] text-muted-foreground shrink-0">
+                          ({(file.size / 1024).toFixed(0)} KB)
+                        </span>
+                      </div>
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="h-6 w-6 p-0 shrink-0"
+                        onClick={handleRemoveFile}
+                      >
+                        <X className="h-3 w-3" />
+                      </Button>
                     </div>
                     <Button
                       type="button"
-                      variant="ghost"
                       size="sm"
-                      className="h-6 w-6 p-0 shrink-0"
-                      onClick={handleRemoveFile}
+                      className="w-full gap-1.5 font-medium text-xs"
+                      onClick={handleExtractWithAI}
+                      disabled={isExtracting}
                     >
-                      <X className="h-3 w-3" />
+                      {isExtracting ? (
+                        <>
+                          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                          Analisando com IA...
+                        </>
+                      ) : (
+                        <>
+                          <Sparkles className="h-3.5 w-3.5" />
+                          Extrair dados com IA
+                        </>
+                      )}
                     </Button>
                   </div>
-                  <Button
-                    type="button"
-                    size="sm"
-                    className="w-full gap-1.5 font-medium text-xs"
-                    onClick={handleExtractWithAI}
-                    disabled={isExtracting}
-                  >
-                    {isExtracting ? (
-                      <>
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                        Analisando com IA...
-                      </>
-                    ) : (
-                      <>
-                        <Sparkles className="h-3.5 w-3.5" />
-                        Extrair Dados com IA
-                      </>
-                    )}
-                  </Button>
-                </div>
-              )}
+                )}
+              </div>
             </div>
-          </div>
 
-          {/* AI Summary */}
-          {aiResumo && (
-            <div className="bg-muted border border-border p-3 space-y-1">
-              <p className="label-ui flex items-center gap-1.5">
-                <Sparkles className="h-3 w-3" />
-                Resumo da IA
-              </p>
-              <p className="text-xs text-muted-foreground leading-relaxed">{aiResumo}</p>
+            {/* AI Summary */}
+            {aiResumo && (
+              <div className="bg-muted border border-border p-3 space-y-1">
+                <p className="label-ui flex items-center gap-1.5">
+                  <Sparkles className="h-3 w-3" />
+                  Resumo da IA
+                </p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{aiResumo}</p>
+              </div>
+            )}
+
+            <div className="border-t border-border" />
+
+            {/* Form Fields */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label className="label-ui">Número *</Label>
+                <Input
+                  placeholder="Ex: 080/2026"
+                  value={numero}
+                  onChange={(e) => setNumero(e.target.value)}
+                  className="text-sm"
+                  required
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label className="label-ui">Bairro *</Label>
+                <Select value={bairro} onValueChange={setBairro} required>
+                  <SelectTrigger className="text-sm">
+                    <SelectValue placeholder="Selecionar" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {BAIRROS.map((b) => (
+                      <SelectItem key={b} value={b} className="text-sm">{b}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
-          )}
 
-          <div className="border-t border-border" />
-
-          {/* Form Fields */}
-          <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="label-ui">Número *</Label>
+              <Label className="label-ui">Título *</Label>
               <Input
-                placeholder="Ex: 080/2026"
-                value={numero}
-                onChange={(e) => setNumero(e.target.value)}
+                placeholder="Ex: Recuperação de Pavimentação"
+                value={titulo}
+                onChange={(e) => setTitulo(e.target.value)}
                 className="text-sm"
                 required
               />
             </div>
+
             <div className="space-y-1.5">
-              <Label className="label-ui">Bairro *</Label>
-              <Select value={bairro} onValueChange={setBairro} required>
+              <Label className="label-ui">Pauta / Descrição</Label>
+              <Textarea
+                placeholder="Descreva a demanda do ofício..."
+                value={pauta}
+                onChange={(e) => setPauta(e.target.value)}
+                rows={3}
+                className="text-sm resize-none"
+              />
+            </div>
+
+            <div className="space-y-1.5">
+              <Label className="label-ui">Assessor responsável</Label>
+              <Select value={assessorId} onValueChange={setAssessorId}>
                 <SelectTrigger className="text-sm">
-                  <SelectValue placeholder="Selecionar" />
+                  <SelectValue placeholder="Selecionar assessor" />
                 </SelectTrigger>
                 <SelectContent>
-                  {BAIRROS.map((b) => (
-                    <SelectItem key={b} value={b} className="text-sm">{b}</SelectItem>
+                  {assessores.map((a) => (
+                    <SelectItem key={a.id} value={a.id} className="text-sm">{a.nome}</SelectItem>
                   ))}
                 </SelectContent>
               </Select>
             </div>
-          </div>
 
-          <div className="space-y-1.5">
-            <Label className="label-ui">Título *</Label>
-            <Input
-              placeholder="Ex: Recuperação de Pavimentação"
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
-              className="text-sm"
-              required
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <Label className="label-ui">Pauta / Descrição</Label>
-            <Textarea
-              placeholder="Descreva a demanda do ofício..."
-              value={pauta}
-              onChange={(e) => setPauta(e.target.value)}
-              rows={3}
-              className="text-sm resize-none"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <Label className="label-ui">Assessor Responsável</Label>
-            <Select value={assessorId} onValueChange={setAssessorId}>
-              <SelectTrigger className="text-sm">
-                <SelectValue placeholder="Selecionar assessor" />
-              </SelectTrigger>
-              <SelectContent>
-                {assessores.map((a) => (
-                  <SelectItem key={a.id} value={a.id} className="text-sm">{a.nome}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="flex gap-2 pt-2">
-            <Button type="submit" className="flex-1 gap-2 h-12 font-medium text-sm">
-              <Plus className="h-4 w-4" />
-              Criar Ofício
-            </Button>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-12 font-medium text-sm">
-              Cancelar
-            </Button>
-          </div>
-        </form>
+            <div className="flex gap-2 pt-2">
+              <Button type="submit" className="flex-1 gap-2 h-12 font-medium text-sm">
+                <Plus className="h-4 w-4" />
+                Criar ofício
+              </Button>
+              <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="h-12 font-medium text-sm">
+                Cancelar
+              </Button>
+            </div>
+          </form>
+        )}
       </SheetContent>
     </Sheet>
   );
