@@ -334,7 +334,7 @@ export default function Dashboard() {
             </div>
           )}
 
-          {(role === "secretaria" || role === "vereador" || role === "admin") && <RadarDaRua />}
+          {(role === "secretaria" || role === "admin") && <RadarDaRua />}
 
           {/* ═══════ Inteligência Regional ═══════ */}
           <div className="grid gap-4 grid-cols-1 md:grid-cols-2">

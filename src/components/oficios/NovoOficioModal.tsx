@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { Plus, FileText, Upload, Sparkles, Loader2, X, FileUp, Eye, Download, FileEdit } from "lucide-react";
 import { useGerarOficio } from "@/hooks/useGerarOficio";
 import { OficioTemplate } from "./OficioTemplate";
+import { useAuth } from "@/contexts/AuthContext";
+import { useGabineteConfig } from "@/hooks/useGabineteConfig";
 import {
   Sheet,
   SheetContent,
@@ -40,6 +42,7 @@ interface NovoOficioModalProps {
   initialBairro?: string;
   initialPauta?: string;
   initialEleitorNome?: string;
+  numeroSequencial?: number;
 }
 
 export function NovoOficioModal({
@@ -49,7 +52,10 @@ export function NovoOficioModal({
   initialBairro,
   initialPauta,
   initialEleitorNome,
+  numeroSequencial = 1,
 }: NovoOficioModalProps) {
+  const { profile } = useAuth();
+  const { config: gabineteConfig } = useGabineteConfig();
   const [numero, setNumero] = useState("");
   const [titulo, setTitulo] = useState("");
   const [bairro, setBairro] = useState("");
@@ -351,11 +357,15 @@ export function NovoOficioModal({
                 onClick={() => gerarRascunho({
                   tipo: tipoDoc,
                   destinatario,
-                  orgao: orgao || destinatario,
+                  orgao: "",
                   demanda_descricao: demandaDescricao,
                   bairro: initialBairro || bairro || "",
-                  vereador_nome: "Cláudio Pereira de Oliveira",
-                  numero_sequencial: 1,
+                  vereador_nome: gabineteConfig?.nome_mandato
+                    ? gabineteConfig.nome_mandato.split(" - ")[0]
+                    : (profile?.full_name || "Vereador"),
+                  gabinete_nome: gabineteConfig?.nome_mandato || undefined,
+                  gabinete_logo_url: gabineteConfig?.logo_url || undefined,
+                  numero_sequencial: numeroSequencial,
                 })}
                 disabled={gerandoIA || !demandaDescricao.trim()}
               >
@@ -439,17 +449,20 @@ export function NovoOficioModal({
               </div>
             )}
 
-            {/* Template oculto para export */}
+            {/* Template oculto para export — fora do fluxo, sem causar scroll horizontal */}
             {templateData && (
-              <div style={{ position: "absolute", left: "-9999px", top: 0, zIndex: -1 }}>
+              <div style={{ position: "fixed", left: "-9999px", top: "-9999px", width: 0, height: 0, overflow: "hidden", visibility: "hidden" }}>
                 <OficioTemplate data={templateData} />
               </div>
             )}
 
-            {/* Preview inline */}
+            {/* Preview inline — escala correta com wrapper que ocupa o espaço real escalado */}
             {showPreview && templateData && (
-              <div className="mt-4 rounded-xl border overflow-hidden" style={{ transform: "scale(0.45)", transformOrigin: "top left", height: "140mm", width: "210mm" }}>
-                <OficioTemplate data={templateData} />
+              <div className="mt-4 rounded-xl border overflow-hidden"
+                style={{ width: `${210 * 0.38}mm`, height: `${297 * 0.38}mm` }}>
+                <div style={{ transform: "scale(0.38)", transformOrigin: "top left", width: "210mm", height: "297mm" }}>
+                  <OficioTemplate data={templateData} />
+                </div>
               </div>
             )}
           </div>

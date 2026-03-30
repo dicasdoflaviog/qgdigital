@@ -136,7 +136,7 @@ export default function Oficios() {
           oficio={feedbackData.oficio} fromStatus={feedbackData.from} toStatus={feedbackData.to}
           onConfirmSend={handleFeedbackSend} onSaveOnly={handleFeedbackSaveOnly} />
       )}
-      <NovoOficioModal open={showNovoModal} onOpenChange={setShowNovoModal} onSave={handleNovoOficio} />
+      <NovoOficioModal open={showNovoModal} onOpenChange={setShowNovoModal} onSave={handleNovoOficio} numeroSequencial={oficiosList.length + 1} />
     </div>
   );
 }

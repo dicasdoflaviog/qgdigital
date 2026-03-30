@@ -15,6 +15,7 @@ const levelRestrictedRoutes: Record<string, number[]> = {
   "/sugestoes": [5],
   "/gestao-base": [4, 5],
   "/observatorio": [4, 5],
+  "/aniversariantes-rede": [4, 5],
 };
 
 /** Map routes to feature flag keys for L4 contract enforcement */
