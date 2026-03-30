@@ -219,6 +219,7 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
       if (error) throw error;
 
       if (data.nome) setNome(data.nome);
+      if (data.whatsapp) setWhatsapp(formatWhatsApp(data.whatsapp));
       if (data.bairro) {
         const match = BAIRROS.find(
           (b) => b.toLowerCase() === data.bairro.toLowerCase() ||
@@ -229,9 +230,17 @@ export function CadastroModal({ externalOpen, onExternalOpenChange, hideTrigger,
       }
       if (data.demanda) setSituacao(data.demanda);
 
+      const camposPreenchidos = [
+        data.nome && "nome",
+        data.whatsapp && "telefone",
+        data.bairro && "bairro",
+      ].filter(Boolean).join(", ");
+
       toast({
         title: "Dados extraídos pela IA ✨",
-        description: `Prioridade: ${data.prioridade}/5. Confirme os campos antes de salvar.`,
+        description: camposPreenchidos
+          ? `Preenchido: ${camposPreenchidos}. Prioridade: ${data.prioridade}/5. Confirme antes de salvar.`
+          : `Prioridade: ${data.prioridade}/5. Confirme os campos antes de salvar.`,
       });
     } catch (err: any) {
       toast({

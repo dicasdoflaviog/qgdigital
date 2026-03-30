@@ -55,6 +55,7 @@ serve(async (req) => {
 
 REGRAS:
 - Extraia o nome do eleitor mencionado. Se não houver nome, retorne string vazia.
+- Extraia o número de telefone/whatsapp mencionado. Retorne apenas os dígitos (ex: "73999991234"). Se não houver, retorne string vazia.
 - Extraia o bairro mencionado. Se não houver, retorne string vazia.
 - Extraia a demanda/situação principal de forma clara e objetiva (máx 200 caracteres).
 - Avalie a prioridade de 1 (baixa) a 5 (urgente) com base na gravidade.
@@ -89,6 +90,10 @@ REGRAS:
                       type: "string",
                       description: "Nome do eleitor mencionado",
                     },
+                    whatsapp: {
+                      type: "string",
+                      description: "Número de telefone/whatsapp mencionado, somente dígitos (ex: 73999991234). String vazia se não mencionado.",
+                    },
                     bairro: {
                       type: "string",
                       description: "Bairro mencionado na transcrição",
@@ -104,7 +109,7 @@ REGRAS:
                         "Prioridade de 1 (baixa) a 5 (urgente/crítica)",
                     },
                   },
-                  required: ["nome", "bairro", "demanda", "prioridade"],
+                  required: ["nome", "whatsapp", "bairro", "demanda", "prioridade"],
                   additionalProperties: false,
                 },
               },
