@@ -17,7 +17,7 @@ serve(async (req) => {
     if (!authHeader?.startsWith("Bearer ")) {
       return new Response(
         JSON.stringify({ error: "Não autorizado." }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -32,7 +32,7 @@ serve(async (req) => {
     if (userError || !userData?.user) {
       return new Response(
         JSON.stringify({ error: "Não autorizado." }),
-        { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -41,7 +41,7 @@ serve(async (req) => {
     if (!demanda_descricao || !tipo) {
       return new Response(
         JSON.stringify({ error: "Campos 'tipo' e 'demanda_descricao' são obrigatórios." }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
@@ -127,16 +127,19 @@ Vereador: ${vereador_nome || "Vereador"}`,
       const status = response.status;
       const body = await response.text();
       console.error("AI Gateway error:", status, body);
-      if (status === 429) return new Response(JSON.stringify({ error: "Limite excedido. Tente em alguns segundos." }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      if (status === 402) return new Response(JSON.stringify({ error: "Créditos insuficientes." }), { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } });
-      return new Response(JSON.stringify({ error: "Erro ao processar com IA." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      let errMsg = `Gateway IA erro ${status}`;
+      if (status === 429) errMsg = "Limite excedido. Tente em alguns segundos.";
+      else if (status === 402) errMsg = "Créditos insuficientes na conta de IA.";
+      else if (status === 401) errMsg = "Chave de IA inválida (401). Contate o suporte.";
+      else errMsg = `Gateway IA erro ${status}: ${body.slice(0, 200)}`;
+      return new Response(JSON.stringify({ error: errMsg }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const data = await response.json();
     const toolCall = data.choices?.[0]?.message?.tool_calls?.[0];
     if (!toolCall) {
       console.error("No tool call in response:", JSON.stringify(data));
-      return new Response(JSON.stringify({ error: "IA não retornou dados estruturados." }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "IA não retornou dados estruturados." }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const extracted = JSON.parse(toolCall.function.arguments);
@@ -145,8 +148,8 @@ Vereador: ${vereador_nome || "Vereador"}`,
     });
   } catch (e) {
     console.error("generate-oficio error:", e);
-    return new Response(JSON.stringify({ error: "Erro interno do servidor." }), {
-      status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" },
+    return new Response(JSON.stringify({ error: `Erro interno: ${(e as Error).message}` }), {
+      status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   }
 });
