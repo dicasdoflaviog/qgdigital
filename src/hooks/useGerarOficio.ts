@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useGabineteConfig } from "@/hooks/useGabineteConfig";
+import { extractVereadorNome } from "@/types/gabinete";
 import { OficioTemplateData } from "@/components/oficios/OficioTemplate";
 
 async function generateHash(content: string): Promise<string> {
@@ -20,14 +22,11 @@ function formatNumero(tipo: string, seq: number): string {
     requerimento: "REQ",
     mocao: "MOC",
   };
-  const prefixo = prefixos[tipo] || "DOC";
-  return `${prefixo}-${ano}/${String(seq).padStart(3, "0")}`;
+  return `${prefixos[tipo] || "DOC"}-${ano}/${String(seq).padStart(3, "0")}`;
 }
 
 function formatDataExtenso(date: Date = new Date()): string {
-  return date.toLocaleDateString("pt-BR", {
-    day: "numeric", month: "long", year: "numeric",
-  });
+  return date.toLocaleDateString("pt-BR", { day: "numeric", month: "long", year: "numeric" });
 }
 
 const TIPO_LABELS: Record<string, string> = {
@@ -38,15 +37,12 @@ const TIPO_LABELS: Record<string, string> = {
   mocao: "Moção",
 };
 
-export interface UseGerarOficioParams {
+interface GerarParams {
   tipo: string;
   destinatario: string;
-  orgao: string;
+  orgao?: string;
   demanda_descricao: string;
   bairro: string;
-  vereador_nome: string;
-  gabinete_logo_url?: string;
-  gabinete_nome?: string;
   numero_sequencial?: number;
 }
 
@@ -54,18 +50,23 @@ export function useGerarOficio() {
   const [loading, setLoading] = useState(false);
   const [templateData, setTemplateData] = useState<OficioTemplateData | null>(null);
   const { toast } = useToast();
+  const { config } = useGabineteConfig();
 
-  const gerarRascunho = async (params: UseGerarOficioParams) => {
+  const vereadorNome = config?.nome_mandato
+    ? extractVereadorNome(config.nome_mandato)
+    : "Vereador";
+
+  const gerarRascunho = async (params: GerarParams) => {
     setLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("generate-oficio", {
         body: {
           tipo: params.tipo,
           destinatario: params.destinatario,
-          orgao: params.orgao,
+          orgao: params.orgao || "",
           demanda_descricao: params.demanda_descricao,
           bairro: params.bairro,
-          vereador_nome: params.vereador_nome,
+          vereador_nome: vereadorNome,
         },
       });
 
@@ -80,13 +81,17 @@ export function useGerarOficio() {
         numero,
         data: formatDataExtenso(),
         destinatario: params.destinatario,
-        orgao: params.orgao,
+        orgao: params.orgao || "",
         assunto: data.assunto,
         corpo: data.corpo,
         justificativa: data.justificativa,
-        vereador_nome: params.vereador_nome,
-        gabinete_logo_url: params.gabinete_logo_url,
-        gabinete_nome: params.gabinete_nome,
+        vereador_nome: vereadorNome,
+        gabinete_logo_url: config?.logo_url ?? null,
+        gabinete_nome: vereadorNome,
+        gabinete_cor: config?.cor_primaria ?? "#dc2626",
+        gabinete_cidade_estado: config?.cidade_estado ?? "Teixeira de Freitas – BA",
+        gabinete_endereco: config?.endereco_sede ?? null,
+        gabinete_telefone: config?.telefone_contato ?? null,
         hash,
       };
 
@@ -104,16 +109,14 @@ export function useGerarOficio() {
   const exportarPDF = async (td: OficioTemplateData) => {
     const html2pdf = (window as any).html2pdf;
     if (!html2pdf) {
-      toast({ title: "Aguarde", description: "Exportador ainda carregando. Tente em instantes.", variant: "destructive" });
+      toast({ title: "Exportador não carregado", description: "Recarregue a página e tente novamente.", variant: "destructive" });
       return;
     }
-
     const element = document.getElementById("oficio-template");
     if (!element) {
       toast({ title: "Erro", description: "Template não encontrado.", variant: "destructive" });
       return;
     }
-
     const opt = {
       margin: 0,
       filename: `${td.numero.replace("/", "-")}.pdf`,
@@ -121,14 +124,13 @@ export function useGerarOficio() {
       html2canvas: { scale: 2, useCORS: true, backgroundColor: "#FEFDE8" },
       jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
     };
-
     try {
       await html2pdf().set(opt).from(element).save();
-      toast({ title: "PDF exportado! 📄", description: `${td.numero} salvo com sucesso.` });
+      toast({ title: "PDF exportado! 📄", description: `${td.numero} baixado com sucesso.` });
     } catch (err: any) {
       toast({ title: "Erro ao exportar PDF", description: err?.message, variant: "destructive" });
     }
   };
 
-  return { loading, templateData, setTemplateData, gerarRascunho, exportarPDF };
+  return { loading, templateData, setTemplateData, gerarRascunho, exportarPDF, vereadorNome, gabineteConfig: config };
 }

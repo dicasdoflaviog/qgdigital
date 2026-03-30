@@ -2,8 +2,6 @@ import { useState, useRef, useEffect } from "react";
 import { Plus, FileText, Upload, Sparkles, Loader2, X, FileUp, Eye, Download, FileEdit } from "lucide-react";
 import { useGerarOficio } from "@/hooks/useGerarOficio";
 import { OficioTemplate } from "./OficioTemplate";
-import { useAuth } from "@/contexts/AuthContext";
-import { useGabineteConfig } from "@/hooks/useGabineteConfig";
 import {
   Sheet,
   SheetContent,
@@ -54,8 +52,6 @@ export function NovoOficioModal({
   initialEleitorNome,
   numeroSequencial = 1,
 }: NovoOficioModalProps) {
-  const { profile } = useAuth();
-  const { config: gabineteConfig } = useGabineteConfig();
   const [numero, setNumero] = useState("");
   const [titulo, setTitulo] = useState("");
   const [bairro, setBairro] = useState("");
@@ -360,11 +356,6 @@ export function NovoOficioModal({
                   orgao: "",
                   demanda_descricao: demandaDescricao,
                   bairro: initialBairro || bairro || "",
-                  vereador_nome: gabineteConfig?.nome_mandato
-                    ? gabineteConfig.nome_mandato.split(" - ")[0]
-                    : (profile?.full_name || "Vereador"),
-                  gabinete_nome: gabineteConfig?.nome_mandato || undefined,
-                  gabinete_logo_url: gabineteConfig?.logo_url || undefined,
                   numero_sequencial: numeroSequencial,
                 })}
                 disabled={gerandoIA || !demandaDescricao.trim()}
